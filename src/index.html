@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jump (powerup) (copy)</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui=1"
+    />
+    <meta charset="UTF-8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="description" content="" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/png" href="icon64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icon180.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icon32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="icon16.png" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        overflow: hidden;
+        font-family: Verdana;
+      }
+      .noselect {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      #canvaswrapper {
+        text-align: center;
+      }
+    </style>
+    <style>
+      @font-face {
+        font-family: "BitCell";
+        src: url("fonts/BitCell.ttf") format("truetype");
+      }
+    </style>
+    <script>
+      window.fonts = ["BitCell"];
+    </script>
+  </head>
+  <body class="noselect custom-cursor" oncontextmenu="return false;">
+    <div id="canvaswrapper"></div>
+    <script type="text/javascript">
+      var resources = {
+        images: [
+          {
+            file: "ball.png",
+            version: 22,
+            size: 398,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "bat.png",
+            version: 3,
+            size: 440,
+            properties: { frames: 2, fps: 5 }
+          },
+          {
+            file: "cyborg.png",
+            version: 15,
+            size: 448,
+            properties: { frames: 2, fps: 5 }
+          },
+          {
+            file: "energyball.png",
+            version: 95,
+            size: 1645,
+            properties: { frames: 2, fps: 5 }
+          },
+          {
+            file: "fast.png",
+            version: 23,
+            size: 464,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "grapple.png",
+            version: 8,
+            size: 461,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "healleft.png",
+            version: 1,
+            size: 367,
+            properties: { frames: 2, fps: 5 }
+          },
+          {
+            file: "healright.png",
+            version: 1,
+            size: 370,
+            properties: { frames: 2, fps: 5 }
+          },
+          {
+            file: "health.png",
+            version: 1,
+            size: 381,
+            properties: { frames: 1, fps: 5 }
+          },
+          { file: "icon.png", version: 0, size: 202, properties: {} },
+          {
+            file: "lifeball.png",
+            version: 12,
+            size: 454,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "nolifeball.png",
+            version: 4,
+            size: 399,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "nothing.png",
+            version: 1,
+            size: 185,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "shield.png",
+            version: 54,
+            size: 446,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "shielded.png",
+            version: 5,
+            size: 328,
+            properties: { frames: 2, fps: 5 }
+          },
+          {
+            file: "speed.png",
+            version: 21,
+            size: 353,
+            properties: { frames: 2, fps: 5 }
+          },
+          {
+            file: "sprite.png",
+            version: 213,
+            size: 574,
+            properties: { frames: 7, fps: 5 }
+          },
+          {
+            file: "sprite2.png",
+            version: 2,
+            size: 158,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "sprite3.png",
+            version: 1,
+            size: 183,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "sprite32.png",
+            version: 3,
+            size: 101,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "sprite5.png",
+            version: 383,
+            size: 1002,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "sprite6.png",
+            version: 21,
+            size: 265,
+            properties: { frames: 1, fps: 5 }
+          },
+          {
+            file: "strong.png",
+            version: 33,
+            size: 485,
+            properties: { frames: 1, fps: 5 }
+          }
+        ],
+        assets: [],
+        maps: {
+          map1:
+            '{"width":16,"height":10,"block_width":20,"block_height":20,"sprites":[0,"sprite2","sprite32"],"data":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]}',
+          map13:
+            '{"width":16,"height":10,"block_width":20,"block_height":20,"sprites":[0,"sprite3:0,0","sprite32:0,0"],"data":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]}',
+          map2:
+            '{"width":16,"height":10,"block_width":20,"block_height":20,"sprites":[0],"data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}'
+        },
+        sounds: [],
+        music: []
+      };
+      var graphics = "M1";
+    </script>
+    <script type="text/javascript">
+      var orientation = "landscape";
+      var aspect = ">2x1";
+      window.skip_service_worker = true;
+      window.exported_project = true;
+    </script>
+    <script>
+      <!-- insert:microengine.js -->
+    </script>
+  </body>
+  <script id="code" type="text/x-microscript">
+    <!-- insert:index.lua -->
+  </script>
+</html>
