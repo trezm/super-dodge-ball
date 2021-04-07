@@ -476,7 +476,7 @@ end
 
     platformX = platformvx + platformX
 
-      screen.fillRoundRect(platformX,platformY, 80, 6,4, "green")
+      screen.fillRoundRect(platformX,platformY, 80, 6,4, "gray")
 
 
     end
