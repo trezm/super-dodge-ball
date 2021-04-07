@@ -1,7 +1,8 @@
 const express = require("express");
 const fs = require("fs");
-
 const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 
 const SCRIPT_REG_GEN = "<!-- insert:([^\\s]+) -->";
 const SCRIPT_REG_ALL = RegExp(SCRIPT_REG_GEN, "g");
@@ -29,4 +30,18 @@ app.get("/", function (req, res) {
 app.get("/*", function (req, res) {
   res.sendFile(req.url.split("?")[0], { root: __dirname });
 });
-app.listen(process.env.PORT);
+
+io.on("connection", (socket) => {
+  console.log("connected.");
+
+  socket.on("joined", (msg) => {
+    console.log(`Player ${msg} joined the game!`);
+
+    socket.emit("welcome", `Welcome player ${msg}`);
+  });
+});
+
+const port = process.env.PORT || 3000;
+http.listen(port, () => {
+  console.log(`listening on *:${port}`);
+});

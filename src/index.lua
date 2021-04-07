@@ -1,5 +1,4 @@
-
-    sign = function(v)
+sign = function(v)
     if abs(v) == v then
       return 1
     else
@@ -289,7 +288,7 @@
           for o = 0 to LIVES-1
 
       screen.drawSprite("nolifeball", (o*20)+w, this.location+t, 20, 20)
-  screen.drawRound(w-20, this.location +t, 14,14, "purple")
+  screen.drawRound(w-20, this.location +t, 14,14, "green")
       screen.drawSprite(this.currentSuper, w-20, this.location+t , 17, 17)
   end
       if this.lives> 0 then
@@ -336,9 +335,18 @@
 
       end
 
-
+callback = function(val)
+  print("Welcome message received: " + val)
+end
 
   init = function()
+    playerId = random.nextInt(10000)
+
+    print("Connecting from microcode as Player " + playerId)
+    connection.connect()
+    connection.send("joined", playerId)
+    connection.listen("welcome", "callback")
+
     floory = -100
     floorh = 40
   LIVES = 4
@@ -373,6 +381,7 @@
 
   end
 
+  game = false
   update = function()
     if game == true then
 
@@ -407,7 +416,7 @@
   screen.setAlpha(1)
 
         screen.drawSprite("sprite5", 0, 20, screen.width+20,0 )
-  if show ==1 then
+  if show == 1 then
       screen.drawSprite(boost[sprite], px, y, 15, 15)
 
   end
@@ -421,8 +430,6 @@
 
     dodgeball.draw()
   end
-
-  players[0].l=4
 
   strong()
   shield()
@@ -469,7 +476,7 @@
 
     platformX = platformvx + platformX
 
-      screen.fillRoundRect(platformX,platformY, 80, 6,4, "purple")
+      screen.fillRoundRect(platformX,platformY, 80, 6,4, "green")
 
 
     end

@@ -1,4 +1,4 @@
-CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
   if (w < 2 * r) {
     r = w / 2;
   }
@@ -14,19 +14,19 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
   return this.closePath();
 };
 
-CanvasRenderingContext2D.prototype.fillRoundRect = function(x, y, w, h, r) {
+CanvasRenderingContext2D.prototype.fillRoundRect = function (x, y, w, h, r) {
   this.roundRect(x, y, w, h, r);
   return this.fill();
 };
 
-CanvasRenderingContext2D.prototype.strokeRoundRect = function(x, y, w, h, r) {
+CanvasRenderingContext2D.prototype.strokeRoundRect = function (x, y, w, h, r) {
   this.roundRect(x, y, w, h, r);
   return this.stroke();
 };
 
 var Random;
 
-Random = (function() {
+Random = (function () {
   function Random(_seed) {
     this._seed = _seed != null ? _seed : Math.random();
     if (this._seed === 0) {
@@ -45,20 +45,20 @@ Random = (function() {
     this.nextSeed();
   }
 
-  Random.prototype.next = function() {
+  Random.prototype.next = function () {
     this._seed = (this._seed * this.a + this.b) & this.mask;
     return this._seed * this.norm;
   };
 
-  Random.prototype.nextInt = function(num) {
+  Random.prototype.nextInt = function (num) {
     return Math.floor(this.next() * num);
   };
 
-  Random.prototype.nextSeed = function() {
-    return this._seed = (this._seed * this.a + this.b) & this.mask;
+  Random.prototype.nextSeed = function () {
+    return (this._seed = (this._seed * this.a + this.b) & this.mask);
   };
 
-  Random.prototype.seed = function(_seed) {
+  Random.prototype.seed = function (_seed) {
     this._seed = _seed != null ? _seed : Math.random();
     if (this._seed < 1) {
       this._seed *= 1 << 30;
@@ -69,10 +69,9 @@ Random = (function() {
   };
 
   return Random;
-
 })();
 
-this.MicroVM = (function() {
+this.MicroVM = (function () {
   function MicroVM(meta, global, namespace) {
     var ctx, err;
     if (meta == null) {
@@ -83,18 +82,18 @@ this.MicroVM = (function() {
     }
     this.namespace = namespace != null ? namespace : "/microstudio";
     if (meta.print == null) {
-      meta.print = function(text) {
+      meta.print = function (text) {
         if (typeof text === "object") {
           text = Program.toString(text);
         }
         return console.info(text);
       };
     }
-    Array.prototype.insert = function(e) {
+    Array.prototype.insert = function (e) {
       this.splice(0, 0, e);
       return e;
     };
-    Array.prototype.insertAt = function(e, i) {
+    Array.prototype.insertAt = function (e, i) {
       if (i >= 0 && i < this.length) {
         this.splice(i, 0, e);
       } else {
@@ -102,21 +101,21 @@ this.MicroVM = (function() {
       }
       return e;
     };
-    Array.prototype.remove = function(i) {
+    Array.prototype.remove = function (i) {
       if (i >= 0 && i < this.length) {
         return this.splice(i, 1)[0];
       } else {
         return 0;
       }
     };
-    Array.prototype.removeAt = function(i) {
+    Array.prototype.removeAt = function (i) {
       if (i >= 0 && i < this.length) {
         return this.splice(i, 1)[0];
       } else {
         return 0;
       }
     };
-    Array.prototype.removeElement = function(e) {
+    Array.prototype.removeElement = function (e) {
       var index;
       index = this.indexOf(e);
       if (index >= 0) {
@@ -125,83 +124,83 @@ this.MicroVM = (function() {
         return 0;
       }
     };
-    Array.prototype.contains = function(e) {
+    Array.prototype.contains = function (e) {
       if (this.indexOf(e) >= 0) {
         return 1;
       } else {
         return 0;
       }
     };
-    meta.round = function(x) {
+    meta.round = function (x) {
       return Math.round(x);
     };
-    meta.floor = function(x) {
+    meta.floor = function (x) {
       return Math.floor(x);
     };
-    meta.ceil = function(x) {
+    meta.ceil = function (x) {
       return Math.ceil(x);
     };
-    meta.abs = function(x) {
+    meta.abs = function (x) {
       return Math.abs(x);
     };
-    meta.min = function(x, y) {
+    meta.min = function (x, y) {
       return Math.min(x, y);
     };
-    meta.max = function(x, y) {
+    meta.max = function (x, y) {
       return Math.max(x, y);
     };
-    meta.sqrt = function(x) {
+    meta.sqrt = function (x) {
       return Math.sqrt(x);
     };
-    meta.pow = function(x, y) {
+    meta.pow = function (x, y) {
       return Math.pow(x, y);
     };
-    meta.sin = function(x) {
+    meta.sin = function (x) {
       return Math.sin(x);
     };
-    meta.cos = function(x) {
+    meta.cos = function (x) {
       return Math.cos(x);
     };
-    meta.tan = function(x) {
+    meta.tan = function (x) {
       return Math.tan(x);
     };
-    meta.acos = function(x) {
+    meta.acos = function (x) {
       return Math.acos(x);
     };
-    meta.asin = function(x) {
+    meta.asin = function (x) {
       return Math.asin(x);
     };
-    meta.atan = function(x) {
+    meta.atan = function (x) {
       return Math.atan(x);
     };
-    meta.atan2 = function(y, x) {
+    meta.atan2 = function (y, x) {
       return Math.atan2(y, x);
     };
-    meta.sind = function(x) {
-      return Math.sin(x / 180 * Math.PI);
+    meta.sind = function (x) {
+      return Math.sin((x / 180) * Math.PI);
     };
-    meta.cosd = function(x) {
-      return Math.cos(x / 180 * Math.PI);
+    meta.cosd = function (x) {
+      return Math.cos((x / 180) * Math.PI);
     };
-    meta.tand = function(x) {
-      return Math.tan(x / 180 * Math.PI);
+    meta.tand = function (x) {
+      return Math.tan((x / 180) * Math.PI);
     };
-    meta.acosd = function(x) {
-      return Math.acos(x) * 180 / Math.PI;
+    meta.acosd = function (x) {
+      return (Math.acos(x) * 180) / Math.PI;
     };
-    meta.asind = function(x) {
-      return Math.asin(x) * 180 / Math.PI;
+    meta.asind = function (x) {
+      return (Math.asin(x) * 180) / Math.PI;
     };
-    meta.atand = function(x) {
-      return Math.atan(x) * 180 / Math.PI;
+    meta.atand = function (x) {
+      return (Math.atan(x) * 180) / Math.PI;
     };
-    meta.atan2d = function(y, x) {
-      return Math.atan2(y, x) * 180 / Math.PI;
+    meta.atan2d = function (y, x) {
+      return (Math.atan2(y, x) * 180) / Math.PI;
     };
-    meta.log = function(x) {
+    meta.log = function (x) {
       return Math.log(x);
     };
-    meta.exp = function(x) {
+    meta.exp = function (x) {
       return Math.exp(x);
     };
     meta.random = new Random(0);
@@ -217,22 +216,27 @@ this.MicroVM = (function() {
         touch: "ontouchstart" in window ? 1 : 0,
         gamepad: 0
       },
-      prompt: (function(_this) {
-        return function(text, callback) {
-          return setTimeout((function() {
+      prompt: (function (_this) {
+        return function (text, callback) {
+          return setTimeout(function () {
             var args, result;
             result = window.prompt(text);
-            if ((callback != null) && callback instanceof Program.Function) {
-              args = [(result != null ? 1 : 0), result];
+            if (callback != null && callback instanceof Program.Function) {
+              args = [result != null ? 1 : 0, result];
               return _this.call(callback, args);
             }
-          }), 0);
+          }, 0);
         };
       })(this)
     };
     try {
-      global.system.inputs.keyboard = window.matchMedia("(pointer:fine)").matches ? 1 : 0;
-      global.system.inputs.mouse = window.matchMedia("(any-hover:none)").matches ? 0 : 1;
+      global.system.inputs.keyboard = window.matchMedia("(pointer:fine)")
+        .matches
+        ? 1
+        : 0;
+      global.system.inputs.mouse = window.matchMedia("(any-hover:none)").matches
+        ? 0
+        : 1;
     } catch (error) {
       err = error;
     }
@@ -249,10 +253,10 @@ this.MicroVM = (function() {
       stack_size: 0
     };
     ctx = this.context;
-    Array.prototype.sortList = function(f) {
+    Array.prototype.sortList = function (f) {
       var funk;
-      if ((f != null) && f instanceof Program.Function) {
-        funk = function(a, b) {
+      if (f != null && f instanceof Program.Function) {
+        funk = function (a, b) {
           return f.call(ctx, [a, b], true);
         };
       }
@@ -261,23 +265,23 @@ this.MicroVM = (function() {
     this.clearWarnings();
   }
 
-  MicroVM.prototype.clearWarnings = function() {
-    return this.context.warnings = {
+  MicroVM.prototype.clearWarnings = function () {
+    return (this.context.warnings = {
       using_undefined_variable: {},
       assigning_field_to_undefined: {},
       invoking_non_function: {}
-    };
+    });
   };
 
-  MicroVM.prototype.setMeta = function(key, value) {
-    return this.context.meta[key] = value;
+  MicroVM.prototype.setMeta = function (key, value) {
+    return (this.context.meta[key] = value);
   };
 
-  MicroVM.prototype.setGlobal = function(key, value) {
-    return this.context.global[key] = value;
+  MicroVM.prototype.setGlobal = function (key, value) {
+    return (this.context.global[key] = value);
   };
 
-  MicroVM.prototype.run = function(program, timeout, compile) {
+  MicroVM.prototype.run = function (program, timeout, compile) {
     var err, i, j, len, ref, res, s;
     this.program = program;
     if (timeout == null) {
@@ -309,7 +313,10 @@ this.MicroVM = (function() {
         ref = this.program.statements;
         for (i = j = 0, len = ref.length; j < len; i = ++j) {
           s = ref[i];
-          res = s.evaluate(this.context, i === this.program.statements.length - 1);
+          res = s.evaluate(
+            this.context,
+            i === this.program.statements.length - 1
+          );
         }
         this.checkStorage();
         return Program.toString(res);
@@ -322,14 +329,19 @@ this.MicroVM = (function() {
             column: this.context.location.token.column
           };
         }
-        console.info("Error at line: " + this.context.location.token.line + " column: " + this.context.location.token.column);
+        console.info(
+          "Error at line: " +
+            this.context.location.token.line +
+            " column: " +
+            this.context.location.token.column
+        );
         console.error(err);
         return this.checkStorage();
       }
     }
   };
 
-  MicroVM.prototype.call = function(name, args, timeout) {
+  MicroVM.prototype.call = function (name, args, timeout) {
     var a, err, f, i, j, ref, res;
     if (args == null) {
       args = [];
@@ -340,7 +352,11 @@ this.MicroVM = (function() {
     this.error_info = null;
     this.context.timeout = Date.now() + timeout;
     this.context.stack_size = 0;
-    for (i = j = 0, ref = args.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (
+      i = j = 0, ref = args.length - 1;
+      0 <= ref ? j <= ref : j >= ref;
+      i = 0 <= ref ? ++j : --j
+    ) {
       a = args[i];
       if (typeof a === "number") {
         args[i] = new Program.Value(null, Program.Value.TYPE_NUMBER, a);
@@ -355,9 +371,12 @@ this.MicroVM = (function() {
     } else {
       f = this.context.global[name];
     }
-    if ((f != null) && f instanceof Program.Function) {
+    if (f != null && f instanceof Program.Function) {
       try {
-        res = new Program.FunctionCall(f.token, f, args).evaluate(this.context, true);
+        res = new Program.FunctionCall(f.token, f, args).evaluate(
+          this.context,
+          true
+        );
         this.checkStorage();
         return res;
       } catch (error) {
@@ -369,14 +388,19 @@ this.MicroVM = (function() {
             column: this.context.location.token.column
           };
         }
-        console.info("Error at line: " + this.context.location.token.line + " column: " + this.context.location.token.column);
+        console.info(
+          "Error at line: " +
+            this.context.location.token.line +
+            " column: " +
+            this.context.location.token.column
+        );
         console.error(err);
         return this.checkStorage();
       }
     }
   };
 
-  MicroVM.prototype.createStorageService = function() {
+  MicroVM.prototype.createStorageService = function () {
     var err, s;
     this.storage = {};
     try {
@@ -388,18 +412,18 @@ this.MicroVM = (function() {
       err = error;
     }
     return {
-      set: (function(_this) {
-        return function(name, value) {
+      set: (function (_this) {
+        return function (name, value) {
           value = _this.storableObject(value);
-          if ((name != null) && (value != null)) {
+          if (name != null && value != null) {
             _this.storage[name] = value;
             _this.write_storage = true;
           }
           return value;
         };
       })(this),
-      get: (function(_this) {
-        return function(name) {
+      get: (function (_this) {
+        return function (name) {
           if (name != null) {
             return _this.storage[name];
           } else {
@@ -410,25 +434,40 @@ this.MicroVM = (function() {
     };
   };
 
-  MicroVM.prototype.checkStorage = function() {
+  MicroVM.prototype.checkStorage = function () {
     var err;
     if (this.write_storage) {
       this.write_storage = false;
       try {
-        return localStorage.setItem("ms" + this.namespace, JSON.stringify(this.storage));
+        return localStorage.setItem(
+          "ms" + this.namespace,
+          JSON.stringify(this.storage)
+        );
       } catch (error) {
         err = error;
       }
     }
   };
 
-  MicroVM.prototype.storableObject = function(value) {
+  MicroVM.prototype.storableObject = function (value) {
     var referenced;
-    referenced = [this.context.global.screen, this.context.global.system, this.context.global.keyboard, this.context.global.audio, this.context.global.gamepad, this.context.global.touch, this.context.global.mouse, this.context.global.sprites, this.context.global.maps];
+    referenced = [
+      this.context.global.screen,
+      this.context.global.system,
+      this.context.global.keyboard,
+      this.context.global.audio,
+      this.context.global.connection,
+      this.context.global.gamepad,
+      this.context.global.touch,
+      this.context.global.mouse,
+      this.context.global.sprites,
+      this.context.global.maps
+    ];
+
     return this.makeStorableObject(value, referenced);
   };
 
-  MicroVM.prototype.makeStorableObject = function(value, referenced) {
+  MicroVM.prototype.makeStorableObject = function (value, referenced) {
     var i, j, key, len, res, v;
     if (value == null) {
       return value;
@@ -467,10 +506,9 @@ this.MicroVM = (function() {
   };
 
   return MicroVM;
-
 })();
 
-this.Tokenizer = (function() {
+this.Tokenizer = (function () {
   function Tokenizer(input, filename) {
     this.input = input;
     this.filename = filename;
@@ -500,15 +538,15 @@ this.Tokenizer = (function() {
     this.doubles["/"] = [Token.TYPE_DIVIDE, Token.TYPE_DIVIDE_EQUALS];
   }
 
-  Tokenizer.prototype.pushBack = function(token) {
+  Tokenizer.prototype.pushBack = function (token) {
     return this.buffer.splice(0, 0, token);
   };
 
-  Tokenizer.prototype.finished = function() {
+  Tokenizer.prototype.finished = function () {
     return this.index >= this.input.length;
   };
 
-  Tokenizer.prototype.nextChar = function() {
+  Tokenizer.prototype.nextChar = function () {
     var c;
     c = this.input.charAt(this.index++);
     if (c === "\n") {
@@ -534,16 +572,16 @@ this.Tokenizer = (function() {
     return c;
   };
 
-  Tokenizer.prototype.rewind = function() {
+  Tokenizer.prototype.rewind = function () {
     this.index -= 1;
     this.column -= 1;
     if (this.input.charAt(this.index) === "\n") {
       this.line -= 1;
-      return this.column = this.last_column;
+      return (this.column = this.last_column);
     }
   };
 
-  Tokenizer.prototype.next = function() {
+  Tokenizer.prototype.next = function () {
     var c, code;
     if (this.buffer.length > 0) {
       return this.buffer.splice(0, 1)[0];
@@ -569,7 +607,11 @@ this.Tokenizer = (function() {
       return this.parseUnequals(c);
     } else if (code >= 48 && code <= 57) {
       return this.parseNumber(c);
-    } else if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122) || code === 95) {
+    } else if (
+      (code >= 65 && code <= 90) ||
+      (code >= 97 && code <= 122) ||
+      code === 95
+    ) {
       return this.parseIdentifier(c);
     } else if (c === '"') {
       return this.parseString(c, '"');
@@ -580,10 +622,10 @@ this.Tokenizer = (function() {
     }
   };
 
-  Tokenizer.prototype.changeNumberToIdentifier = function() {
+  Tokenizer.prototype.changeNumberToIdentifier = function () {
     var i, j, ref, results, token, v;
     token = this.next();
-    if ((token != null) && token.type === Token.TYPE_NUMBER) {
+    if (token != null && token.type === Token.TYPE_NUMBER) {
       v = token.string_value.split(".");
       results = [];
       for (i = j = ref = v.length - 1; j >= 0; i = j += -1) {
@@ -597,15 +639,18 @@ this.Tokenizer = (function() {
         }
       }
       return results;
-    } else if ((token != null) && token.type === Token.TYPE_STRING) {
+    } else if (token != null && token.type === Token.TYPE_STRING) {
       return this.pushBack(new Token(this, Token.TYPE_IDENTIFIER, token.value));
     } else {
       return this.pushBack(token);
     }
   };
 
-  Tokenizer.prototype.parseDouble = function(c, d) {
-    if (this.index < this.input.length && this.input.charAt(this.index) === "=") {
+  Tokenizer.prototype.parseDouble = function (c, d) {
+    if (
+      this.index < this.input.length &&
+      this.input.charAt(this.index) === "="
+    ) {
       this.nextChar();
       return new Token(this, d[1], c + "=");
     } else {
@@ -613,8 +658,11 @@ this.Tokenizer = (function() {
     }
   };
 
-  Tokenizer.prototype.parseEquals = function(c) {
-    if (this.index < this.input.length && this.input.charAt(this.index) === "=") {
+  Tokenizer.prototype.parseEquals = function (c) {
+    if (
+      this.index < this.input.length &&
+      this.input.charAt(this.index) === "="
+    ) {
       this.nextChar();
       return new Token(this, Token.TYPE_DOUBLE_EQUALS, "==");
     } else {
@@ -622,8 +670,11 @@ this.Tokenizer = (function() {
     }
   };
 
-  Tokenizer.prototype.parseGreater = function(c) {
-    if (this.index < this.input.length && this.input.charAt(this.index) === "=") {
+  Tokenizer.prototype.parseGreater = function (c) {
+    if (
+      this.index < this.input.length &&
+      this.input.charAt(this.index) === "="
+    ) {
       this.nextChar();
       return new Token(this, Token.TYPE_GREATER_OR_EQUALS, ">=");
     } else {
@@ -631,8 +682,11 @@ this.Tokenizer = (function() {
     }
   };
 
-  Tokenizer.prototype.parseLower = function(c) {
-    if (this.index < this.input.length && this.input.charAt(this.index) === "=") {
+  Tokenizer.prototype.parseLower = function (c) {
+    if (
+      this.index < this.input.length &&
+      this.input.charAt(this.index) === "="
+    ) {
       this.nextChar();
       return new Token(this, Token.TYPE_LOWER_OR_EQUALS, "<=");
     } else {
@@ -640,8 +694,11 @@ this.Tokenizer = (function() {
     }
   };
 
-  Tokenizer.prototype.parseUnequals = function(c) {
-    if (this.index < this.input.length && this.input.charAt(this.index) === "=") {
+  Tokenizer.prototype.parseUnequals = function (c) {
+    if (
+      this.index < this.input.length &&
+      this.input.charAt(this.index) === "="
+    ) {
       this.nextChar();
       return new Token(this, Token.TYPE_UNEQUALS, "!=");
     } else {
@@ -649,7 +706,7 @@ this.Tokenizer = (function() {
     }
   };
 
-  Tokenizer.prototype.parseIdentifier = function(s) {
+  Tokenizer.prototype.parseIdentifier = function (s) {
     var c, code;
     while (true) {
       if (this.index >= this.input.length) {
@@ -657,7 +714,12 @@ this.Tokenizer = (function() {
       }
       c = this.nextChar();
       code = c.charCodeAt(0);
-      if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122) || code === 95 || (code >= 48 && code <= 57)) {
+      if (
+        (code >= 65 && code <= 90) ||
+        (code >= 97 && code <= 122) ||
+        code === 95 ||
+        (code >= 48 && code <= 57)
+      ) {
         s += c;
       } else {
         this.rewind();
@@ -666,12 +728,17 @@ this.Tokenizer = (function() {
     }
   };
 
-  Tokenizer.prototype.parseNumber = function(s) {
+  Tokenizer.prototype.parseNumber = function (s) {
     var c, code, pointed;
     pointed = false;
     while (true) {
       if (this.index >= this.input.length) {
-        return new Token(this, Token.TYPE_NUMBER, (pointed ? Number.parseFloat(s) : Number.parseInt(s)), s);
+        return new Token(
+          this,
+          Token.TYPE_NUMBER,
+          pointed ? Number.parseFloat(s) : Number.parseInt(s),
+          s
+        );
       }
       c = this.nextChar();
       code = c.charCodeAt(0);
@@ -682,12 +749,17 @@ this.Tokenizer = (function() {
         s += c;
       } else {
         this.rewind();
-        return new Token(this, Token.TYPE_NUMBER, (pointed ? Number.parseFloat(s) : Number.parseInt(s)), s);
+        return new Token(
+          this,
+          Token.TYPE_NUMBER,
+          pointed ? Number.parseFloat(s) : Number.parseInt(s),
+          s
+        );
       }
     }
   };
 
-  Tokenizer.prototype.parseString = function(s, close) {
+  Tokenizer.prototype.parseString = function (s, close) {
     var c, code, n;
     if (close == null) {
       close = '"';
@@ -705,7 +777,11 @@ this.Tokenizer = (function() {
         } else {
           this.rewind();
           s += c;
-          return new Token(this, Token.TYPE_STRING, s.substring(1, s.length - 1));
+          return new Token(
+            this,
+            Token.TYPE_STRING,
+            s.substring(1, s.length - 1)
+          );
         }
       } else {
         s += c;
@@ -713,15 +789,14 @@ this.Tokenizer = (function() {
     }
   };
 
-  Tokenizer.prototype.error = function(s) {
+  Tokenizer.prototype.error = function (s) {
     throw s;
   };
 
   return Tokenizer;
-
 })();
 
-this.Token = (function() {
+this.Token = (function () {
   function Token(tokenizer, type, value, string_value) {
     this.tokenizer = tokenizer;
     this.type = type;
@@ -732,19 +807,24 @@ this.Token = (function() {
     this.start = this.tokenizer.token_start;
     this.length = this.tokenizer.index - this.start;
     this.index = this.tokenizer.index;
-    if (this.type === Token.TYPE_IDENTIFIER && Token.predefined.hasOwnProperty(this.value)) {
+    if (
+      this.type === Token.TYPE_IDENTIFIER &&
+      Token.predefined.hasOwnProperty(this.value)
+    ) {
       this.type = Token.predefined[this.value];
       this.reserved_keyword = true;
     }
-    this.is_binary_operator = (this.type >= 30 && this.type <= 35) || (this.type >= 200 && this.type <= 201) || (this.type >= 2 && this.type <= 7);
+    this.is_binary_operator =
+      (this.type >= 30 && this.type <= 35) ||
+      (this.type >= 200 && this.type <= 201) ||
+      (this.type >= 2 && this.type <= 7);
   }
 
-  Token.prototype.toString = function() {
+  Token.prototype.toString = function () {
     return this.value + " : " + this.type;
   };
 
   return Token;
-
 })();
 
 this.Token.TYPE_EQUALS = 1;
@@ -895,7 +975,7 @@ this.Token.predefined["not"] = this.Token.TYPE_NOT;
 
 this.Token.predefined["local"] = this.Token.TYPE_LOCAL;
 
-this.Parser = (function() {
+this.Parser = (function () {
   function Parser(input, filename) {
     this.input = input;
     this.filename = filename != null ? filename : "";
@@ -911,17 +991,17 @@ this.Parser = (function() {
     this.not_terminated = [];
   }
 
-  Parser.prototype.nextToken = function() {
+  Parser.prototype.nextToken = function () {
     var token;
     token = this.tokenizer.next();
     if (token == null) {
       this.unexpected_eof = true;
       throw "Unexpected end of file";
     }
-    return this.current = token;
+    return (this.current = token);
   };
 
-  Parser.prototype.nextTokenOptional = function() {
+  Parser.prototype.nextTokenOptional = function () {
     var token;
     token = this.tokenizer.next();
     if (token != null) {
@@ -930,14 +1010,14 @@ this.Parser = (function() {
     return token;
   };
 
-  Parser.prototype.parse = function() {
+  Parser.prototype.parse = function () {
     var err, expression, nt, token;
     try {
       while (true) {
         expression = this.parseLine();
-        if ((expression == null) && !this.tokenizer.finished()) {
+        if (expression == null && !this.tokenizer.finished()) {
           token = this.tokenizer.next();
-          if ((token != null) && token.reserved_keyword) {
+          if (token != null && token.reserved_keyword) {
             this.error("Misuse of reserved keyword: '" + token.value + "'");
           } else {
             this.error("Unexpected data");
@@ -957,22 +1037,22 @@ this.Parser = (function() {
       err = error1;
       if (this.not_terminated.length > 0 && err === "Unexpected end of file") {
         nt = this.not_terminated[this.not_terminated.length - 1];
-        return this.error_info = {
+        return (this.error_info = {
           error: "Unterminated '" + nt.value + "' ; no matching 'end' found",
           line: nt.line,
           column: nt.column
-        };
+        });
       } else {
-        return this.error_info = {
+        return (this.error_info = {
           error: err,
           line: this.current.line,
           column: this.current.column
-        };
+        });
       }
     }
   };
 
-  Parser.prototype.parseLine = function() {
+  Parser.prototype.parseLine = function () {
     var token;
     token = this.nextTokenOptional();
     if (token == null) {
@@ -993,7 +1073,7 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseExpression = function(filter) {
+  Parser.prototype.parseExpression = function (filter) {
     var access, expression;
     expression = this.parseExpressionStart();
     if (expression == null) {
@@ -1008,7 +1088,7 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.assertExpression = function(filter) {
+  Parser.prototype.assertExpression = function (filter) {
     var exp;
     exp = this.parseExpression(filter);
     if (exp == null) {
@@ -1017,21 +1097,32 @@ this.Parser = (function() {
     return exp;
   };
 
-  Parser.prototype.parseExpressionSuffix = function(expression, filter) {
+  Parser.prototype.parseExpressionSuffix = function (expression, filter) {
     var field, identifier, token;
     token = this.nextTokenOptional();
     if (token == null) {
-      return (filter === "self" ? expression : null);
+      return filter === "self" ? expression : null;
     }
     switch (token.type) {
       case Token.TYPE_DOT:
-        if (expression instanceof Program.Value && expression.type === Program.Value.TYPE_NUMBER) {
+        if (
+          expression instanceof Program.Value &&
+          expression.type === Program.Value.TYPE_NUMBER
+        ) {
           this.tokenizer.pushBack(token);
           return null;
         } else {
           this.tokenizer.changeNumberToIdentifier();
           identifier = this.assertBroadIdentifier("Expected identifier");
-          return Program.CreateFieldAccess(token, expression, new Program.Value(identifier, Program.Value.TYPE_STRING, identifier.value));
+          return Program.CreateFieldAccess(
+            token,
+            expression,
+            new Program.Value(
+              identifier,
+              Program.Value.TYPE_STRING,
+              identifier.value
+            )
+          );
         }
         break;
       case Token.TYPE_OPEN_BRACKET:
@@ -1063,12 +1154,13 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseExpressionStart = function() {
+  Parser.prototype.parseExpressionStart = function () {
     var next, token;
     token = this.nextTokenOptional();
     if (token == null) {
       return null;
     }
+
     switch (token.type) {
       case Token.TYPE_IDENTIFIER:
         return new Program.Variable(token, token.value);
@@ -1077,9 +1169,15 @@ this.Parser = (function() {
       case Token.TYPE_PLUS:
         return this.assertExpression();
       case Token.TYPE_MINUS:
-        return this.parseExpressionSuffix(new Program.Negate(token, this.assertExpression("noop")), "self");
+        return this.parseExpressionSuffix(
+          new Program.Negate(token, this.assertExpression("noop")),
+          "self"
+        );
       case Token.TYPE_NOT:
-        return this.parseExpressionSuffix(new Program.Not(token, this.assertExpression("noop")), "self");
+        return this.parseExpressionSuffix(
+          new Program.Not(token, this.assertExpression("noop")),
+          "self"
+        );
       case Token.TYPE_STRING:
         return this.parseStringExpression(token);
       case Token.TYPE_IF:
@@ -1105,18 +1203,22 @@ this.Parser = (function() {
         if (!Number.isInteger(next.value)) {
           throw "malformed number";
         }
-        return new Program.Value(token, Program.Value.TYPE_NUMBER, Number.parseFloat("." + next.string_value));
+        return new Program.Value(
+          token,
+          Program.Value.TYPE_NUMBER,
+          Number.parseFloat("." + next.string_value)
+        );
       default:
         this.tokenizer.pushBack(token);
         return null;
     }
   };
 
-  Parser.prototype.parseNumberExpression = function(number) {
+  Parser.prototype.parseNumberExpression = function (number) {
     return new Program.Value(number, Program.Value.TYPE_NUMBER, number.value);
   };
 
-  Parser.prototype.parseStringExpression = function(string) {
+  Parser.prototype.parseStringExpression = function (string) {
     var token;
     token = this.nextTokenOptional();
     if (token == null) {
@@ -1127,7 +1229,7 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseArray = function(bracket) {
+  Parser.prototype.parseArray = function (bracket) {
     var res, token;
     res = [];
     while (true) {
@@ -1143,7 +1245,7 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseBinaryOperation = function(operation, term1) {
+  Parser.prototype.parseBinaryOperation = function (operation, term1) {
     var ops, terms, token;
     ops = [new Program.Operation(operation, operation.value)];
     terms = [term1];
@@ -1163,22 +1265,36 @@ this.Parser = (function() {
     return Program.BuildOperations(ops, terms);
   };
 
-  Parser.prototype.parseAssignment = function(token, expression) {
+  Parser.prototype.parseAssignment = function (token, expression) {
     return new Program.Assignment(token, expression, this.assertExpression());
   };
 
-  Parser.prototype.parseSelfAssignment = function(token, expression, operation) {
-    return new Program.SelfAssignment(token, expression, operation, this.assertExpression());
+  Parser.prototype.parseSelfAssignment = function (
+    token,
+    expression,
+    operation
+  ) {
+    return new Program.SelfAssignment(
+      token,
+      expression,
+      operation,
+      this.assertExpression()
+    );
   };
 
-  Parser.prototype.parseLocalAssignment = function(local) {
+  Parser.prototype.parseLocalAssignment = function (local) {
     var identifier;
     identifier = this.assert(Token.TYPE_IDENTIFIER, "Expected identifier");
     this.assert(Token.TYPE_EQUALS, "Expected '='");
-    return new Program.Assignment(local, new Program.Variable(identifier, identifier.value), this.assertExpression(), true);
+    return new Program.Assignment(
+      local,
+      new Program.Variable(identifier, identifier.value),
+      this.assertExpression(),
+      true
+    );
   };
 
-  Parser.prototype.parseBracedExpression = function(open) {
+  Parser.prototype.parseBracedExpression = function (open) {
     var expression, token;
     expression = this.assertExpression();
     token = this.nextToken();
@@ -1189,10 +1305,14 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseFunctionCall = function(brace_token, expression) {
+  Parser.prototype.parseFunctionCall = function (brace_token, expression) {
     var args, start, token;
     args = [];
-    this.last_function_call = new Program.FunctionCall(brace_token, expression, args);
+    this.last_function_call = new Program.FunctionCall(
+      brace_token,
+      expression,
+      args
+    );
     this.last_function_call.argslimits = [];
     while (true) {
       token = this.nextTokenOptional();
@@ -1214,17 +1334,17 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.addTerminable = function(token) {
+  Parser.prototype.addTerminable = function (token) {
     return this.not_terminated.push(token);
   };
 
-  Parser.prototype.endTerminable = function() {
+  Parser.prototype.endTerminable = function () {
     if (this.not_terminated.length > 0) {
       this.not_terminated.splice(this.not_terminated.length - 1, 1);
     }
   };
 
-  Parser.prototype.parseFunction = function(funk) {
+  Parser.prototype.parseFunction = function (funk) {
     var args, line, sequence, token;
     this.nesting += 1;
     this.addTerminable(funk);
@@ -1248,7 +1368,7 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseFunctionArgs = function() {
+  Parser.prototype.parseFunctionArgs = function () {
     var args, exp, last, token;
     token = this.nextToken();
     args = [];
@@ -1277,7 +1397,7 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseIf = function(iftoken) {
+  Parser.prototype.parseIf = function (iftoken) {
     var chain, current, line, token;
     this.addTerminable(iftoken);
     current = {
@@ -1319,7 +1439,7 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.assert = function(type, error) {
+  Parser.prototype.assert = function (type, error) {
     var token;
     token = this.nextToken();
     if (token.type !== type) {
@@ -1328,7 +1448,7 @@ this.Parser = (function() {
     return token;
   };
 
-  Parser.prototype.assertBroadIdentifier = function(error) {
+  Parser.prototype.assertBroadIdentifier = function (error) {
     var token;
     token = this.nextToken();
     if (token.type !== Token.TYPE_IDENTIFIER && token.reserved_keyword) {
@@ -1340,11 +1460,11 @@ this.Parser = (function() {
     return token;
   };
 
-  Parser.prototype.error = function(text) {
+  Parser.prototype.error = function (text) {
     throw text;
   };
 
-  Parser.prototype.parseFor = function(fortoken) {
+  Parser.prototype.parseFor = function (fortoken) {
     var iterator, list, range_by, range_from, range_to, token;
     iterator = this.assertExpression();
     if (iterator instanceof Program.Assignment) {
@@ -1362,23 +1482,39 @@ this.Parser = (function() {
         range_by = 0;
         this.tokenizer.pushBack(token);
       }
-      return new Program.For(fortoken, iterator.identifier, range_from, range_to, range_by, this.parseSequence(fortoken));
+      return new Program.For(
+        fortoken,
+        iterator.identifier,
+        range_from,
+        range_to,
+        range_by,
+        this.parseSequence(fortoken)
+      );
     } else if (iterator instanceof Program.Variable) {
       this.assert(Token.TYPE_IN, "Error expected keyword 'in'");
       list = this.assertExpression();
-      return new Program.ForIn(fortoken, iterator.identifier, list, this.parseSequence(fortoken));
+      return new Program.ForIn(
+        fortoken,
+        iterator.identifier,
+        list,
+        this.parseSequence(fortoken)
+      );
     } else {
       return this.error("Malformed for loop");
     }
   };
 
-  Parser.prototype.parseWhile = function(whiletoken) {
+  Parser.prototype.parseWhile = function (whiletoken) {
     var condition;
     condition = this.assertExpression();
-    return new Program.While(whiletoken, condition, this.parseSequence(whiletoken));
+    return new Program.While(
+      whiletoken,
+      condition,
+      this.parseSequence(whiletoken)
+    );
   };
 
-  Parser.prototype.parseSequence = function(start_token) {
+  Parser.prototype.parseSequence = function (start_token) {
     var line, sequence, token;
     if (start_token != null) {
       this.addTerminable(start_token);
@@ -1405,7 +1541,7 @@ this.Parser = (function() {
     return sequence;
   };
 
-  Parser.prototype.parseObject = function(object) {
+  Parser.prototype.parseObject = function (object) {
     var exp, fields, token;
     this.nesting += 1;
     this.addTerminable(object);
@@ -1437,7 +1573,7 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseClass = function(object) {
+  Parser.prototype.parseClass = function (object) {
     var exp, ext, fields, token;
     this.nesting += 1;
     this.addTerminable(object);
@@ -1474,48 +1610,47 @@ this.Parser = (function() {
     }
   };
 
-  Parser.prototype.parseNew = function(token) {
+  Parser.prototype.parseNew = function (token) {
     var exp;
     exp = this.assertExpression();
     return new Program.NewCall(token, exp);
   };
 
   return Parser;
-
 })();
 
-this.Program = (function() {
+this.Program = (function () {
   function Program() {
     this.statements = [];
   }
 
-  Program.prototype.add = function(statement) {
+  Program.prototype.add = function (statement) {
     return this.statements.push(statement);
   };
 
-  Program.prototype.isAssignment = function() {
-    return this.statements.length > 0 && this.statements[this.statements.length - 1] instanceof Program.Assignment;
+  Program.prototype.isAssignment = function () {
+    return (
+      this.statements.length > 0 &&
+      this.statements[this.statements.length - 1] instanceof Program.Assignment
+    );
   };
 
   return Program;
-
 })();
 
-this.Statement = (function() {
+this.Statement = (function () {
   function Statement() {}
 
   return Statement;
-
 })();
 
-this.Program.Expression = (function() {
+this.Program.Expression = (function () {
   function Expression() {}
 
   return Expression;
-
 })();
 
-this.Program.Assignment = (function() {
+this.Program.Assignment = (function () {
   function Assignment(token1, field1, expression1, local1) {
     this.token = token1;
     this.field = field1;
@@ -1523,20 +1658,27 @@ this.Program.Assignment = (function() {
     this.local = local1;
   }
 
-  Assignment.prototype.evaluate = function(context, hold) {
+  Assignment.prototype.evaluate = function (context, hold) {
     context.location = this;
     if (this.local) {
-      return this.field.assign(context, context.local, this.expression.evaluate(context, true));
+      return this.field.assign(
+        context,
+        context.local,
+        this.expression.evaluate(context, true)
+      );
     } else {
-      return this.field.assign(context, null, this.expression.evaluate(context, true));
+      return this.field.assign(
+        context,
+        null,
+        this.expression.evaluate(context, true)
+      );
     }
   };
 
   return Assignment;
-
 })();
 
-this.Program.SelfAssignment = (function() {
+this.Program.SelfAssignment = (function () {
   function SelfAssignment(token1, field1, operation, expression1) {
     this.token = token1;
     this.field = field1;
@@ -1544,7 +1686,7 @@ this.Program.SelfAssignment = (function() {
     this.expression = expression1;
   }
 
-  SelfAssignment.prototype.evaluate = function(context, hold) {
+  SelfAssignment.prototype.evaluate = function (context, hold) {
     var exp;
     context.location = this;
     exp = this.expression.evaluate(context, true);
@@ -1561,10 +1703,9 @@ this.Program.SelfAssignment = (function() {
   };
 
   return SelfAssignment;
-
 })();
 
-this.Program.Value = (function() {
+this.Program.Value = (function () {
   function Value(token1, type, value1) {
     this.token = token1;
     this.type = type;
@@ -1574,17 +1715,17 @@ this.Program.Value = (function() {
     }
   }
 
-  Value.prototype.optimize = function() {
+  Value.prototype.optimize = function () {
     if (this.type !== Program.Value.TYPE_ARRAY) {
-      return this.constant = this.value;
+      return (this.constant = this.value);
     }
   };
 
-  Value.prototype.evaluate = function(context) {
+  Value.prototype.evaluate = function (context) {
     return this.value;
   };
 
-  Value.prototype.evaluateArray = function(context) {
+  Value.prototype.evaluateArray = function (context) {
     var j, len1, ref, res, v;
     res = [];
     ref = this.value;
@@ -1608,10 +1749,9 @@ this.Program.Value = (function() {
   Value.TYPE_CLASS = 6;
 
   return Value;
-
 })();
 
-this.Program.CreateFieldAccess = function(token, expression, field) {
+this.Program.CreateFieldAccess = function (token, expression, field) {
   if (expression instanceof Program.Field) {
     expression.appendField(field);
     return expression;
@@ -1620,13 +1760,13 @@ this.Program.CreateFieldAccess = function(token, expression, field) {
   }
 };
 
-this.Program.Variable = (function() {
+this.Program.Variable = (function () {
   function Variable(token1, identifier) {
     this.token = token1;
     this.identifier = identifier;
   }
 
-  Variable.prototype.assign = function(context, scope, value) {
+  Variable.prototype.assign = function (context, scope, value) {
     if (scope == null) {
       if (context.local[this.identifier] != null) {
         scope = context.local;
@@ -1634,10 +1774,10 @@ this.Program.Variable = (function() {
         scope = context.object;
       }
     }
-    return scope[this.identifier] = value;
+    return (scope[this.identifier] = value);
   };
 
-  Variable.prototype.ensureCreated = function(context) {
+  Variable.prototype.ensureCreated = function (context) {
     var id, scope, v;
     if (this.identifier === "this") {
       return context.object;
@@ -1646,16 +1786,24 @@ this.Program.Variable = (function() {
       scope = context.meta;
     } else if (context.local[this.identifier] != null) {
       scope = context.local;
-    } else if ((context.object[this.identifier] != null) || (context.global[this.identifier] == null)) {
+    } else if (
+      context.object[this.identifier] != null ||
+      context.global[this.identifier] == null
+    ) {
       scope = context.object;
     } else {
       scope = context.global;
     }
     v = scope[this.identifier];
-    if ((v != null) && (Array.isArray(v) || typeof v === "object")) {
+    if (v != null && (Array.isArray(v) || typeof v === "object")) {
       return v;
     } else {
-      id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column;
+      id =
+        this.token.tokenizer.filename +
+        "-" +
+        this.token.line +
+        "-" +
+        this.token.column;
       if (!context.warnings.assigning_field_to_undefined[id]) {
         context.warnings.assigning_field_to_undefined[id] = {
           file: this.token.tokenizer.filename,
@@ -1664,20 +1812,20 @@ this.Program.Variable = (function() {
           expression: this.identifier
         };
       }
-      return scope[this.identifier] = {};
+      return (scope[this.identifier] = {});
     }
   };
 
-  Variable.prototype.evaluate = function(context) {
+  Variable.prototype.evaluate = function (context) {
     var c, id, n, obj, v;
     if (this.identifier === "this") {
       return context.object;
     }
     if (this.identifier === "super") {
-      if ((context.superClass != null) && (context.childName != null)) {
+      if (context.superClass != null && context.childName != null) {
         c = context.superClass;
         n = context.childName;
-        while ((c[n] == null) && (c["class"] != null)) {
+        while (c[n] == null && c["class"] != null) {
           c = c["class"];
         }
         this.childName = context.childName;
@@ -1698,7 +1846,7 @@ this.Program.Variable = (function() {
       if (v == null) {
         obj = context.object;
         v = obj[this.identifier];
-        while ((v == null) && (obj["class"] != null)) {
+        while (v == null && obj["class"] != null) {
           obj = obj["class"];
           v = obj[this.identifier];
         }
@@ -1718,7 +1866,12 @@ this.Program.Variable = (function() {
     if (v != null) {
       return v;
     } else {
-      id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column;
+      id =
+        this.token.tokenizer.filename +
+        "-" +
+        this.token.line +
+        "-" +
+        this.token.column;
       if (!context.warnings.using_undefined_variable[id]) {
         context.warnings.using_undefined_variable[id] = {
           file: this.token.tokenizer.filename,
@@ -1731,7 +1884,7 @@ this.Program.Variable = (function() {
     }
   };
 
-  Variable.prototype.getScope = function(context) {
+  Variable.prototype.getScope = function (context) {
     if (context.local[this.identifier] != null) {
       return context.local;
     } else if (context.object[this.identifier] != null) {
@@ -1743,11 +1896,16 @@ this.Program.Variable = (function() {
     }
   };
 
-  Variable.prototype.add = function(context, value) {
+  Variable.prototype.add = function (context, value) {
     var id, scope;
     scope = this.getScope(context);
     if (scope == null) {
-      id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column;
+      id =
+        this.token.tokenizer.filename +
+        "-" +
+        this.token.line +
+        "-" +
+        this.token.column;
       if (!context.warnings.using_undefined_variable[id]) {
         context.warnings.using_undefined_variable[id] = {
           file: this.token.tokenizer.filename,
@@ -1756,17 +1914,22 @@ this.Program.Variable = (function() {
           expression: this.identifier
         };
       }
-      return context.global[this.identifier] = 0 + value;
+      return (context.global[this.identifier] = 0 + value);
     } else {
-      return scope[this.identifier] += value;
+      return (scope[this.identifier] += value);
     }
   };
 
-  Variable.prototype.sub = function(context, value) {
+  Variable.prototype.sub = function (context, value) {
     var id, scope;
     scope = this.getScope(context);
     if (scope == null) {
-      id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column;
+      id =
+        this.token.tokenizer.filename +
+        "-" +
+        this.token.line +
+        "-" +
+        this.token.column;
       if (!context.warnings.using_undefined_variable[id]) {
         context.warnings.using_undefined_variable[id] = {
           file: this.token.tokenizer.filename,
@@ -1775,17 +1938,22 @@ this.Program.Variable = (function() {
           expression: this.identifier
         };
       }
-      return context.global[this.identifier] = 0 - value;
+      return (context.global[this.identifier] = 0 - value);
     } else {
-      return scope[this.identifier] -= value;
+      return (scope[this.identifier] -= value);
     }
   };
 
-  Variable.prototype.mul = function(context, value) {
+  Variable.prototype.mul = function (context, value) {
     var id, scope;
     scope = this.getScope(context);
     if (scope == null) {
-      id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column;
+      id =
+        this.token.tokenizer.filename +
+        "-" +
+        this.token.line +
+        "-" +
+        this.token.column;
       if (!context.warnings.using_undefined_variable[id]) {
         context.warnings.using_undefined_variable[id] = {
           file: this.token.tokenizer.filename,
@@ -1794,17 +1962,22 @@ this.Program.Variable = (function() {
           expression: this.identifier
         };
       }
-      return context.global[this.identifier] = 0;
+      return (context.global[this.identifier] = 0);
     } else {
-      return scope[this.identifier] *= value;
+      return (scope[this.identifier] *= value);
     }
   };
 
-  Variable.prototype.div = function(context, value) {
+  Variable.prototype.div = function (context, value) {
     var id, scope;
     scope = this.getScope(context);
     if (scope == null) {
-      id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column;
+      id =
+        this.token.tokenizer.filename +
+        "-" +
+        this.token.line +
+        "-" +
+        this.token.column;
       if (!context.warnings.using_undefined_variable[id]) {
         context.warnings.using_undefined_variable[id] = {
           file: this.token.tokenizer.filename,
@@ -1813,21 +1986,20 @@ this.Program.Variable = (function() {
           expression: this.identifier
         };
       }
-      return context.global[this.identifier] = 0;
+      return (context.global[this.identifier] = 0);
     } else {
-      return scope[this.identifier] /= value;
+      return (scope[this.identifier] /= value);
     }
   };
 
-  Variable.prototype.toString = function() {
+  Variable.prototype.toString = function () {
     return this.identifier;
   };
 
   return Variable;
-
 })();
 
-this.Program.Field = (function() {
+this.Program.Field = (function () {
   function Field(token1, expression1, chain) {
     this.token = token1;
     this.expression = expression1;
@@ -1835,11 +2007,11 @@ this.Program.Field = (function() {
     this.token = this.expression.token;
   }
 
-  Field.prototype.appendField = function(field) {
+  Field.prototype.appendField = function (field) {
     return this.chain.push(field);
   };
 
-  Field.prototype.assign = function(context, scope, value) {
+  Field.prototype.assign = function (context, scope, value) {
     var c, i, id, j, len1, ref, v;
     if (this.expression.ensureCreated != null) {
       v = this.expression.ensureCreated(context);
@@ -1850,14 +2022,24 @@ this.Program.Field = (function() {
     for (i = j = 0, len1 = ref.length; j < len1; i = ++j) {
       c = ref[i];
       c = c.evaluate(context, true) || 0;
-      if ((v[c] == null) && i < this.chain.length - 1) {
-        id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column + "-" + i;
+      if (v[c] == null && i < this.chain.length - 1) {
+        id =
+          this.token.tokenizer.filename +
+          "-" +
+          this.token.line +
+          "-" +
+          this.token.column +
+          "-" +
+          i;
         if (!context.warnings.assigning_field_to_undefined[id]) {
           context.warnings.assigning_field_to_undefined[id] = {
             file: this.token.tokenizer.filename,
             line: this.token.line,
             column: this.token.column,
-            expression: this.token.tokenizer.input.substring(this.token.start, this.chain[i].token.start + this.chain[i].token.length)
+            expression: this.token.tokenizer.input.substring(
+              this.token.start,
+              this.chain[i].token.start + this.chain[i].token.length
+            )
           };
         }
         v[c] = {};
@@ -1871,7 +2053,7 @@ this.Program.Field = (function() {
     return value;
   };
 
-  Field.prototype.add = function(context, value) {
+  Field.prototype.add = function (context, value) {
     var c, i, j, len1, ref, v, v2;
     if (this.expression.ensureCreated != null) {
       v = this.expression.ensureCreated(context);
@@ -1893,13 +2075,13 @@ this.Program.Field = (function() {
         if (v[c] == null) {
           this.reportUndefinedWarning(context, i);
         }
-        return v[c] = (v[c] || 0) + value;
+        return (v[c] = (v[c] || 0) + value);
       }
     }
     return v[c];
   };
 
-  Field.prototype.sub = function(context, value) {
+  Field.prototype.sub = function (context, value) {
     var c, i, j, len1, ref, v, v2;
     if (this.expression.ensureCreated != null) {
       v = this.expression.ensureCreated(context);
@@ -1921,13 +2103,13 @@ this.Program.Field = (function() {
         if (v[c] == null) {
           this.reportUndefinedWarning(context, i);
         }
-        return v[c] = (v[c] || 0) - value;
+        return (v[c] = (v[c] || 0) - value);
       }
     }
     return v[c];
   };
 
-  Field.prototype.mul = function(context, value) {
+  Field.prototype.mul = function (context, value) {
     var c, i, j, len1, ref, v, v2;
     if (this.expression.ensureCreated != null) {
       v = this.expression.ensureCreated(context);
@@ -1949,13 +2131,13 @@ this.Program.Field = (function() {
         if (v[c] == null) {
           this.reportUndefinedWarning(context, i);
         }
-        return v[c] = (v[c] || 0) * value;
+        return (v[c] = (v[c] || 0) * value);
       }
     }
     return v[c];
   };
 
-  Field.prototype.div = function(context, value) {
+  Field.prototype.div = function (context, value) {
     var c, i, j, len1, ref, v, v2;
     if (this.expression.ensureCreated != null) {
       v = this.expression.ensureCreated(context);
@@ -1977,39 +2159,59 @@ this.Program.Field = (function() {
         if (v[c] == null) {
           this.reportUndefinedWarning(context, i);
         }
-        return v[c] = (v[c] || 0) / value;
+        return (v[c] = (v[c] || 0) / value);
       }
     }
     return v[c];
   };
 
-  Field.prototype.reportAssignWarning = function(context, i) {
+  Field.prototype.reportAssignWarning = function (context, i) {
     var id;
-    id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column + "-" + i;
+    id =
+      this.token.tokenizer.filename +
+      "-" +
+      this.token.line +
+      "-" +
+      this.token.column +
+      "-" +
+      i;
     if (!context.warnings.assigning_field_to_undefined[id]) {
-      return context.warnings.assigning_field_to_undefined[id] = {
+      return (context.warnings.assigning_field_to_undefined[id] = {
         file: this.token.tokenizer.filename,
         line: this.token.line,
         column: this.token.column,
-        expression: this.token.tokenizer.input.substring(this.token.start, this.chain[i].token.start + this.chain[i].token.length)
-      };
+        expression: this.token.tokenizer.input.substring(
+          this.token.start,
+          this.chain[i].token.start + this.chain[i].token.length
+        )
+      });
     }
   };
 
-  Field.prototype.reportUndefinedWarning = function(context, i) {
+  Field.prototype.reportUndefinedWarning = function (context, i) {
     var id;
-    id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column + "-" + i;
+    id =
+      this.token.tokenizer.filename +
+      "-" +
+      this.token.line +
+      "-" +
+      this.token.column +
+      "-" +
+      i;
     if (!context.warnings.using_undefined_variable[id]) {
-      return context.warnings.using_undefined_variable[id] = {
+      return (context.warnings.using_undefined_variable[id] = {
         file: this.token.tokenizer.filename,
         line: this.token.line,
         column: this.token.column,
-        expression: this.token.tokenizer.input.substring(this.token.start, this.chain[i].token.start + this.chain[i].token.length)
-      };
+        expression: this.token.tokenizer.input.substring(
+          this.token.start,
+          this.chain[i].token.start + this.chain[i].token.length
+        )
+      });
     }
   };
 
-  Field.prototype.evaluate = function(context) {
+  Field.prototype.evaluate = function (context) {
     var c, i, id, j, len1, p, ref, v;
     context.location = this;
     v = this.expression.evaluate(context);
@@ -2022,18 +2224,26 @@ this.Program.Field = (function() {
         p = this.parentObject = v;
         c = c.evaluate(context, true) || 0;
         v = v[c];
-        while ((v == null) && (p["class"] != null)) {
+        while (v == null && p["class"] != null) {
           p = p["class"];
           v = p[c];
         }
         if (v == null) {
-          id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column;
+          id =
+            this.token.tokenizer.filename +
+            "-" +
+            this.token.line +
+            "-" +
+            this.token.column;
           if (!context.warnings.using_undefined_variable[id]) {
             context.warnings.using_undefined_variable[id] = {
               file: this.token.tokenizer.filename,
               line: this.token.line,
               column: this.token.column,
-              expression: this.token.tokenizer.input.substring(this.token.start, this.chain[i].token.start + this.chain[i].token.length)
+              expression: this.token.tokenizer.input.substring(
+                this.token.start,
+                this.chain[i].token.start + this.chain[i].token.length
+              )
             };
           }
           return 0;
@@ -2046,10 +2256,9 @@ this.Program.Field = (function() {
   };
 
   return Field;
-
 })();
 
-this.Program.BuildOperations = function(ops, terms) {
+this.Program.BuildOperations = function (ops, terms) {
   var i, o, o1, o2, prec, t1, t2;
   while (ops.length > 1) {
     i = 0;
@@ -2057,7 +2266,9 @@ this.Program.BuildOperations = function(ops, terms) {
     while (i < ops.length - 1) {
       o1 = ops[i];
       o2 = ops[i + 1];
-      if (Program.Precedence[o2.operation] <= Program.Precedence[o1.operation]) {
+      if (
+        Program.Precedence[o2.operation] <= Program.Precedence[o1.operation]
+      ) {
         break;
       }
       i++;
@@ -2068,10 +2279,15 @@ this.Program.BuildOperations = function(ops, terms) {
     terms.splice(i, 2, o);
     ops.splice(i, 1);
   }
-  return new Program.Operation(ops[0].token, ops[0].operation, terms[0], terms[1]);
+  return new Program.Operation(
+    ops[0].token,
+    ops[0].operation,
+    terms[0],
+    terms[1]
+  );
 };
 
-this.Program.Operation = (function() {
+this.Program.Operation = (function () {
   function Operation(token1, operation, term1, term2) {
     this.token = token1;
     this.operation = operation;
@@ -2080,51 +2296,49 @@ this.Program.Operation = (function() {
     this.f = Program.BinaryOps[this.operation];
   }
 
-  Operation.prototype.evaluate = function(context, hold) {
+  Operation.prototype.evaluate = function (context, hold) {
     context.location = this;
     return this.f(context, this.term1, this.term2);
   };
 
   return Operation;
-
 })();
 
-this.Program.Negate = (function() {
+this.Program.Negate = (function () {
   function Negate(token1, expression1) {
     this.token = token1;
     this.expression = expression1;
     this.optimize();
   }
 
-  Negate.prototype.optimize = function() {
+  Negate.prototype.optimize = function () {
     var value;
     if (this.expression.optimize != null) {
       this.expression.optimize();
     }
     if (this.expression.constant != null) {
       value = this.expression.constant || 0;
-      return this.evaluate = function() {
+      return (this.evaluate = function () {
         return -value;
-      };
+      });
     }
   };
 
-  Negate.prototype.evaluate = function(context) {
+  Negate.prototype.evaluate = function (context) {
     context.location = this;
     return -(this.expression.evaluate(context, true) || 0);
   };
 
   return Negate;
-
 })();
 
-this.Program.Not = (function() {
+this.Program.Not = (function () {
   function Not(token1, expression1) {
     this.token = token1;
     this.expression = expression1;
   }
 
-  Not.prototype.evaluate = function(context) {
+  Not.prototype.evaluate = function (context) {
     context.location = this;
     if (this.expression.evaluate(context, true)) {
       return 0;
@@ -2134,25 +2348,23 @@ this.Program.Not = (function() {
   };
 
   return Not;
-
 })();
 
-this.Program.Braced = (function() {
+this.Program.Braced = (function () {
   function Braced(token1, expression1) {
     this.token = token1;
     this.expression = expression1;
   }
 
-  Braced.prototype.evaluate = function(context, hold) {
+  Braced.prototype.evaluate = function (context, hold) {
     context.location = this;
     return this.expression.evaluate(context, hold);
   };
 
   return Braced;
-
 })();
 
-this.Program.SequenceEvaluator = function(context, sequence, local, hold) {
+this.Program.SequenceEvaluator = function (context, sequence, local, hold) {
   var i, j, len1, local_save, res, s;
   if (local != null) {
     local_save = context.local;
@@ -2168,7 +2380,10 @@ this.Program.SequenceEvaluator = function(context, sequence, local, hold) {
     if (context["return"]) {
       break;
     }
-    if ((context["break"] && context.breakable > 0) || (context["continue"] && context.continuable > 0)) {
+    if (
+      (context["break"] && context.breakable > 0) ||
+      (context["continue"] && context.continuable > 0)
+    ) {
       break;
     }
     if (Date.now() > context.timeout) {
@@ -2181,13 +2396,13 @@ this.Program.SequenceEvaluator = function(context, sequence, local, hold) {
   return res;
 };
 
-this.Program.Return = (function() {
+this.Program.Return = (function () {
   function Return(token1, expression1) {
     this.token = token1;
     this.expression = expression1;
   }
 
-  Return.prototype.evaluate = function(context) {
+  Return.prototype.evaluate = function (context) {
     var v;
     if (this.expression != null) {
       v = this.expression.evaluate(context, true);
@@ -2199,16 +2414,15 @@ this.Program.Return = (function() {
   };
 
   return Return;
-
 })();
 
-this.Program.Condition = (function() {
+this.Program.Condition = (function () {
   function Condition(token1, chain) {
     this.token = token1;
     this.chain = chain;
   }
 
-  Condition.prototype.evaluate = function(context, hold) {
+  Condition.prototype.evaluate = function (context, hold) {
     var c, j, len1, ref;
     context.location = this;
     ref = this.chain;
@@ -2224,10 +2438,9 @@ this.Program.Condition = (function() {
   };
 
   return Condition;
-
 })();
 
-this.Program.For = (function() {
+this.Program.For = (function () {
   function For(token1, iterator, range_from1, range_to1, range_by1, sequence1) {
     this.token = token1;
     this.iterator = iterator;
@@ -2237,7 +2450,7 @@ this.Program.For = (function() {
     this.sequence = sequence1;
   }
 
-  For.prototype.evaluate = function(context, hold) {
+  For.prototype.evaluate = function (context, hold) {
     var i, j, list, local, range_by, range_from, range_to, ref, ref1, ref2, res;
     context.location = this;
     context.breakable += 1;
@@ -2255,7 +2468,11 @@ this.Program.For = (function() {
       range_by = this.range_by.evaluate(context, true);
     }
     local = context.local;
-    for (i = j = ref = range_from, ref1 = range_to, ref2 = range_by; ref2 > 0 ? j <= ref1 : j >= ref1; i = j += ref2) {
+    for (
+      i = j = ref = range_from, ref1 = range_to, ref2 = range_by;
+      ref2 > 0 ? j <= ref1 : j >= ref1;
+      i = j += ref2
+    ) {
       local[this.iterator] = i;
       res = Program.SequenceEvaluator(context, this.sequence, null, hold);
       if (hold) {
@@ -2283,10 +2500,9 @@ this.Program.For = (function() {
   };
 
   return For;
-
 })();
 
-this.Program.ForIn = (function() {
+this.Program.ForIn = (function () {
   function ForIn(token1, iterator, list1, sequence1) {
     this.token = token1;
     this.iterator = iterator;
@@ -2294,7 +2510,7 @@ this.Program.ForIn = (function() {
     this.sequence = sequence1;
   }
 
-  ForIn.prototype.evaluate = function(context, hold) {
+  ForIn.prototype.evaluate = function (context, hold) {
     var i, j, len, list, local, ref, res, source;
     context.location = this;
     context.breakable += 1;
@@ -2354,10 +2570,9 @@ this.Program.ForIn = (function() {
   };
 
   return ForIn;
-
 })();
 
-Program.toString = function(value, nesting) {
+Program.toString = function (value, nesting) {
   var i, j, k, key, len1, pref, ref, s, v;
   if (nesting == null) {
     nesting = 0;
@@ -2371,7 +2586,7 @@ Program.toString = function(value, nesting) {
   } else if (typeof value === "function") {
     return "[native function]";
   } else if (typeof value === "string") {
-    return "\"" + value + "\"";
+    return '"' + value + '"';
   } else if (Array.isArray(value)) {
     if (nesting >= 1) {
       return "[list]";
@@ -2393,21 +2608,22 @@ Program.toString = function(value, nesting) {
     }
     for (key in value) {
       v = value[key];
-      s += pref + ("  " + key + " = " + (Program.toString(v, nesting + 1)) + "\n");
+      s +=
+        pref + ("  " + key + " = " + Program.toString(v, nesting + 1) + "\n");
     }
     return s + pref + "end";
   }
   return value || 0;
 };
 
-this.Program.While = (function() {
+this.Program.While = (function () {
   function While(token1, condition, sequence1) {
     this.token = token1;
     this.condition = condition;
     this.sequence = sequence1;
   }
 
-  While.prototype.evaluate = function(context, hold) {
+  While.prototype.evaluate = function (context, hold) {
     var list, res;
     context.location = this;
     context.breakable += 1;
@@ -2444,59 +2660,63 @@ this.Program.While = (function() {
   };
 
   return While;
-
 })();
 
-this.Program.Break = (function() {
+this.Program.Break = (function () {
   function Break(token1) {
     this.token = token1;
   }
 
-  Break.prototype.evaluate = function(context) {
+  Break.prototype.evaluate = function (context) {
     context.location = this;
     context["break"] = true;
     return 0;
   };
 
   return Break;
-
 })();
 
-this.Program.Continue = (function() {
+this.Program.Continue = (function () {
   function Continue(token1) {
     this.token = token1;
   }
 
-  Continue.prototype.evaluate = function(context) {
+  Continue.prototype.evaluate = function (context) {
     context.location = this;
     context["continue"] = true;
     return 0;
   };
 
   return Continue;
-
 })();
 
-this.Program.Function = (function() {
+this.Program.Function = (function () {
   function Function(token1, args, sequence1, end) {
     this.token = token1;
     this.args = args;
     this.sequence = sequence1;
-    this.source = "function" + this.token.tokenizer.input.substring(this.token.index, end.index + 2);
+    this.source =
+      "function" +
+      this.token.tokenizer.input.substring(this.token.index, end.index + 2);
   }
 
-  Function.prototype.evaluate = function(context) {
+  Function.prototype.evaluate = function (context) {
     context.location = this;
     return this;
   };
 
-  Function.prototype.call = function(context, argv, hold) {
+  Function.prototype.call = function (context, argv, hold) {
     var a, i, j, len1, local, ref, res;
     local = {};
     ref = this.args;
     for (i = j = 0, len1 = ref.length; j < len1; i = ++j) {
       a = ref[i];
-      local[a.name] = argv[i] != null ? argv[i] : (a["default"] != null ? a["default"].evaluate(context, true) : 0);
+      local[a.name] =
+        argv[i] != null
+          ? argv[i]
+          : a["default"] != null
+          ? a["default"].evaluate(context, true)
+          : 0;
     }
     context.stack_size += 1;
     if (context.stack_size > 100) {
@@ -2509,18 +2729,30 @@ this.Program.Function = (function() {
   };
 
   return Function;
-
 })();
 
-this.Program.FunctionCall = (function() {
+this.Program.FunctionCall = (function () {
   function FunctionCall(token1, expression1, args) {
     this.token = token1;
     this.expression = expression1;
     this.args = args;
   }
 
-  FunctionCall.prototype.evaluate = function(context, hold) {
-    var a, argv, child, f, id, j, k, len1, len2, object, ref, ref1, res, superClass;
+  FunctionCall.prototype.evaluate = function (context, hold) {
+    var a,
+      argv,
+      child,
+      f,
+      id,
+      j,
+      k,
+      len1,
+      len2,
+      object,
+      ref,
+      ref1,
+      res,
+      superClass;
     context.location = this;
     f = this.expression.evaluate(context, true);
     if (f != null) {
@@ -2529,7 +2761,12 @@ this.Program.FunctionCall = (function() {
           case 0:
             return f.call(this.expression.parentObject) || 0;
           case 1:
-            return f.call(this.expression.parentObject, this.args[0].evaluate(context, true)) || 0;
+            return (
+              f.call(
+                this.expression.parentObject,
+                this.args[0].evaluate(context, true)
+              ) || 0
+            );
           default:
             argv = [];
             ref = this.args;
@@ -2564,13 +2801,21 @@ this.Program.FunctionCall = (function() {
         context.superClass = superClass;
         return res;
       } else {
-        id = this.token.tokenizer.filename + "-" + this.token.line + "-" + this.token.column;
+        id =
+          this.token.tokenizer.filename +
+          "-" +
+          this.token.line +
+          "-" +
+          this.token.column;
         if (!context.warnings.invoking_non_function[id]) {
           context.warnings.invoking_non_function[id] = {
             file: this.token.tokenizer.filename,
             line: this.token.line,
             column: this.token.column,
-            expression: this.token.tokenizer.input.substring(this.expression.token.start, this.token.start - 1)
+            expression: this.token.tokenizer.input.substring(
+              this.expression.token.start,
+              this.token.start - 1
+            )
           };
         }
         return f;
@@ -2579,16 +2824,15 @@ this.Program.FunctionCall = (function() {
   };
 
   return FunctionCall;
-
 })();
 
-this.Program.CreateObject = (function() {
+this.Program.CreateObject = (function () {
   function CreateObject(token1, fields) {
     this.token = token1;
     this.fields = fields;
   }
 
-  CreateObject.prototype.evaluate = function(context) {
+  CreateObject.prototype.evaluate = function (context) {
     var f, j, len1, ref, res;
     res = {};
     ref = this.fields;
@@ -2600,17 +2844,16 @@ this.Program.CreateObject = (function() {
   };
 
   return CreateObject;
-
 })();
 
-this.Program.CreateClass = (function() {
+this.Program.CreateClass = (function () {
   function CreateClass(token1, ext, fields) {
     this.token = token1;
     this.ext = ext;
     this.fields = fields;
   }
 
-  CreateClass.prototype.evaluate = function(context) {
+  CreateClass.prototype.evaluate = function (context) {
     var e, f, j, len1, ref, res;
     res = {};
     ref = this.fields;
@@ -2630,11 +2873,10 @@ this.Program.CreateClass = (function() {
   };
 
   return CreateClass;
-
 })();
 
-this.Program.resolveParentClass = function(obj, context) {
-  if ((obj["class"] != null) && typeof obj["class"] === "string") {
+this.Program.resolveParentClass = function (obj, context) {
+  if (obj["class"] != null && typeof obj["class"] === "string") {
     if (context.global[obj["class"]] != null) {
       obj["class"] = context.global[obj["class"]];
     }
@@ -2644,16 +2886,20 @@ this.Program.resolveParentClass = function(obj, context) {
   }
 };
 
-this.Program.NewCall = (function() {
+this.Program.NewCall = (function () {
   function NewCall(token1, expression1) {
     this.token = token1;
     this.expression = expression1;
     if (!(this.expression instanceof Program.FunctionCall)) {
-      this.expression = new Program.FunctionCall(this.token, this.expression, []);
+      this.expression = new Program.FunctionCall(
+        this.token,
+        this.expression,
+        []
+      );
     }
   }
 
-  NewCall.prototype.evaluate = function(context) {
+  NewCall.prototype.evaluate = function (context) {
     var a, argv, c, child, f, fc, j, len1, object, ref, res, superClass;
     res = {};
     if (this.expression instanceof Program.FunctionCall) {
@@ -2678,12 +2924,12 @@ this.Program.NewCall = (function() {
           context.object = res;
           context.childName = "constructor";
           c = f.constructor;
-          while ((c == null) && (f.data != null)) {
+          while (c == null && f.data != null) {
             f = f.data;
             c = f.constructor;
           }
           context.superClass = f["class"];
-          if ((c != null) && c instanceof Program.Function) {
+          if (c != null && c instanceof Program.Function) {
             c.call(context, argv, false);
           }
           context.object = object;
@@ -2699,11 +2945,10 @@ this.Program.NewCall = (function() {
   };
 
   return NewCall;
-
 })();
 
 this.Program.BinaryOps = {
-  "+": function(context, a, b) {
+  "+": function (context, a, b) {
     var key, res, value;
     a = a.evaluate(context, true);
     b = b.evaluate(context, true);
@@ -2721,24 +2966,24 @@ this.Program.BinaryOps = {
       }
       return res;
     }
-    return (a + b) || 0;
+    return a + b || 0;
   },
-  "*": function(context, a, b) {
-    return (a.evaluate(context, true) * b.evaluate(context, true)) || 0;
+  "*": function (context, a, b) {
+    return a.evaluate(context, true) * b.evaluate(context, true) || 0;
   },
-  "-": function(context, a, b) {
-    return (a.evaluate(context, true) - b.evaluate(context, true)) || 0;
+  "-": function (context, a, b) {
+    return a.evaluate(context, true) - b.evaluate(context, true) || 0;
   },
-  "/": function(context, a, b) {
-    return (a.evaluate(context, true) / b.evaluate(context, true)) || 0;
+  "/": function (context, a, b) {
+    return a.evaluate(context, true) / b.evaluate(context, true) || 0;
   },
-  "%": function(context, a, b) {
-    return (a.evaluate(context, true) % b.evaluate(context, true)) || 0;
+  "%": function (context, a, b) {
+    return a.evaluate(context, true) % b.evaluate(context, true) || 0;
   },
-  "^": function(context, a, b) {
-    return (Math.pow(a.evaluate(context, true), b.evaluate(context, true))) || 0;
+  "^": function (context, a, b) {
+    return Math.pow(a.evaluate(context, true), b.evaluate(context, true)) || 0;
   },
-  "and": function(context, a, b) {
+  and: function (context, a, b) {
     if (a.evaluate(context, true)) {
       if (b.evaluate(context, true)) {
         return 1;
@@ -2749,7 +2994,7 @@ this.Program.BinaryOps = {
       return 0;
     }
   },
-  "or": function(context, a, b) {
+  or: function (context, a, b) {
     if (a.evaluate(context, true)) {
       return 1;
     } else {
@@ -2760,42 +3005,42 @@ this.Program.BinaryOps = {
       }
     }
   },
-  "==": function(context, a, b) {
-    if (a.evaluate(context,true) == b.evaluate(context,true)) {
+  "==": function (context, a, b) {
+    if (a.evaluate(context, true) == b.evaluate(context, true)) {
       return 1;
     } else {
       return 0;
     }
   },
-  "!=": function(context, a, b) {
-    if (a.evaluate(context,true) != b.evaluate(context,true)) {
+  "!=": function (context, a, b) {
+    if (a.evaluate(context, true) != b.evaluate(context, true)) {
       return 1;
     } else {
       return 0;
     }
   },
-  "<": function(context, a, b) {
+  "<": function (context, a, b) {
     if (a.evaluate(context, true) < b.evaluate(context, true)) {
       return 1;
     } else {
       return 0;
     }
   },
-  ">": function(context, a, b) {
+  ">": function (context, a, b) {
     if (a.evaluate(context, true) > b.evaluate(context, true)) {
       return 1;
     } else {
       return 0;
     }
   },
-  "<=": function(context, a, b) {
+  "<=": function (context, a, b) {
     if (a.evaluate(context, true) <= b.evaluate(context, true)) {
       return 1;
     } else {
       return 0;
     }
   },
-  ">=": function(context, a, b) {
+  ">=": function (context, a, b) {
     if (a.evaluate(context, true) >= b.evaluate(context, true)) {
       return 1;
     } else {
@@ -2817,19 +3062,20 @@ this.Program.Precedence = {
   ">=": 13,
   "==": 12,
   "!=": 11,
-  "and": 10,
-  "or": 9
+  and: 10,
+  or: 9
 };
 
 var JSTranspiler;
 
-JSTranspiler = (function() {
+JSTranspiler = (function () {
   function JSTranspiler(program, strict) {
     var context, i, indent, j, k, l, len, len1, line, m, ref, ref1, ref2, s;
     this.program = program;
     this.strict = strict != null ? strict : 0;
     this.code_saves = [];
-    this.code = "var _msResolveVariable = function(v) {\n  let res = context.meta[v] ;\n  if (res == null) {\n    res = context.object[v] ;\n    if (res == null) {\n      res = context.global[v] ;\n    }\n  }\n  return res == null? 0 : res ;\n};\n\nvar _msResolveField = function(v,f) {\n  var res = v[f];\n  return res!=null? res: 0 ;\n} ;\n\nvar _msApply = function(parent,field, ...args) {\n  let save = context.object ;\n  context.object = parent ;\n  let f = parent[field] ;\n  let res = 0 ;\n  if (f != null) {\n    if (typeof f == \"function\") {\n      let res = f.apply(null,args) ;\n      context.object = save ;\n    }\n    else {\n      res = f ;\n    }\n  }\n\n  context.object = save ;\n  if (res != null)\n    return res ;\n  else\n    return 0 ;\n};\n\n";
+    this.code =
+      'var _msResolveVariable = function(v) {\n  let res = context.meta[v] ;\n  if (res == null) {\n    res = context.object[v] ;\n    if (res == null) {\n      res = context.global[v] ;\n    }\n  }\n  return res == null? 0 : res ;\n};\n\nvar _msResolveField = function(v,f) {\n  var res = v[f];\n  return res!=null? res: 0 ;\n} ;\n\nvar _msApply = function(parent,field, ...args) {\n  let save = context.object ;\n  context.object = parent ;\n  let f = parent[field] ;\n  let res = 0 ;\n  if (f != null) {\n    if (typeof f == "function") {\n      let res = f.apply(null,args) ;\n      context.object = save ;\n    }\n    else {\n      res = f ;\n    }\n  }\n\n  context.object = save ;\n  if (res != null)\n    return res ;\n  else\n    return 0 ;\n};\n\n';
     this.code = [this.code];
     context = {
       local_variables: {},
@@ -2862,7 +3108,7 @@ JSTranspiler = (function() {
     console.info(this.code);
   }
 
-  JSTranspiler.prototype.transpile = function(statement, context, retain) {
+  JSTranspiler.prototype.transpile = function (statement, context, retain) {
     if (statement instanceof Program.Assignment) {
       return this.transpileAssignment(statement, context, retain);
     } else if (statement instanceof Program.Operation) {
@@ -2886,63 +3132,138 @@ JSTranspiler = (function() {
     }
   };
 
-  JSTranspiler.prototype.transpileAssignment = function(statement, context, retain) {
-    var c, chain, f, i, j, k, len, len1, len2, m, n, recipient, ref, ref1, ref2, ref3, tmpstart;
+  JSTranspiler.prototype.transpileAssignment = function (
+    statement,
+    context,
+    retain
+  ) {
+    var c,
+      chain,
+      f,
+      i,
+      j,
+      k,
+      len,
+      len1,
+      len2,
+      m,
+      n,
+      recipient,
+      ref,
+      ref1,
+      ref2,
+      ref3,
+      tmpstart;
     if (statement.local) {
       if (statement.field instanceof Program.Variable) {
         context.local_variables[statement.field.identifier] = true;
-        return "let " + statement.field.identifier + " = " + (this.transpile(statement.expression, context)) + " ;\n";
+        return (
+          "let " +
+          statement.field.identifier +
+          " = " +
+          this.transpile(statement.expression, context) +
+          " ;\n"
+        );
       } else {
         throw "illegal";
       }
     } else {
       if (statement.field instanceof Program.Variable) {
         if (context.local_variables[statement.field.identifier]) {
-          return statement.field.identifier + " = " + (this.transpile(statement.expression, context, true)) + (retain ? "" : ";");
+          return (
+            statement.field.identifier +
+            " = " +
+            this.transpile(statement.expression, context, true) +
+            (retain ? "" : ";")
+          );
         } else {
-          return "context.object[\"" + statement.field.identifier + "\"] = " + (this.transpile(statement.expression, context, true));
+          return (
+            'context.object["' +
+            statement.field.identifier +
+            '"] = ' +
+            this.transpile(statement.expression, context, true)
+          );
         }
       } else {
         f = statement.field;
         if (f.expression instanceof Program.Variable) {
           if (context.local_variables[f.expression.identifier]) {
-            this.code.push("if (" + f.expression.identifier + " == null) {" + f.expression.identifier + " = {};}");
+            this.code.push(
+              "if (" +
+                f.expression.identifier +
+                " == null) {" +
+                f.expression.identifier +
+                " = {};}"
+            );
             recipient = f.expression.identifier;
             ref = f.chain;
             for (j = 0, len = ref.length; j < len; j++) {
               c = ref[j];
-              recipient = recipient + "[" + (this.transpile(c)) + "]";
+              recipient = recipient + "[" + this.transpile(c) + "]";
             }
-            return recipient + " = " + (this.transpile(statement.expression, context, true)) + (retain ? "" : ";");
+            return (
+              recipient +
+              " = " +
+              this.transpile(statement.expression, context, true) +
+              (retain ? "" : ";")
+            );
           } else {
-            this.code.push("if (context.object[\"" + f.expression.identifier + "\"] == null) {context.object[\"" + f.expression.identifier + "\"] = {};}");
-            recipient = "context.object[\"" + f.expression.identifier + "\"]";
+            this.code.push(
+              'if (context.object["' +
+                f.expression.identifier +
+                '"] == null) {context.object["' +
+                f.expression.identifier +
+                '"] = {};}'
+            );
+            recipient = 'context.object["' + f.expression.identifier + '"]';
             if (f.chain.length > 1) {
               tmpstart = context.tmpcount;
               chain = recipient;
-              for (i = k = 0, ref1 = f.chain.length - 2; k <= ref1; i = k += 1) {
-                this.code.push("var _tmp" + context.tmpcount + " = " + (this.transpile(f.chain[i], context, true)) + " ;");
+              for (
+                i = k = 0, ref1 = f.chain.length - 2;
+                k <= ref1;
+                i = k += 1
+              ) {
+                this.code.push(
+                  "var _tmp" +
+                    context.tmpcount +
+                    " = " +
+                    this.transpile(f.chain[i], context, true) +
+                    " ;"
+                );
                 chain += "[_tmp" + context.tmpcount + "]";
                 context.tmpcount += 1;
-                this.code.push("if (" + chain + " == null) {" + chain + " = {} ;}");
+                this.code.push(
+                  "if (" + chain + " == null) {" + chain + " = {} ;}"
+                );
               }
               ref2 = f.chain;
               for (i = m = 0, len1 = ref2.length; m < len1; i = ++m) {
                 c = ref2[i];
                 if (i < f.chain.length - 1) {
-                  recipient += "[_tmp" + (tmpstart++) + "]";
+                  recipient += "[_tmp" + tmpstart++ + "]";
                 } else {
-                  recipient += "[" + (this.transpile(c, context, true)) + "]";
+                  recipient += "[" + this.transpile(c, context, true) + "]";
                 }
               }
-              return recipient + " = " + (this.transpile(statement.expression, context, true)) + (retain ? "" : ";");
+              return (
+                recipient +
+                " = " +
+                this.transpile(statement.expression, context, true) +
+                (retain ? "" : ";")
+              );
             } else {
               ref3 = f.chain;
               for (n = 0, len2 = ref3.length; n < len2; n++) {
                 c = ref3[n];
-                recipient += "[" + (this.transpile(c, context, true)) + "]";
+                recipient += "[" + this.transpile(c, context, true) + "]";
               }
-              return recipient + " = " + (this.transpile(statement.expression, context, true)) + (retain ? "" : ";");
+              return (
+                recipient +
+                " = " +
+                this.transpile(statement.expression, context, true) +
+                (retain ? "" : ";")
+              );
             }
           }
         }
@@ -2950,40 +3271,104 @@ JSTranspiler = (function() {
     }
   };
 
-  JSTranspiler.prototype.transpileOperation = function(op, context) {
+  JSTranspiler.prototype.transpileOperation = function (op, context) {
     var ref;
-    if ((ref = op.operation) === "+" || ref === "-" || ref === "*" || ref === "/" || ref === "%") {
-      return this.transpile(op.term1, context, true) + op.operation + this.transpile(op.term2, context, true);
+    if (
+      (ref = op.operation) === "+" ||
+      ref === "-" ||
+      ref === "*" ||
+      ref === "/" ||
+      ref === "%"
+    ) {
+      return (
+        this.transpile(op.term1, context, true) +
+        op.operation +
+        this.transpile(op.term2, context, true)
+      );
     } else if (op.operation === "==") {
-      return "(" + (this.transpile(op.term1, context, true)) + " == " + (this.transpile(op.term2, context["true"])) + ")? 1 : 0";
+      return (
+        "(" +
+        this.transpile(op.term1, context, true) +
+        " == " +
+        this.transpile(op.term2, context["true"]) +
+        ")? 1 : 0"
+      );
     } else if (op.operation === "!=") {
-      return "(" + (this.transpile(op.term1, context, true)) + " != " + (this.transpile(op.term2, context["true"])) + ")? 1 : 0";
+      return (
+        "(" +
+        this.transpile(op.term1, context, true) +
+        " != " +
+        this.transpile(op.term2, context["true"]) +
+        ")? 1 : 0"
+      );
     } else if (op.operation === "<") {
-      return "(" + (this.transpile(op.term1, context, true)) + " < " + (this.transpile(op.term2, context["true"])) + ")? 1 : 0";
+      return (
+        "(" +
+        this.transpile(op.term1, context, true) +
+        " < " +
+        this.transpile(op.term2, context["true"]) +
+        ")? 1 : 0"
+      );
     } else if (op.operation === ">") {
-      return "(" + (this.transpile(op.term1, context, true)) + " > " + (this.transpile(op.term2, context["true"])) + ")? 1 : 0";
+      return (
+        "(" +
+        this.transpile(op.term1, context, true) +
+        " > " +
+        this.transpile(op.term2, context["true"]) +
+        ")? 1 : 0"
+      );
     } else if (op.operation === "<=") {
-      return "(" + (this.transpile(op.term1, context, true)) + " <= " + (this.transpile(op.term2, context["true"])) + ")? 1 : 0";
+      return (
+        "(" +
+        this.transpile(op.term1, context, true) +
+        " <= " +
+        this.transpile(op.term2, context["true"]) +
+        ")? 1 : 0"
+      );
     } else if (op.operation === ">=") {
-      return "(" + (this.transpile(op.term1, context, true)) + " >= " + (this.transpile(op.term2, context["true"])) + ")? 1 : 0";
+      return (
+        "(" +
+        this.transpile(op.term1, context, true) +
+        " >= " +
+        this.transpile(op.term2, context["true"]) +
+        ")? 1 : 0"
+      );
     } else if (op.operation === "and") {
-      return "(" + (this.transpile(op.term1, context, true)) + " && " + (this.transpile(op.term2, context["true"])) + ")? 1 : 0";
+      return (
+        "(" +
+        this.transpile(op.term1, context, true) +
+        " && " +
+        this.transpile(op.term2, context["true"]) +
+        ")? 1 : 0"
+      );
     } else if (op.operation === "or") {
-      return "(" + (this.transpile(op.term1, context, true)) + " || " + (this.transpile(op.term2, context["true"])) + ")? 1 : 0";
+      return (
+        "(" +
+        this.transpile(op.term1, context, true) +
+        " || " +
+        this.transpile(op.term2, context["true"]) +
+        ")? 1 : 0"
+      );
     } else if (op.operation === "^") {
-      return "Math.pow(" + (this.transpile(op.term1, context, true)) + "," + (this.transpile(op.term2, context["true"])) + ")";
+      return (
+        "Math.pow(" +
+        this.transpile(op.term1, context, true) +
+        "," +
+        this.transpile(op.term2, context["true"]) +
+        ")"
+      );
     } else {
       return "";
     }
   };
 
-  JSTranspiler.prototype.transpileValue = function(value, context) {
+  JSTranspiler.prototype.transpileValue = function (value, context) {
     var e, i, j, len, ref, res;
     switch (value.type) {
       case Program.Value.TYPE_NUMBER:
         return "" + value.value;
       case Program.Value.TYPE_STRING:
-        return "\"" + value.value + "\"";
+        return '"' + value.value + '"';
       case Program.Value.TYPE_ARRAY:
         res = "[";
         ref = value.value;
@@ -2999,17 +3384,17 @@ JSTranspiler = (function() {
     }
   };
 
-  JSTranspiler.prototype.transpileVariable = function(variable, context) {
+  JSTranspiler.prototype.transpileVariable = function (variable, context) {
     var v;
     v = variable.identifier;
     if (context.local_variables[v]) {
       return "" + v;
     } else {
-      return "_msResolveVariable(\"" + v + "\")";
+      return '_msResolveVariable("' + v + '")';
     }
   };
 
-  JSTranspiler.prototype.transpileField = function(field, context) {
+  JSTranspiler.prototype.transpileField = function (field, context) {
     var c, j, k, len, len1, ref, ref1, res;
     switch (this.strict) {
       case 2:
@@ -3017,7 +3402,12 @@ JSTranspiler = (function() {
         ref = field.chain;
         for (j = 0, len = ref.length; j < len; j++) {
           c = ref[j];
-          res = "_msResolveField(" + res + "," + (this.transpile(c, context, true)) + ")";
+          res =
+            "_msResolveField(" +
+            res +
+            "," +
+            this.transpile(c, context, true) +
+            ")";
         }
         return res;
       default:
@@ -3025,27 +3415,37 @@ JSTranspiler = (function() {
         ref1 = field.chain;
         for (k = 0, len1 = ref1.length; k < len1; k++) {
           c = ref1[k];
-          res = "_msResolveField(" + res + "," + (this.transpile(c, context, true)) + ")";
+          res =
+            "_msResolveField(" +
+            res +
+            "," +
+            this.transpile(c, context, true) +
+            ")";
         }
         return res;
     }
   };
 
-  JSTranspiler.prototype.transpileFieldParent = function(field, context) {
+  JSTranspiler.prototype.transpileFieldParent = function (field, context) {
     var c, i, j, ref, res;
     res = this.transpile(field.expression, context, true);
     for (i = j = 0, ref = field.chain.length - 2; j <= ref; i = j += 1) {
       c = field.chain[i];
-      res = "_msResolveField(" + res + "," + (this.transpile(c, context, true)) + ")";
+      res =
+        "_msResolveField(" + res + "," + this.transpile(c, context, true) + ")";
     }
     return res;
   };
 
-  JSTranspiler.prototype.transpileFunctionCall = function(call, context) {
+  JSTranspiler.prototype.transpileFunctionCall = function (call, context) {
     var a, field, i, j, k, len, len1, parent, ref, ref1, res;
     if (call.expression instanceof Program.Field) {
       parent = this.transpileFieldParent(call.expression, context);
-      field = this.transpile(call.expression.chain[call.expression.chain.length - 1], context, true);
+      field = this.transpile(
+        call.expression.chain[call.expression.chain.length - 1],
+        context,
+        true
+      );
       res = "_msApply(" + parent + "," + field;
       ref = call.args;
       for (i = j = 0, len = ref.length; j < len; i = ++j) {
@@ -3056,7 +3456,10 @@ JSTranspiler = (function() {
       res += ")";
       return res;
     } else {
-      if (call.expression instanceof Program.Variable && (JSTranspiler.predefined_functions[call.expression.identifier] != null)) {
+      if (
+        call.expression instanceof Program.Variable &&
+        JSTranspiler.predefined_functions[call.expression.identifier] != null
+      ) {
         res = JSTranspiler.predefined_functions[call.expression.identifier];
       } else {
         res = this.transpile(call.expression, context, true);
@@ -3078,11 +3481,15 @@ JSTranspiler = (function() {
     }
   };
 
-  JSTranspiler.prototype.transpileSequence = function(sequence, context, retain) {
+  JSTranspiler.prototype.transpileSequence = function (
+    sequence,
+    context,
+    retain
+  ) {
     var i, j, len, res, s;
     for (i = j = 0, len = sequence.length; j < len; i = ++j) {
       s = sequence[i];
-      res = this.transpile(s, context, (i === sequence.length - 1) && retain);
+      res = this.transpile(s, context, i === sequence.length - 1 && retain);
       if (i < sequence.length - 1) {
         this.prepend(res + " ;");
       }
@@ -3090,30 +3497,78 @@ JSTranspiler = (function() {
     return res;
   };
 
-  JSTranspiler.prototype.transpileFor = function(forloop, context, retain) {
+  JSTranspiler.prototype.transpileFor = function (forloop, context, retain) {
     var range_by, range_from, range_to, res, timeout_count;
     range_from = "_tmp" + context.tmpcount++;
     range_to = "_tmp" + context.tmpcount++;
     range_by = "_tmp" + context.tmpcount++;
     timeout_count = "_tmp" + context.tmpcount++;
-    this.code.push("var " + range_from + " = " + (this.transpile(forloop.range_from, context, true)) + " ;");
-    this.code.push("var " + range_to + " = " + (this.transpile(forloop.range_to, context, true)) + " ;");
+    this.code.push(
+      "var " +
+        range_from +
+        " = " +
+        this.transpile(forloop.range_from, context, true) +
+        " ;"
+    );
+    this.code.push(
+      "var " +
+        range_to +
+        " = " +
+        this.transpile(forloop.range_to, context, true) +
+        " ;"
+    );
     this.code.push("var " + timeout_count + " = 0 ;");
     if (forloop.range_by !== 0) {
-      this.code.push("var " + range_by + " = " + (this.transpile(forloop.range_by, context, true)) + " ;");
+      this.code.push(
+        "var " +
+          range_by +
+          " = " +
+          this.transpile(forloop.range_by, context, true) +
+          " ;"
+      );
     } else {
-      this.code.push("var " + range_by + " = " + range_from + "<" + range_to + " ? 1 : -1 ;");
+      this.code.push(
+        "var " + range_by + " = " + range_from + "<" + range_to + " ? 1 : -1 ;"
+      );
     }
     context.local_variables[forloop.iterator] = true;
-    res = "for (let " + forloop.iterator + "=" + range_from + " ; " + range_by + ">0?" + forloop.iterator + "<=" + range_to + ":" + forloop.iterator + ">=" + range_to + " ; " + forloop.iterator + "+=" + range_by + ") {\n";
+    res =
+      "for (let " +
+      forloop.iterator +
+      "=" +
+      range_from +
+      " ; " +
+      range_by +
+      ">0?" +
+      forloop.iterator +
+      "<=" +
+      range_to +
+      ":" +
+      forloop.iterator +
+      ">=" +
+      range_to +
+      " ; " +
+      forloop.iterator +
+      "+=" +
+      range_by +
+      ") {\n";
     res += this.transpileSequence(forloop.sequence, context);
-    res += "\nif (" + timeout_count + "++>1000) {\n  " + timeout_count + " = 0 ;\n  if (Date.now()>context.timeout) {\n    context.location = {\n      token: {\n        line: " + forloop.token.line + ",\n        column: " + forloop.token.column + "\n      }\n    }\n    throw('Timeout');\n  }\n}";
+    res +=
+      "\nif (" +
+      timeout_count +
+      "++>1000) {\n  " +
+      timeout_count +
+      " = 0 ;\n  if (Date.now()>context.timeout) {\n    context.location = {\n      token: {\n        line: " +
+      forloop.token.line +
+      ",\n        column: " +
+      forloop.token.column +
+      "\n      }\n    }\n    throw('Timeout');\n  }\n}";
     res += "\n}";
     this.code.push(res);
     return "0";
   };
 
-  JSTranspiler.prototype.transpileFunction = function(func, context) {
+  JSTranspiler.prototype.transpileFunction = function (func, context) {
     var a, i, j, k, len, len1, ref, ref1, res, save;
     save = context.local_variables;
     context.local_variables = {};
@@ -3134,7 +3589,15 @@ JSTranspiler = (function() {
     for (i = k = 0, len1 = ref1.length; k < len1; i = ++k) {
       a = ref1[i];
       if (a["default"] != null) {
-        this.prepend("if (" + a.name + " == null) " + a.name + " = " + (this.transpile(a["default"])) + " ;");
+        this.prepend(
+          "if (" +
+            a.name +
+            " == null) " +
+            a.name +
+            " = " +
+            this.transpile(a["default"]) +
+            " ;"
+        );
       }
     }
     res = this.transpileSequence(func.sequence, context, true);
@@ -3144,49 +3607,55 @@ JSTranspiler = (function() {
     return this.closeBlockNoPush();
   };
 
-  JSTranspiler.prototype.transpileReturn = function(ret, context) {
+  JSTranspiler.prototype.transpileReturn = function (ret, context) {
     if (ret.expression != null) {
-      return "return " + (this.transpile(ret.expression, context, true)) + " ;";
+      return "return " + this.transpile(ret.expression, context, true) + " ;";
     } else {
       return "return ;";
     }
   };
 
-  JSTranspiler.prototype.returnify = function() {
-    return this.code[this.code.length - 1] = "return " + this.code[this.code.length - 1];
+  JSTranspiler.prototype.returnify = function () {
+    return (this.code[this.code.length - 1] =
+      "return " + this.code[this.code.length - 1]);
   };
 
-  JSTranspiler.prototype.prepend = function(line) {
+  JSTranspiler.prototype.prepend = function (line) {
     return this.code.push(line);
   };
 
-  JSTranspiler.prototype.openBlock = function() {
+  JSTranspiler.prototype.openBlock = function () {
     this.code_saves.push(this.code);
-    return this.code = [];
+    return (this.code = []);
   };
 
-  JSTranspiler.prototype.closeBlock = function() {
+  JSTranspiler.prototype.closeBlock = function () {
     var append;
     append = this.code.join("\n");
     this.code = this.code_saves.splice(this.code_saves.length - 1, 1)[0];
     return this.code.push(append);
   };
 
-  JSTranspiler.prototype.closeBlockNoPush = function() {
+  JSTranspiler.prototype.closeBlockNoPush = function () {
     var append;
     append = this.code.join("\n");
     this.code = this.code_saves.splice(this.code_saves.length - 1, 1)[0];
     return append;
   };
 
-  JSTranspiler.prototype.createTempVariable = function(context) {
+  JSTranspiler.prototype.createTempVariable = function (context) {
     return "__temp_" + context.temp_variable_count++;
   };
 
-  JSTranspiler.prototype.transpileConditionCase = function(chain, index, context, temp) {
+  JSTranspiler.prototype.transpileConditionCase = function (
+    chain,
+    index,
+    context,
+    temp
+  ) {
     var c, res;
     c = chain[index];
-    this.prepend("if (" + (this.transpile(c.condition, context, true)) + ") {");
+    this.prepend("if (" + this.transpile(c.condition, context, true) + ") {");
     this.openBlock();
     res = this.transpileSequence(c.sequence, context, temp != null);
     this.closeBlock();
@@ -3216,7 +3685,11 @@ JSTranspiler = (function() {
     }
   };
 
-  JSTranspiler.prototype.transpileCondition = function(condition, context, retain) {
+  JSTranspiler.prototype.transpileCondition = function (
+    condition,
+    context,
+    retain
+  ) {
     var temp;
     temp = null;
     if (retain) {
@@ -3231,21 +3704,52 @@ JSTranspiler = (function() {
     }
   };
 
-  JSTranspiler.prototype.exec = function(context) {
+  JSTranspiler.prototype.exec = function (context) {
     eval("var f = function(context) {" + this.code + " }");
     return f(context);
   };
 
   JSTranspiler.predefined_functions = {
-    "abs": "Math.abs",
-    "max": "Math.max"
+    abs: "Math.abs",
+    max: "Math.max"
   };
 
   return JSTranspiler;
-
 })();
 
-this.Runtime = (function() {
+this.Connection = (function () {
+  class Connection {
+    constructor(runtime) {
+      this.runtime = runtime;
+    }
+
+    connect() {
+      this.socket = io();
+    }
+
+    send(message, value) {
+      this.socket.emit(message, value);
+    }
+
+    listen(message, callback) {
+      this.socket.on(message, (val) => {
+        this.runtime.vm.context.global[callback].evaluate(val);
+      });
+    }
+
+    getInterface() {
+      return {
+        connect: this.connect.bind(this),
+        send: this.send.bind(this),
+        listen: this.listen.bind(this)
+      };
+    }
+  }
+
+  return Connection;
+})();
+
+this.Runtime = (function () {
   function Runtime(url1, sources, resources, listener) {
     this.url = url1;
     this.sources = sources;
@@ -3257,6 +3761,7 @@ this.Runtime = (function() {
       this.screen = new Screen(this);
     }
     this.audio = new AudioCore(this);
+    this.connection = new Connection(this);
     this.keyboard = new Keyboard();
     this.gamepad = new Gamepad();
     this.sprites = {};
@@ -3270,15 +3775,15 @@ this.Runtime = (function() {
     this.orientation = window.orientation;
     this.aspect = window.aspect;
     this.report_errors = true;
-    this.log = (function(_this) {
-      return function(text) {
+    this.log = (function (_this) {
+      return function (text) {
         return _this.listener.log(text);
       };
     })(this);
     this.update_memory = {};
   }
 
-  Runtime.prototype.updateSource = function(file, src, reinit) {
+  Runtime.prototype.updateSource = function (file, src, reinit) {
     var err, init, parser;
     if (reinit == null) {
       reinit = false;
@@ -3317,7 +3822,7 @@ this.Runtime = (function() {
         return false;
       }
       init = this.vm.context.global.init;
-      if ((init != null) && init.source !== this.previous_init && reinit) {
+      if (init != null && init.source !== this.previous_init && reinit) {
         this.previous_init = init.source;
         this.vm.call("init");
       }
@@ -3333,17 +3838,39 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.start = function() {
-    var i, j, k, key, l, len, len1, len2, len3, m, n, name, ref, ref1, ref2, ref3, ref4, s, value;
+  Runtime.prototype.start = function () {
+    var i,
+      j,
+      k,
+      key,
+      l,
+      len,
+      len1,
+      len2,
+      len3,
+      m,
+      n,
+      name,
+      ref,
+      ref1,
+      ref2,
+      ref3,
+      ref4,
+      s,
+      value;
     ref = this.resources.images;
     for (j = 0, len = ref.length; j < len; j++) {
       i = ref[j];
-      s = new Sprite(this.url + "sprites/" + i.file + "?v=" + i.version, null, i.properties);
+      s = new Sprite(
+        this.url + "sprites/" + i.file + "?v=" + i.version,
+        null,
+        i.properties
+      );
       name = i.file.split(".")[0];
       s.name = name;
       this.sprites[name] = s;
-      s.loaded = (function(_this) {
-        return function() {
+      s.loaded = (function (_this) {
+        return function () {
           _this.updateMaps();
           return _this.checkStartReady();
         };
@@ -3354,9 +3881,15 @@ this.Runtime = (function() {
       for (k = 0, len1 = ref1.length; k < len1; k++) {
         m = ref1[k];
         name = m.file.split(".")[0];
-        this.maps[name] = new MicroMap(this.url + ("maps/" + m.file + "?v=" + m.version), 0, 0, 0, this.sprites);
-        this.maps[name].loaded = (function(_this) {
-          return function() {
+        this.maps[name] = new MicroMap(
+          this.url + ("maps/" + m.file + "?v=" + m.version),
+          0,
+          0,
+          0,
+          this.sprites
+        );
+        this.maps[name].loaded = (function (_this) {
+          return function () {
             return _this.checkStartReady();
           };
         })(this);
@@ -3372,7 +3905,10 @@ this.Runtime = (function() {
     for (l = 0, len2 = ref3.length; l < len2; l++) {
       s = ref3[l];
       name = s.file.split(".")[0];
-      s = new Sound(this.audio, this.url + "sounds/" + s.file + "?v=" + s.version);
+      s = new Sound(
+        this.audio,
+        this.url + "sounds/" + s.file + "?v=" + s.version
+      );
       s.name = name;
       this.sounds[name] = s;
     }
@@ -3380,13 +3916,16 @@ this.Runtime = (function() {
     for (n = 0, len3 = ref4.length; n < len3; n++) {
       m = ref4[n];
       name = m.file.split(".")[0];
-      m = new Music(this.audio, this.url + "music/" + m.file + "?v=" + m.version);
+      m = new Music(
+        this.audio,
+        this.url + "music/" + m.file + "?v=" + m.version
+      );
       m.name = name;
       this.music[name] = m;
     }
   };
 
-  Runtime.prototype.checkStartReady = function() {
+  Runtime.prototype.checkStartReady = function () {
     var key, ref, ref1, value;
     if (!this.start_ready) {
       ref = this.sprites;
@@ -3408,11 +3947,11 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.startReady = function() {
+  Runtime.prototype.startReady = function () {
     var file, global, init, meta, namespace, ref, src;
     meta = {
-      print: (function(_this) {
-        return function(text) {
+      print: (function (_this) {
+        return function (text) {
           if (typeof text === "object") {
             text = Program.toString(text);
           }
@@ -3423,6 +3962,7 @@ this.Runtime = (function() {
     global = {
       screen: this.screen.getInterface(),
       audio: this.audio.getInterface(),
+      connection: this.connection.getInterface(),
       keyboard: this.keyboard.keyboard,
       gamepad: this.gamepad.status,
       sprites: this.sprites,
@@ -3433,6 +3973,7 @@ this.Runtime = (function() {
       mouse: this.mouse,
       fonts: window.fonts
     };
+
     if (window.graphics === "M3D") {
       global.M3D = new M3D(this);
     }
@@ -3452,15 +3993,17 @@ this.Runtime = (function() {
     this.last_time = Date.now();
     this.current_frame = 0;
     this.floating_frame = 0;
-    requestAnimationFrame((function(_this) {
-      return function() {
-        return _this.timer();
-      };
-    })(this));
+    requestAnimationFrame(
+      (function (_this) {
+        return function () {
+          return _this.timer();
+        };
+      })(this)
+    );
     return this.screen.startControl();
   };
 
-  Runtime.prototype.updateMaps = function() {
+  Runtime.prototype.updateMaps = function () {
     var key, map, ref;
     ref = this.maps;
     for (key in ref) {
@@ -3469,7 +4012,7 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.runCommand = function(command) {
+  Runtime.prototype.runCommand = function (command) {
     var err, parser, res, warnings;
     try {
       parser = new Parser(command);
@@ -3497,7 +4040,13 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.projectFileUpdated = function(type, file, version, data, properties) {
+  Runtime.prototype.projectFileUpdated = function (
+    type,
+    file,
+    version,
+    data,
+    properties
+  ) {
     switch (type) {
       case "sprites":
         return this.updateSprite(file, version, data, properties);
@@ -3508,7 +4057,7 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.projectFileDeleted = function(type, file) {
+  Runtime.prototype.projectFileDeleted = function (type, file) {
     switch (type) {
       case "sprites":
         return delete this.sprites[file.substring(0, file.length - 4)];
@@ -3517,69 +4066,73 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.projectOptionsUpdated = function(msg) {
+  Runtime.prototype.projectOptionsUpdated = function (msg) {
     this.orientation = msg.orientation;
     this.aspect = msg.aspect;
     return this.screen.resize();
   };
 
-  Runtime.prototype.updateSprite = function(name, version, data, properties) {
+  Runtime.prototype.updateSprite = function (name, version, data, properties) {
     var img;
     if (data != null) {
       data = "data:image/png;base64," + data;
       if (this.sprites[name] != null) {
-        img = new Image;
+        img = new Image();
         img.crossOrigin = "Anonymous";
         img.src = data;
-        return img.onload = (function(_this) {
-          return function() {
+        return (img.onload = (function (_this) {
+          return function () {
             _this.sprites[name].load(img, properties);
             return _this.updateMaps();
           };
-        })(this);
+        })(this));
       } else {
         this.sprites[name] = new Sprite(data, null, properties);
         this.sprites[name].name = name;
-        return this.sprites[name].loaded = (function(_this) {
-          return function() {
+        return (this.sprites[name].loaded = (function (_this) {
+          return function () {
             return _this.updateMaps();
           };
-        })(this);
+        })(this));
       }
     } else {
       if (this.sprites[name] != null) {
-        img = new Image;
+        img = new Image();
         img.crossOrigin = "Anonymous";
         img.src = this.url + "sprites/" + name + (".png?v=" + version);
-        return img.onload = (function(_this) {
-          return function() {
+        return (img.onload = (function (_this) {
+          return function () {
             _this.sprites[name].load(img, properties);
             return _this.updateMaps();
           };
-        })(this);
+        })(this));
       } else {
-        this.sprites[name] = new Sprite(this.url + "sprites/" + name + (".png?v=" + version), null, properties);
+        this.sprites[name] = new Sprite(
+          this.url + "sprites/" + name + (".png?v=" + version),
+          null,
+          properties
+        );
         this.sprites[name].name = name;
-        return this.sprites[name].loaded = (function(_this) {
-          return function() {
+        return (this.sprites[name].loaded = (function (_this) {
+          return function () {
             return _this.updateMaps();
           };
-        })(this);
+        })(this));
       }
     }
   };
 
-  Runtime.prototype.updateMap = function(name, version, data) {
+  Runtime.prototype.updateMap = function (name, version, data) {
     var m, url;
     if (data != null) {
       m = this.maps[name];
       if (m != null) {
         m.load(data, this.sprites);
-        return m.needs_update = true;
+        return (m.needs_update = true);
       } else {
         m = new MicroMap(1, 1, 1, 1, this.sprites);
         m.load(data, this.sprites);
-        return this.maps[name] = m;
+        return (this.maps[name] = m);
       }
     } else {
       url = this.url + ("maps/" + name + ".json?v=" + version);
@@ -3587,12 +4140,12 @@ this.Runtime = (function() {
       if (m != null) {
         return m.loadFile(url);
       } else {
-        return this.maps[name] = new MicroMap(url, 0, 0, 0, this.sprites);
+        return (this.maps[name] = new MicroMap(url, 0, 0, 0, this.sprites));
       }
     }
   };
 
-  Runtime.prototype.updateCode = function(name, version, data) {
+  Runtime.prototype.updateCode = function (name, version, data) {
     var req, url;
     if (data != null) {
       this.sources[name] = data;
@@ -3603,8 +4156,8 @@ this.Runtime = (function() {
     } else {
       url = this.url + ("ms/" + name + ".ms?v=" + version);
       req = new XMLHttpRequest();
-      req.onreadystatechange = (function(_this) {
-        return function(event) {
+      req.onreadystatechange = (function (_this) {
+        return function (event) {
           if (req.readyState === XMLHttpRequest.DONE) {
             if (req.status === 200) {
               _this.sources[name] = req.responseText;
@@ -3618,38 +4171,42 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.stop = function() {
+  Runtime.prototype.stop = function () {
     this.stopped = true;
     return this.audio.cancelBeeps();
   };
 
-  Runtime.prototype.resume = function() {
+  Runtime.prototype.resume = function () {
     this.stopped = false;
-    return requestAnimationFrame((function(_this) {
-      return function() {
-        return _this.timer();
-      };
-    })(this));
+    return requestAnimationFrame(
+      (function (_this) {
+        return function () {
+          return _this.timer();
+        };
+      })(this)
+    );
   };
 
-  Runtime.prototype.timer = function() {
+  Runtime.prototype.timer = function () {
     var ds, dt, i, j, ref, time;
     if (this.stopped) {
       return;
     }
-    requestAnimationFrame((function(_this) {
-      return function() {
-        return _this.timer();
-      };
-    })(this));
+    requestAnimationFrame(
+      (function (_this) {
+        return function () {
+          return _this.timer();
+        };
+      })(this)
+    );
     time = Date.now();
     if (Math.abs(time - this.last_time) > 1000) {
       this.last_time = time - 16;
     }
     dt = time - this.last_time;
-    this.dt = this.dt * .99 + dt * .01;
+    this.dt = this.dt * 0.99 + dt * 0.01;
     this.last_time = time;
-    this.floating_frame += this.dt * 60 / 1000;
+    this.floating_frame += (this.dt * 60) / 1000;
     ds = Math.min(30, Math.round(this.floating_frame - this.current_frame));
     for (i = j = 1, ref = ds; j <= ref; i = j += 1) {
       this.updateCall();
@@ -3658,7 +4215,7 @@ this.Runtime = (function() {
     return this.drawCall();
   };
 
-  Runtime.prototype.updateCall = function() {
+  Runtime.prototype.updateCall = function () {
     var err;
     this.updateControls();
     try {
@@ -3677,7 +4234,7 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.drawCall = function() {
+  Runtime.prototype.drawCall = function () {
     var err;
     try {
       this.screen.initDraw();
@@ -3697,7 +4254,7 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.reportWarnings = function() {
+  Runtime.prototype.reportWarnings = function () {
     var key, ref, ref1, ref2, results, value;
     if (this.vm != null) {
       ref = this.vm.context.warnings.invoking_non_function;
@@ -3736,14 +4293,16 @@ this.Runtime = (function() {
         value = ref2[key];
         if (!value.reported) {
           value.reported = true;
-          results.push(this.listener.reportError({
-            error: "",
-            type: "assigning_undefined",
-            expression: value.expression,
-            line: value.line,
-            column: value.column,
-            file: value.file
-          }));
+          results.push(
+            this.listener.reportError({
+              error: "",
+              type: "assigning_undefined",
+              expression: value.expression,
+              line: value.line,
+              column: value.column,
+              file: value.file
+            })
+          );
         } else {
           results.push(void 0);
         }
@@ -3752,7 +4311,7 @@ this.Runtime = (function() {
     }
   };
 
-  Runtime.prototype.updateControls = function() {
+  Runtime.prototype.updateControls = function () {
     var err, j, key, len, t, touches;
     touches = Object.keys(this.screen.touches);
     this.touch.touching = touches.length > 0;
@@ -3795,21 +4354,21 @@ this.Runtime = (function() {
     this.gamepad.update();
     this.keyboard.update();
     try {
-      this.vm.context.global.system.inputs.gamepad = this.gamepad.count > 0 ? 1 : 0;
+      this.vm.context.global.system.inputs.gamepad =
+        this.gamepad.count > 0 ? 1 : 0;
     } catch (error) {
       err = error;
     }
   };
 
-  Runtime.prototype.getAssetURL = function(asset) {
+  Runtime.prototype.getAssetURL = function (asset) {
     return this.url + "assets/" + asset + ".glb";
   };
 
   return Runtime;
-
 })();
 
-this.Screen = (function() {
+this.Screen = (function () {
   function Screen(runtime) {
     this.runtime = runtime;
     this.canvas = document.createElement("canvas");
@@ -3832,44 +4391,56 @@ this.Screen = (function() {
     this.font = "BitCell";
     this.initContext();
     this.cursor = "default";
-    this.canvas.addEventListener("mousemove", (function(_this) {
-      return function() {
-        _this.last_mouse_move = Date.now();
-        if (_this.cursor !== "default" && _this.cursor_visibility === "auto") {
-          _this.cursor = "default";
-          return _this.canvas.style.cursor = "default";
-        }
-      };
-    })(this));
-    setInterval(((function(_this) {
-      return function() {
-        return _this.checkMouseCursor();
-      };
-    })(this)), 1000);
+    this.canvas.addEventListener(
+      "mousemove",
+      (function (_this) {
+        return function () {
+          _this.last_mouse_move = Date.now();
+          if (
+            _this.cursor !== "default" &&
+            _this.cursor_visibility === "auto"
+          ) {
+            _this.cursor = "default";
+            return (_this.canvas.style.cursor = "default");
+          }
+        };
+      })(this)
+    );
+    setInterval(
+      (function (_this) {
+        return function () {
+          return _this.checkMouseCursor();
+        };
+      })(this),
+      1000
+    );
     this.cursor_visibility = "auto";
   }
 
-  Screen.prototype.checkMouseCursor = function() {
-    if (Date.now() > this.last_mouse_move + 4000 && this.cursor_visibility === "auto") {
+  Screen.prototype.checkMouseCursor = function () {
+    if (
+      Date.now() > this.last_mouse_move + 4000 &&
+      this.cursor_visibility === "auto"
+    ) {
       if (this.cursor !== "none") {
         this.cursor = "none";
-        return this.canvas.style.cursor = "none";
+        return (this.canvas.style.cursor = "none");
       }
     }
   };
 
-  Screen.prototype.setCursorVisible = function(visible) {
+  Screen.prototype.setCursorVisible = function (visible) {
     this.cursor_visibility = visible;
     if (visible) {
       this.cursor = "default";
-      return this.canvas.style.cursor = "default";
+      return (this.canvas.style.cursor = "default");
     } else {
       this.cursor = "none";
-      return this.canvas.style.cursor = "none";
+      return (this.canvas.style.cursor = "none");
     }
   };
 
-  Screen.prototype.initContext = function() {
+  Screen.prototype.initContext = function () {
     var c, ratio;
     c = this.canvas.getContext("2d", {
       alpha: false
@@ -3891,114 +4462,114 @@ this.Screen = (function() {
     this.object_scale_x = 1;
     this.object_scale_y = 1;
     this.context.lineCap = "round";
-    return this.blending = {
+    return (this.blending = {
       normal: "source-over",
       additive: "lighter"
-    };
+    });
   };
 
-  Screen.prototype.getInterface = function() {
+  Screen.prototype.getInterface = function () {
     var screen;
     if (this["interface"] != null) {
       return this["interface"];
     }
     screen = this;
-    return this["interface"] = {
+    return (this["interface"] = {
       width: this.width,
       height: this.height,
-      clear: function(color) {
+      clear: function (color) {
         return screen.clear(color);
       },
-      setColor: function(color) {
+      setColor: function (color) {
         return screen.setColor(color);
       },
-      setAlpha: function(alpha) {
+      setAlpha: function (alpha) {
         return screen.setAlpha(alpha);
       },
-      setBlending: function(blending) {
+      setBlending: function (blending) {
         return screen.setBlending(blending);
       },
-      setLinearGradient: function(x1, y1, x2, y2, c1, c2) {
+      setLinearGradient: function (x1, y1, x2, y2, c1, c2) {
         return screen.setLinearGradient(x1, y1, x2, y2, c1, c2);
       },
-      setRadialGradient: function(x, y, radius, c1, c2) {
+      setRadialGradient: function (x, y, radius, c1, c2) {
         return screen.setRadialGradient(x, y, radius, c1, c2);
       },
-      setFont: function(font) {
+      setFont: function (font) {
         return screen.setFont(font);
       },
-      setTranslation: function(tx, ty) {
+      setTranslation: function (tx, ty) {
         return screen.setTranslation(tx, ty);
       },
-      setDrawAnchor: function(ax, ay) {
+      setDrawAnchor: function (ax, ay) {
         return screen.setDrawAnchor(ax, ay);
       },
-      setDrawRotation: function(rotation) {
+      setDrawRotation: function (rotation) {
         return screen.setDrawRotation(rotation);
       },
-      setDrawScale: function(x, y) {
+      setDrawScale: function (x, y) {
         return screen.setDrawScale(x, y);
       },
-      fillRect: function(x, y, w, h, c) {
+      fillRect: function (x, y, w, h, c) {
         return screen.fillRect(x, y, w, h, c);
       },
-      fillRoundRect: function(x, y, w, h, r, c) {
+      fillRoundRect: function (x, y, w, h, r, c) {
         return screen.fillRoundRect(x, y, w, h, r, c);
       },
-      fillRound: function(x, y, w, h, c) {
+      fillRound: function (x, y, w, h, c) {
         return screen.fillRound(x, y, w, h, c);
       },
-      drawRect: function(x, y, w, h, c) {
+      drawRect: function (x, y, w, h, c) {
         return screen.drawRect(x, y, w, h, c);
       },
-      drawRoundRect: function(x, y, w, h, r, c) {
+      drawRoundRect: function (x, y, w, h, r, c) {
         return screen.drawRoundRect(x, y, w, h, r, c);
       },
-      drawRound: function(x, y, w, h, c) {
+      drawRound: function (x, y, w, h, c) {
         return screen.drawRound(x, y, w, h, c);
       },
-      drawSprite: function(sprite, x, y, w, h) {
+      drawSprite: function (sprite, x, y, w, h) {
         return screen.drawSprite(sprite, x, y, w, h);
       },
-      drawSpritePart: function(sprite, sx, sy, sw, sh, x, y, w, h) {
+      drawSpritePart: function (sprite, sx, sy, sw, sh, x, y, w, h) {
         return screen.drawSpritePart(sprite, sx, sy, sw, sh, x, y, w, h);
       },
-      drawMap: function(map, x, y, w, h) {
+      drawMap: function (map, x, y, w, h) {
         return screen.drawMap(map, x, y, w, h);
       },
-      drawText: function(text, x, y, size, color) {
+      drawText: function (text, x, y, size, color) {
         return screen.drawText(text, x, y, size, color);
       },
-      drawTextOutline: function(text, x, y, size, color) {
+      drawTextOutline: function (text, x, y, size, color) {
         return screen.drawTextOutline(text, x, y, size, color);
       },
-      textWidth: function(text, size) {
+      textWidth: function (text, size) {
         return screen.textWidth(text, size);
       },
-      setLineWidth: function(width) {
+      setLineWidth: function (width) {
         return screen.setLineWidth(width);
       },
-      drawLine: function(x1, y1, x2, y2, color) {
+      drawLine: function (x1, y1, x2, y2, color) {
         return screen.drawLine(x1, y1, x2, y2, color);
       },
-      drawPolygon: function() {
+      drawPolygon: function () {
         return screen.drawPolygon(arguments);
       },
-      fillPolygon: function() {
+      fillPolygon: function () {
         return screen.fillPolygon(arguments);
       },
-      setCursorVisible: function(visible) {
+      setCursorVisible: function (visible) {
         return screen.setCursorVisible(visible);
       }
-    };
+    });
   };
 
-  Screen.prototype.updateInterface = function() {
+  Screen.prototype.updateInterface = function () {
     this["interface"].width = this.width;
-    return this["interface"].height = this.height;
+    return (this["interface"].height = this.height);
   };
 
-  Screen.prototype.clear = function(color) {
+  Screen.prototype.clear = function (color) {
     var blending_save, c, s;
     c = this.context.fillStyle;
     s = this.context.strokeStyle;
@@ -4010,104 +4581,110 @@ this.Screen = (function() {
     } else {
       this.context.fillStyle = "#000";
     }
-    this.context.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+    this.context.fillRect(
+      -this.width / 2,
+      -this.height / 2,
+      this.width,
+      this.height
+    );
     this.context.fillStyle = c;
     this.context.strokeStyle = s;
-    return this.context.globalCompositeOperation = blending_save;
+    return (this.context.globalCompositeOperation = blending_save);
   };
 
-  Screen.prototype.initDraw = function() {
+  Screen.prototype.initDraw = function () {
     this.alpha = 1;
     this.line_width = 1;
     if (this.supersampling !== this.previous_supersampling) {
       this.resize();
-      return this.previous_supersampling = this.supersampling;
+      return (this.previous_supersampling = this.supersampling);
     }
   };
 
-  Screen.prototype.setColor = function(color) {
+  Screen.prototype.setColor = function (color) {
     var b, c, g, r;
     if (color == null) {
       return;
     }
     if (!Number.isNaN(Number.parseInt(color))) {
-      r = (Math.floor(color / 100) % 10) / 9 * 255;
-      g = (Math.floor(color / 10) % 10) / 9 * 255;
-      b = (Math.floor(color) % 10) / 9 * 255;
-      c = 0xFF000000;
+      r = ((Math.floor(color / 100) % 10) / 9) * 255;
+      g = ((Math.floor(color / 10) % 10) / 9) * 255;
+      b = ((Math.floor(color) % 10) / 9) * 255;
+      c = 0xff000000;
       c += r << 16;
       c += g << 8;
       c += b;
       c = "#" + c.toString(16).substring(2, 8);
       this.context.fillStyle = c;
-      return this.context.strokeStyle = c;
+      return (this.context.strokeStyle = c);
     } else if (typeof color === "string") {
       this.context.fillStyle = color;
-      return this.context.strokeStyle = color;
+      return (this.context.strokeStyle = color);
     }
   };
 
-  Screen.prototype.setAlpha = function(alpha1) {
+  Screen.prototype.setAlpha = function (alpha1) {
     this.alpha = alpha1;
   };
 
-  Screen.prototype.setBlending = function(blending) {
+  Screen.prototype.setBlending = function (blending) {
     blending = this.blending[blending || "normal"] || "source-over";
-    return this.context.globalCompositeOperation = blending;
+    return (this.context.globalCompositeOperation = blending);
   };
 
-  Screen.prototype.setLineWidth = function(line_width) {
+  Screen.prototype.setLineWidth = function (line_width) {
     this.line_width = line_width;
   };
 
-  Screen.prototype.setLinearGradient = function(x1, y1, x2, y2, c1, c2) {
+  Screen.prototype.setLinearGradient = function (x1, y1, x2, y2, c1, c2) {
     var grd;
     grd = this.context.createLinearGradient(x1, -y1, x2, -y2);
     grd.addColorStop(0, c1);
     grd.addColorStop(1, c2);
     this.context.fillStyle = grd;
-    return this.context.strokeStyle = grd;
+    return (this.context.strokeStyle = grd);
   };
 
-  Screen.prototype.setRadialGradient = function(x, y, radius, c1, c2) {
+  Screen.prototype.setRadialGradient = function (x, y, radius, c1, c2) {
     var grd;
     grd = this.context.createRadialGradient(x, -y, 0, x, -y, radius);
     grd.addColorStop(0, c1);
     grd.addColorStop(1, c2);
     this.context.fillStyle = grd;
-    return this.context.strokeStyle = grd;
+    return (this.context.strokeStyle = grd);
   };
 
-  Screen.prototype.setFont = function(font) {
-    return this.font = font || "Verdana";
+  Screen.prototype.setFont = function (font) {
+    return (this.font = font || "Verdana");
   };
 
-  Screen.prototype.setTranslation = function(translation_x, translation_y) {
+  Screen.prototype.setTranslation = function (translation_x, translation_y) {
     this.translation_x = translation_x;
     this.translation_y = translation_y;
   };
 
-  Screen.prototype.setDrawAnchor = function(anchor_x, anchor_y) {
+  Screen.prototype.setDrawAnchor = function (anchor_x, anchor_y) {
     this.anchor_x = anchor_x;
     this.anchor_y = anchor_y;
     if (typeof this.anchor_x !== "number") {
       this.anchor_x = 0;
     }
     if (typeof this.anchor_y !== "number") {
-      return this.anchor_y = 0;
+      return (this.anchor_y = 0);
     }
   };
 
-  Screen.prototype.setDrawRotation = function(object_rotation) {
+  Screen.prototype.setDrawRotation = function (object_rotation) {
     this.object_rotation = object_rotation;
   };
 
-  Screen.prototype.setDrawScale = function(object_scale_x, object_scale_y) {
+  Screen.prototype.setDrawScale = function (object_scale_x, object_scale_y) {
     this.object_scale_x = object_scale_x;
-    this.object_scale_y = object_scale_y != null ? object_scale_y : this.object_scale_x;
+    this.object_scale_y =
+      object_scale_y != null ? object_scale_y : this.object_scale_x;
   };
 
-  Screen.prototype.initDrawOp = function(x, y) {
+  Screen.prototype.initDrawOp = function (x, y) {
     var res;
     res = false;
     if (this.translation_x !== 0 || this.translation_y !== 0) {
@@ -4115,14 +4692,18 @@ this.Screen = (function() {
       res = true;
       this.context.translate(x + this.translation_x, y - this.translation_y);
     }
-    if (this.object_rotation !== 0 || this.object_scale_x !== 1 || this.object_scale_y !== 1) {
+    if (
+      this.object_rotation !== 0 ||
+      this.object_scale_x !== 1 ||
+      this.object_scale_y !== 1
+    ) {
       if (!res) {
         this.context.save();
         res = true;
         this.context.translate(x, y);
       }
       if (this.object_rotation !== 0) {
-        this.context.rotate(-this.object_rotation / 180 * Math.PI);
+        this.context.rotate((-this.object_rotation / 180) * Math.PI);
       }
       if (this.object_scale_x !== 1 || this.object_scale_y !== 1) {
         this.context.scale(this.object_scale_x, this.object_scale_y);
@@ -4131,65 +4712,115 @@ this.Screen = (function() {
     return res;
   };
 
-  Screen.prototype.closeDrawOp = function(x, y) {
+  Screen.prototype.closeDrawOp = function (x, y) {
     return this.context.restore();
   };
 
-  Screen.prototype.fillRect = function(x, y, w, h, color) {
+  Screen.prototype.fillRect = function (x, y, w, h, color) {
     this.setColor(color);
     this.context.globalAlpha = this.alpha;
     if (this.initDrawOp(x, -y)) {
-      this.context.fillRect(-w / 2 - this.anchor_x * w / 2, -h / 2 + this.anchor_y * h / 2, w, h);
+      this.context.fillRect(
+        -w / 2 - (this.anchor_x * w) / 2,
+        -h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.fillRect(x - w / 2 - this.anchor_x * w / 2, -y - h / 2 + this.anchor_y * h / 2, w, h);
+      return this.context.fillRect(
+        x - w / 2 - (this.anchor_x * w) / 2,
+        -y - h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
     }
   };
 
-  Screen.prototype.fillRoundRect = function(x, y, w, h, round, color) {
+  Screen.prototype.fillRoundRect = function (x, y, w, h, round, color) {
     if (round == null) {
       round = 10;
     }
     this.setColor(color);
     this.context.globalAlpha = this.alpha;
     if (this.initDrawOp(x, -y)) {
-      this.context.fillRoundRect(-w / 2 - this.anchor_x * w / 2, -h / 2 + this.anchor_y * h / 2, w, h, round);
+      this.context.fillRoundRect(
+        -w / 2 - (this.anchor_x * w) / 2,
+        -h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h,
+        round
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.fillRoundRect(x - w / 2 - this.anchor_x * w / 2, -y - h / 2 + this.anchor_y * h / 2, w, h, round);
+      return this.context.fillRoundRect(
+        x - w / 2 - (this.anchor_x * w) / 2,
+        -y - h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h,
+        round
+      );
     }
   };
 
-  Screen.prototype.fillRound = function(x, y, w, h, color) {
+  Screen.prototype.fillRound = function (x, y, w, h, color) {
     this.setColor(color);
     this.context.globalAlpha = this.alpha;
     w = Math.abs(w);
     h = Math.abs(h);
     if (this.initDrawOp(x, -y)) {
       this.context.beginPath();
-      this.context.ellipse(-this.anchor_x * w / 2, 0 + this.anchor_y * h / 2, w / 2, h / 2, 0, 0, Math.PI * 2, false);
+      this.context.ellipse(
+        (-this.anchor_x * w) / 2,
+        0 + (this.anchor_y * h) / 2,
+        w / 2,
+        h / 2,
+        0,
+        0,
+        Math.PI * 2,
+        false
+      );
       this.context.fill();
       return this.closeDrawOp(x, -y);
     } else {
       this.context.beginPath();
-      this.context.ellipse(x - this.anchor_x * w / 2, -y + this.anchor_y * h / 2, w / 2, h / 2, 0, 0, Math.PI * 2, false);
+      this.context.ellipse(
+        x - (this.anchor_x * w) / 2,
+        -y + (this.anchor_y * h) / 2,
+        w / 2,
+        h / 2,
+        0,
+        0,
+        Math.PI * 2,
+        false
+      );
       return this.context.fill();
     }
   };
 
-  Screen.prototype.drawRect = function(x, y, w, h, color) {
+  Screen.prototype.drawRect = function (x, y, w, h, color) {
     this.setColor(color);
     this.context.globalAlpha = this.alpha;
     this.context.lineWidth = this.line_width;
     if (this.initDrawOp(x, -y)) {
-      this.context.strokeRect(-w / 2 - this.anchor_x * w / 2, -h / 2 + this.anchor_y * h / 2, w, h);
+      this.context.strokeRect(
+        -w / 2 - (this.anchor_x * w) / 2,
+        -h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.strokeRect(x - w / 2 - this.anchor_x * w / 2, -y - h / 2 + this.anchor_y * h / 2, w, h);
+      return this.context.strokeRect(
+        x - w / 2 - (this.anchor_x * w) / 2,
+        -y - h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
     }
   };
 
-  Screen.prototype.drawRoundRect = function(x, y, w, h, round, color) {
+  Screen.prototype.drawRoundRect = function (x, y, w, h, round, color) {
     if (round == null) {
       round = 10;
     }
@@ -4197,14 +4828,26 @@ this.Screen = (function() {
     this.context.globalAlpha = this.alpha;
     this.context.lineWidth = this.line_width;
     if (this.initDrawOp(x, -y)) {
-      this.context.strokeRoundRect(-w / 2 - this.anchor_x * w / 2, -h / 2 + this.anchor_y * h / 2, w, h, round);
+      this.context.strokeRoundRect(
+        -w / 2 - (this.anchor_x * w) / 2,
+        -h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h,
+        round
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.strokeRoundRect(x - w / 2 - this.anchor_x * w / 2, -y - h / 2 + this.anchor_y * h / 2, w, h, round);
+      return this.context.strokeRoundRect(
+        x - w / 2 - (this.anchor_x * w) / 2,
+        -y - h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h,
+        round
+      );
     }
   };
 
-  Screen.prototype.drawRound = function(x, y, w, h, color) {
+  Screen.prototype.drawRound = function (x, y, w, h, color) {
     this.setColor(color);
     this.context.globalAlpha = this.alpha;
     this.context.lineWidth = this.line_width;
@@ -4212,17 +4855,35 @@ this.Screen = (function() {
     h = Math.abs(h);
     if (this.initDrawOp(x, -y)) {
       this.context.beginPath();
-      this.context.ellipse(0 - this.anchor_x * w / 2, 0 + this.anchor_y * h / 2, w / 2, h / 2, 0, 0, Math.PI * 2, false);
+      this.context.ellipse(
+        0 - (this.anchor_x * w) / 2,
+        0 + (this.anchor_y * h) / 2,
+        w / 2,
+        h / 2,
+        0,
+        0,
+        Math.PI * 2,
+        false
+      );
       this.context.stroke();
       return this.closeDrawOp(x, -y);
     } else {
       this.context.beginPath();
-      this.context.ellipse(x - this.anchor_x * w / 2, -y + this.anchor_y * h / 2, w / 2, h / 2, 0, 0, Math.PI * 2, false);
+      this.context.ellipse(
+        x - (this.anchor_x * w) / 2,
+        -y + (this.anchor_y * h) / 2,
+        w / 2,
+        h / 2,
+        0,
+        0,
+        Math.PI * 2,
+        false
+      );
       return this.context.stroke();
     }
   };
 
-  Screen.prototype.drawLine = function(x1, y1, x2, y2, color) {
+  Screen.prototype.drawLine = function (x1, y1, x2, y2, color) {
     var transform;
     this.setColor(color);
     this.context.globalAlpha = this.alpha;
@@ -4237,13 +4898,17 @@ this.Screen = (function() {
     }
   };
 
-  Screen.prototype.drawPolygon = function(args) {
+  Screen.prototype.drawPolygon = function (args) {
     var i, j, len, ref, transform;
-    if (args.length > 0 && args.length % 2 === 1 && typeof args[args.length - 1] === "string") {
+    if (
+      args.length > 0 &&
+      args.length % 2 === 1 &&
+      typeof args[args.length - 1] === "string"
+    ) {
       this.setColor(args[args.length - 1]);
     }
     if (Array.isArray(args[0])) {
-      if ((args[1] != null) && typeof args[1] === "string") {
+      if (args[1] != null && typeof args[1] === "string") {
         this.setColor(args[1]);
         args = args[0];
       }
@@ -4257,7 +4922,11 @@ this.Screen = (function() {
     transform = this.initDrawOp(0, 0);
     this.context.beginPath();
     this.context.moveTo(args[0], -args[1]);
-    for (i = j = 1, ref = len - 1; 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
+    for (
+      i = j = 1, ref = len - 1;
+      1 <= ref ? j <= ref : j >= ref;
+      i = 1 <= ref ? ++j : --j
+    ) {
       this.context.lineTo(args[i * 2], -args[i * 2 + 1]);
     }
     this.context.stroke();
@@ -4266,13 +4935,17 @@ this.Screen = (function() {
     }
   };
 
-  Screen.prototype.fillPolygon = function(args) {
+  Screen.prototype.fillPolygon = function (args) {
     var i, j, len, ref, transform;
-    if (args.length > 0 && args.length % 2 === 1 && typeof args[args.length - 1] === "string") {
+    if (
+      args.length > 0 &&
+      args.length % 2 === 1 &&
+      typeof args[args.length - 1] === "string"
+    ) {
       this.setColor(args[args.length - 1]);
     }
     if (Array.isArray(args[0])) {
-      if ((args[1] != null) && typeof args[1] === "string") {
+      if (args[1] != null && typeof args[1] === "string") {
         this.setColor(args[1]);
         args = args[0];
       }
@@ -4286,7 +4959,11 @@ this.Screen = (function() {
     transform = this.initDrawOp(0, 0);
     this.context.beginPath();
     this.context.moveTo(args[0], -args[1]);
-    for (i = j = 1, ref = len - 1; 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
+    for (
+      i = j = 1, ref = len - 1;
+      1 <= ref ? j <= ref : j >= ref;
+      i = 1 <= ref ? ++j : --j
+    ) {
       this.context.lineTo(args[i * 2], -args[i * 2 + 1]);
     }
     this.context.fill();
@@ -4295,12 +4972,12 @@ this.Screen = (function() {
     }
   };
 
-  Screen.prototype.textWidth = function(text, size) {
+  Screen.prototype.textWidth = function (text, size) {
     this.context.font = size + "pt " + this.font;
     return this.context.measureText(text).width;
   };
 
-  Screen.prototype.drawText = function(text, x, y, size, color) {
+  Screen.prototype.drawText = function (text, x, y, size, color) {
     var h, w;
     this.setColor(color);
     this.context.globalAlpha = this.alpha;
@@ -4310,14 +4987,22 @@ this.Screen = (function() {
     w = this.context.measureText(text).width;
     h = size;
     if (this.initDrawOp(x, -y)) {
-      this.context.fillText(text, 0 - this.anchor_x * w / 2, 0 + this.anchor_y * h / 2);
+      this.context.fillText(
+        text,
+        0 - (this.anchor_x * w) / 2,
+        0 + (this.anchor_y * h) / 2
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.fillText(text, x - this.anchor_x * w / 2, -y + this.anchor_y * h / 2);
+      return this.context.fillText(
+        text,
+        x - (this.anchor_x * w) / 2,
+        -y + (this.anchor_y * h) / 2
+      );
     }
   };
 
-  Screen.prototype.drawTextOutline = function(text, x, y, size, color) {
+  Screen.prototype.drawTextOutline = function (text, x, y, size, color) {
     var h, w;
     this.setColor(color);
     this.context.globalAlpha = this.alpha;
@@ -4328,14 +5013,22 @@ this.Screen = (function() {
     w = this.context.measureText(text).width;
     h = size;
     if (this.initDrawOp(x, -y)) {
-      this.context.strokeText(text, 0 - this.anchor_x * w / 2, 0 + this.anchor_y * h / 2);
+      this.context.strokeText(
+        text,
+        0 - (this.anchor_x * w) / 2,
+        0 + (this.anchor_y * h) / 2
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.strokeText(text, x - this.anchor_x * w / 2, -y + this.anchor_y * h / 2);
+      return this.context.strokeText(
+        text,
+        x - (this.anchor_x * w) / 2,
+        -y + (this.anchor_y * h) / 2
+      );
     }
   };
 
-  Screen.prototype.getSpriteFrame = function(sprite) {
+  Screen.prototype.getSpriteFrame = function (sprite) {
     var dt, frame, s;
     frame = null;
     if (typeof sprite === "string") {
@@ -4350,13 +5043,15 @@ this.Screen = (function() {
         }
       }
     }
-    if ((sprite == null) || !sprite.ready) {
+    if (sprite == null || !sprite.ready) {
       return null;
     }
     if (sprite.frames.length > 1) {
       if (frame == null) {
         dt = 1000 / sprite.fps;
-        frame = Math.floor((Date.now() - sprite.animation_start) / dt) % sprite.frames.length;
+        frame =
+          Math.floor((Date.now() - sprite.animation_start) / dt) %
+          sprite.frames.length;
       }
       if (frame >= 0 && frame < sprite.frames.length) {
         return sprite.frames[frame].canvas;
@@ -4368,62 +5063,116 @@ this.Screen = (function() {
     }
   };
 
-  Screen.prototype.drawSprite = function(sprite, x, y, w, h) {
+  Screen.prototype.drawSprite = function (sprite, x, y, w, h) {
     var canvas;
     canvas = this.getSpriteFrame(sprite);
     if (canvas == null) {
       return;
     }
     if (!h) {
-      h = w / canvas.width * canvas.height;
+      h = (w / canvas.width) * canvas.height;
     }
     this.context.globalAlpha = this.alpha;
     this.context.imageSmoothingEnabled = false;
     if (this.initDrawOp(x, -y)) {
-      this.context.drawImage(canvas, -w / 2 - this.anchor_x * w / 2, -h / 2 + this.anchor_y * h / 2, w, h);
+      this.context.drawImage(
+        canvas,
+        -w / 2 - (this.anchor_x * w) / 2,
+        -h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.drawImage(canvas, x - w / 2 - this.anchor_x * w / 2, -y - h / 2 + this.anchor_y * h / 2, w, h);
+      return this.context.drawImage(
+        canvas,
+        x - w / 2 - (this.anchor_x * w) / 2,
+        -y - h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
     }
   };
 
-  Screen.prototype.drawSpritePart = function(sprite, sx, sy, sw, sh, x, y, w, h) {
+  Screen.prototype.drawSpritePart = function (
+    sprite,
+    sx,
+    sy,
+    sw,
+    sh,
+    x,
+    y,
+    w,
+    h
+  ) {
     var canvas;
     canvas = this.getSpriteFrame(sprite);
     if (canvas == null) {
       return;
     }
     if (!h) {
-      h = w / sw * sh;
+      h = (w / sw) * sh;
     }
     this.context.globalAlpha = this.alpha;
     this.context.imageSmoothingEnabled = false;
     if (this.initDrawOp(x, -y)) {
-      this.context.drawImage(canvas, sx, sy, sw, sh, -w / 2 - this.anchor_x * w / 2, -h / 2 + this.anchor_y * h / 2, w, h);
+      this.context.drawImage(
+        canvas,
+        sx,
+        sy,
+        sw,
+        sh,
+        -w / 2 - (this.anchor_x * w) / 2,
+        -h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.drawImage(canvas, sx, sy, sw, sh, x - w / 2 - this.anchor_x * w / 2, -y - h / 2 + this.anchor_y * h / 2, w, h);
+      return this.context.drawImage(
+        canvas,
+        sx,
+        sy,
+        sw,
+        sh,
+        x - w / 2 - (this.anchor_x * w) / 2,
+        -y - h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
     }
   };
 
-  Screen.prototype.drawMap = function(map, x, y, w, h) {
+  Screen.prototype.drawMap = function (map, x, y, w, h) {
     if (typeof map === "string") {
       map = this.runtime.maps[map];
     }
-    if ((map == null) || !map.ready || (map.canvas == null)) {
+    if (map == null || !map.ready || map.canvas == null) {
       return;
     }
     this.context.globalAlpha = this.alpha;
     this.context.imageSmoothingEnabled = false;
     if (this.initDrawOp(x, -y)) {
-      this.context.drawImage(map.getCanvas(), -w / 2 - this.anchor_x * w / 2, -h / 2 + this.anchor_y * h / 2, w, h);
+      this.context.drawImage(
+        map.getCanvas(),
+        -w / 2 - (this.anchor_x * w) / 2,
+        -h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
       return this.closeDrawOp(x, -y);
     } else {
-      return this.context.drawImage(map.getCanvas(), x - w / 2 - this.anchor_x * w / 2, -y - h / 2 + this.anchor_y * h / 2, w, h);
+      return this.context.drawImage(
+        map.getCanvas(),
+        x - w / 2 - (this.anchor_x * w) / 2,
+        -y - h / 2 + (this.anchor_y * h) / 2,
+        w,
+        h
+      );
     }
   };
 
-  Screen.prototype.resize = function() {
+  Screen.prototype.resize = function () {
     var backingStoreRatio, ch, cw, devicePixelRatio, h, min, r, ratio, w;
     cw = window.innerWidth;
     ch = window.innerHeight;
@@ -4485,8 +5234,16 @@ this.Screen = (function() {
     this.canvas.style.width = Math.round(w) + "px";
     this.canvas.style.height = Math.round(h) + "px";
     devicePixelRatio = window.devicePixelRatio || 1;
-    backingStoreRatio = this.context.webkitBackingStorePixelRatio || this.context.mozBackingStorePixelRatio || this.context.msBackingStorePixelRatio || this.context.oBackingStorePixelRatio || this.context.backingStorePixelRatio || 1;
-    this.ratio = devicePixelRatio / backingStoreRatio * Math.max(1, Math.min(2, this.supersampling));
+    backingStoreRatio =
+      this.context.webkitBackingStorePixelRatio ||
+      this.context.mozBackingStorePixelRatio ||
+      this.context.msBackingStorePixelRatio ||
+      this.context.oBackingStorePixelRatio ||
+      this.context.backingStorePixelRatio ||
+      1;
+    this.ratio =
+      (devicePixelRatio / backingStoreRatio) *
+      Math.max(1, Math.min(2, this.supersampling));
     this.width = w * this.ratio;
     this.height = h * this.ratio;
     this.canvas.width = this.width;
@@ -4494,59 +5251,90 @@ this.Screen = (function() {
     return this.initContext();
   };
 
-  Screen.prototype.startControl = function(element) {
+  Screen.prototype.startControl = function (element) {
     var backingStoreRatio, devicePixelRatio;
     this.element = element;
-    this.canvas.addEventListener("touchstart", (function(_this) {
-      return function(event) {
-        return _this.touchStart(event);
-      };
-    })(this));
-    this.canvas.addEventListener("touchmove", (function(_this) {
-      return function(event) {
-        return _this.touchMove(event);
-      };
-    })(this));
-    document.addEventListener("touchend", (function(_this) {
-      return function(event) {
-        return _this.touchRelease(event);
-      };
-    })(this));
-    document.addEventListener("touchcancel", (function(_this) {
-      return function(event) {
-        return _this.touchRelease(event);
-      };
-    })(this));
-    this.canvas.addEventListener("mousedown", (function(_this) {
-      return function(event) {
-        return _this.mouseDown(event);
-      };
-    })(this));
-    this.canvas.addEventListener("mousemove", (function(_this) {
-      return function(event) {
-        return _this.mouseMove(event);
-      };
-    })(this));
-    document.addEventListener("mouseup", (function(_this) {
-      return function(event) {
-        return _this.mouseUp(event);
-      };
-    })(this));
+    this.canvas.addEventListener(
+      "touchstart",
+      (function (_this) {
+        return function (event) {
+          return _this.touchStart(event);
+        };
+      })(this)
+    );
+    this.canvas.addEventListener(
+      "touchmove",
+      (function (_this) {
+        return function (event) {
+          return _this.touchMove(event);
+        };
+      })(this)
+    );
+    document.addEventListener(
+      "touchend",
+      (function (_this) {
+        return function (event) {
+          return _this.touchRelease(event);
+        };
+      })(this)
+    );
+    document.addEventListener(
+      "touchcancel",
+      (function (_this) {
+        return function (event) {
+          return _this.touchRelease(event);
+        };
+      })(this)
+    );
+    this.canvas.addEventListener(
+      "mousedown",
+      (function (_this) {
+        return function (event) {
+          return _this.mouseDown(event);
+        };
+      })(this)
+    );
+    this.canvas.addEventListener(
+      "mousemove",
+      (function (_this) {
+        return function (event) {
+          return _this.mouseMove(event);
+        };
+      })(this)
+    );
+    document.addEventListener(
+      "mouseup",
+      (function (_this) {
+        return function (event) {
+          return _this.mouseUp(event);
+        };
+      })(this)
+    );
     devicePixelRatio = window.devicePixelRatio || 1;
-    backingStoreRatio = this.context.webkitBackingStorePixelRatio || this.context.mozBackingStorePixelRatio || this.context.msBackingStorePixelRatio || this.context.oBackingStorePixelRatio || this.context.backingStorePixelRatio || 1;
-    return this.ratio = devicePixelRatio / backingStoreRatio;
+    backingStoreRatio =
+      this.context.webkitBackingStorePixelRatio ||
+      this.context.mozBackingStorePixelRatio ||
+      this.context.msBackingStorePixelRatio ||
+      this.context.oBackingStorePixelRatio ||
+      this.context.backingStorePixelRatio ||
+      1;
+    return (this.ratio = devicePixelRatio / backingStoreRatio);
   };
 
-  Screen.prototype.touchStart = function(event) {
+  Screen.prototype.touchStart = function (event) {
     var b, i, j, min, ref, t, x, y;
     event.preventDefault();
     event.stopPropagation();
     b = this.canvas.getBoundingClientRect();
-    for (i = j = 0, ref = event.changedTouches.length - 1; j <= ref; i = j += 1) {
+    for (
+      i = j = 0, ref = event.changedTouches.length - 1;
+      j <= ref;
+      i = j += 1
+    ) {
       t = event.changedTouches[i];
       min = Math.min(this.canvas.clientWidth, this.canvas.clientHeight);
-      x = (t.clientX - b.left - this.canvas.clientWidth / 2) / min * 200;
-      y = (this.canvas.clientHeight / 2 - (t.clientY - b.top)) / min * 200;
+      x = ((t.clientX - b.left - this.canvas.clientWidth / 2) / min) * 200;
+      y = ((this.canvas.clientHeight / 2 - (t.clientY - b.top)) / min) * 200;
       this.touches[t.identifier] = {
         x: x,
         y: y
@@ -4559,17 +5347,21 @@ this.Screen = (function() {
     return false;
   };
 
-  Screen.prototype.touchMove = function(event) {
+  Screen.prototype.touchMove = function (event) {
     var b, i, j, min, ref, t, x, y;
     event.preventDefault();
     event.stopPropagation();
     b = this.canvas.getBoundingClientRect();
-    for (i = j = 0, ref = event.changedTouches.length - 1; j <= ref; i = j += 1) {
+    for (
+      i = j = 0, ref = event.changedTouches.length - 1;
+      j <= ref;
+      i = j += 1
+    ) {
       t = event.changedTouches[i];
       if (this.touches[t.identifier] != null) {
         min = Math.min(this.canvas.clientWidth, this.canvas.clientHeight);
-        x = (t.clientX - b.left - this.canvas.clientWidth / 2) / min * 200;
-        y = (this.canvas.clientHeight / 2 - (t.clientY - b.top)) / min * 200;
+        x = ((t.clientX - b.left - this.canvas.clientWidth / 2) / min) * 200;
+        y = ((this.canvas.clientHeight / 2 - (t.clientY - b.top)) / min) * 200;
         this.touches[t.identifier].x = x;
         this.touches[t.identifier].y = y;
         this.mouse.x = x;
@@ -4579,9 +5371,13 @@ this.Screen = (function() {
     return false;
   };
 
-  Screen.prototype.touchRelease = function(event) {
+  Screen.prototype.touchRelease = function (event) {
     var i, j, ref, t, x, y;
-    for (i = j = 0, ref = event.changedTouches.length - 1; j <= ref; i = j += 1) {
+    for (
+      i = j = 0, ref = event.changedTouches.length - 1;
+      j <= ref;
+      i = j += 1
+    ) {
       t = event.changedTouches[i];
       x = (t.clientX - this.canvas.offsetLeft) * this.ratio;
       y = (t.clientY - this.canvas.offsetTop) * this.ratio;
@@ -4594,13 +5390,13 @@ this.Screen = (function() {
     return false;
   };
 
-  Screen.prototype.mouseDown = function(event) {
+  Screen.prototype.mouseDown = function (event) {
     var b, min, x, y;
     this.mousepressed = true;
     b = this.canvas.getBoundingClientRect();
     min = Math.min(this.canvas.clientWidth, this.canvas.clientHeight);
-    x = (event.clientX - b.left - this.canvas.clientWidth / 2) / min * 200;
-    y = (this.canvas.clientHeight / 2 - (event.clientY - b.top)) / min * 200;
+    x = ((event.clientX - b.left - this.canvas.clientWidth / 2) / min) * 200;
+    y = ((this.canvas.clientHeight / 2 - (event.clientY - b.top)) / min) * 200;
     this.touches["mouse"] = {
       x: x,
       y: y
@@ -4617,17 +5413,20 @@ this.Screen = (function() {
       case 2:
         this.mouse.right = 1;
     }
-    this.mouse.pressed = Math.min(1, this.mouse.left + this.mouse.right + this.mouse.middle);
+    this.mouse.pressed = Math.min(
+      1,
+      this.mouse.left + this.mouse.right + this.mouse.middle
+    );
     return false;
   };
 
-  Screen.prototype.mouseMove = function(event) {
+  Screen.prototype.mouseMove = function (event) {
     var b, min, x, y;
     event.preventDefault();
     b = this.canvas.getBoundingClientRect();
     min = Math.min(this.canvas.clientWidth, this.canvas.clientHeight);
-    x = (event.clientX - b.left - this.canvas.clientWidth / 2) / min * 200;
-    y = (this.canvas.clientHeight / 2 - (event.clientY - b.top)) / min * 200;
+    x = ((event.clientX - b.left - this.canvas.clientWidth / 2) / min) * 200;
+    y = ((this.canvas.clientHeight / 2 - (event.clientY - b.top)) / min) * 200;
     if (this.touches["mouse"] != null) {
       this.touches["mouse"].x = x;
       this.touches["mouse"].y = y;
@@ -4637,13 +5436,13 @@ this.Screen = (function() {
     return false;
   };
 
-  Screen.prototype.mouseUp = function(event) {
+  Screen.prototype.mouseUp = function (event) {
     var b, min, x, y;
     delete this.touches["mouse"];
     b = this.canvas.getBoundingClientRect();
     min = Math.min(this.canvas.clientWidth, this.canvas.clientHeight);
-    x = (event.clientX - b.left - this.canvas.clientWidth / 2) / min * 200;
-    y = (this.canvas.clientHeight / 2 - (event.clientY - b.top)) / min * 200;
+    x = ((event.clientX - b.left - this.canvas.clientWidth / 2) / min) * 200;
+    y = ((this.canvas.clientHeight / 2 - (event.clientY - b.top)) / min) * 200;
     this.mouse.x = x;
     this.mouse.y = y;
     switch (event.button) {
@@ -4656,26 +5455,34 @@ this.Screen = (function() {
       case 2:
         this.mouse.right = 0;
     }
-    this.mouse.pressed = Math.min(1, this.mouse.left + this.mouse.right + this.mouse.middle);
+    this.mouse.pressed = Math.min(
+      1,
+      this.mouse.left + this.mouse.right + this.mouse.middle
+    );
     return false;
   };
 
   return Screen;
-
 })();
 
-this.Keyboard = (function() {
+this.Keyboard = (function () {
   function Keyboard() {
-    document.addEventListener("keydown", (function(_this) {
-      return function(event) {
-        return _this.keydown(event);
-      };
-    })(this));
-    document.addEventListener("keyup", (function(_this) {
-      return function(event) {
-        return _this.keyup(event);
-      };
-    })(this));
+    document.addEventListener(
+      "keydown",
+      (function (_this) {
+        return function (event) {
+          return _this.keydown(event);
+        };
+      })(this)
+    );
+    document.addEventListener(
+      "keyup",
+      (function (_this) {
+        return function (event) {
+          return _this.keyup(event);
+        };
+      })(this)
+    );
     this.keyboard = {
       press: {},
       release: {}
@@ -4683,11 +5490,15 @@ this.Keyboard = (function() {
     this.previous = {};
   }
 
-  Keyboard.prototype.convertCode = function(code) {
+  Keyboard.prototype.convertCode = function (code) {
     var c, i, j, low, ref, res;
     res = "";
     low = false;
-    for (i = j = 0, ref = code.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (
+      i = j = 0, ref = code.length - 1;
+      0 <= ref ? j <= ref : j >= ref;
+      i = 0 <= ref ? ++j : --j
+    ) {
       c = code.charAt(i);
       if (c === c.toUpperCase() && low) {
         res += "_";
@@ -4700,7 +5511,7 @@ this.Keyboard = (function() {
     return res;
   };
 
-  Keyboard.prototype.keydown = function(event) {
+  Keyboard.prototype.keydown = function (event) {
     var code, key;
     event.preventDefault();
     code = event.code;
@@ -4710,7 +5521,7 @@ this.Keyboard = (function() {
     return this.updateDirectional();
   };
 
-  Keyboard.prototype.keyup = function(event) {
+  Keyboard.prototype.keyup = function (event) {
     var code, key;
     code = event.code;
     key = event.key;
@@ -4719,14 +5530,15 @@ this.Keyboard = (function() {
     return this.updateDirectional();
   };
 
-  Keyboard.prototype.updateDirectional = function() {
+  Keyboard.prototype.updateDirectional = function () {
     this.keyboard.UP = this.keyboard.KEY_W || this.keyboard.ARROW_UP;
     this.keyboard.DOWN = this.keyboard.KEY_S || this.keyboard.ARROW_DOWN;
     this.keyboard.LEFT = this.keyboard.KEY_A || this.keyboard.ARROW_LEFT;
-    return this.keyboard.RIGHT = this.keyboard.KEY_D || this.keyboard.ARROW_RIGHT;
+    return (this.keyboard.RIGHT =
+      this.keyboard.KEY_D || this.keyboard.ARROW_RIGHT);
   };
 
-  Keyboard.prototype.update = function() {
+  Keyboard.prototype.update = function () {
     var key;
     for (key in this.keyboard.press) {
       this.keyboard.press[key] = 0;
@@ -4759,17 +5571,16 @@ this.Keyboard = (function() {
   };
 
   return Keyboard;
-
 })();
 
-this.Gamepad = (function() {
+this.Gamepad = (function () {
   function Gamepad(listener, index) {
     var pads;
     this.listener = listener;
     this.index = index != null ? index : 0;
     if (navigator.getGamepads != null) {
       pads = navigator.getGamepads();
-      if (this.index < pads.length && (pads[this.index] != null)) {
+      if (this.index < pads.length && pads[this.index] != null) {
         this.pad = pads[this.index];
       }
     }
@@ -4806,8 +5617,33 @@ this.Gamepad = (function() {
     };
   }
 
-  Gamepad.prototype.update = function() {
-    var angle, i, j, k, key, l, len, len1, len2, m, n, o, pad, pad_count, pads, r, ref, ref1, ref2, ref3, ref4, ref5, ref6, value, x, y;
+  Gamepad.prototype.update = function () {
+    var angle,
+      i,
+      j,
+      k,
+      key,
+      l,
+      len,
+      len1,
+      len2,
+      m,
+      n,
+      o,
+      pad,
+      pad_count,
+      pads,
+      r,
+      ref,
+      ref1,
+      ref2,
+      ref3,
+      ref4,
+      ref5,
+      ref6,
+      value,
+      x,
+      y;
     pads = navigator.getGamepads();
     pad_count = 0;
     for (i = j = 0, len = pads.length; j < len; i = ++j) {
@@ -4840,25 +5676,31 @@ this.Gamepad = (function() {
         x = pad.axes[0];
         y = -pad.axes[1];
         r = Math.sqrt(x * x + y * y);
-        angle = Math.floor(((Math.atan2(y, x) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2) * 360);
+        angle = Math.floor(
+          (((Math.atan2(y, x) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2)) *
+            360
+        );
         this.status[i].LEFT_STICK_ANGLE = angle;
         this.status[i].LEFT_STICK_AMOUNT = r;
-        this.status[i].LEFT_STICK_UP = y > .5;
-        this.status[i].LEFT_STICK_DOWN = y < -.5;
-        this.status[i].LEFT_STICK_LEFT = x < -.5;
-        this.status[i].LEFT_STICK_RIGHT = x > .5;
+        this.status[i].LEFT_STICK_UP = y > 0.5;
+        this.status[i].LEFT_STICK_DOWN = y < -0.5;
+        this.status[i].LEFT_STICK_LEFT = x < -0.5;
+        this.status[i].LEFT_STICK_RIGHT = x > 0.5;
       }
       if (pad.axes.length >= 4) {
         x = pad.axes[2];
         y = -pad.axes[3];
         r = Math.sqrt(x * x + y * y);
-        angle = Math.floor(((Math.atan2(y, x) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2) * 360);
+        angle = Math.floor(
+          (((Math.atan2(y, x) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2)) *
+            360
+        );
         this.status[i].RIGHT_STICK_ANGLE = angle;
         this.status[i].RIGHT_STICK_AMOUNT = r;
-        this.status[i].RIGHT_STICK_UP = y > .5;
-        this.status[i].RIGHT_STICK_DOWN = y < -.5;
-        this.status[i].RIGHT_STICK_LEFT = x < -.5;
-        this.status[i].RIGHT_STICK_RIGHT = x > .5;
+        this.status[i].RIGHT_STICK_UP = y > 0.5;
+        this.status[i].RIGHT_STICK_DOWN = y < -0.5;
+        this.status[i].RIGHT_STICK_LEFT = x < -0.5;
+        this.status[i].RIGHT_STICK_RIGHT = x > 0.5;
       }
     }
     ref2 = this.buttons_map;
@@ -4870,7 +5712,7 @@ this.Gamepad = (function() {
         if (pad == null) {
           break;
         }
-        if ((pad.buttons[key] != null) && pad.buttons[key].pressed) {
+        if (pad.buttons[key] != null && pad.buttons[key].pressed) {
           this.status[value] = 1;
         }
       }
@@ -4908,10 +5750,22 @@ this.Gamepad = (function() {
     this.status.RT = 0;
     this.status.LT = 0;
     for (i = m = 0, ref4 = pad_count - 1; m <= ref4; i = m += 1) {
-      this.status[i].UP = this.status[i].DPAD_UP || this.status[i].LEFT_STICK_UP || this.status[i].RIGHT_STICK_UP;
-      this.status[i].DOWN = this.status[i].DPAD_DOWN || this.status[i].LEFT_STICK_DOWN || this.status[i].RIGHT_STICK_DOWN;
-      this.status[i].LEFT = this.status[i].DPAD_LEFT || this.status[i].LEFT_STICK_LEFT || this.status[i].RIGHT_STICK_LEFT;
-      this.status[i].RIGHT = this.status[i].DPAD_RIGHT || this.status[i].LEFT_STICK_RIGHT || this.status[i].RIGHT_STICK_RIGHT;
+      this.status[i].UP =
+        this.status[i].DPAD_UP ||
+        this.status[i].LEFT_STICK_UP ||
+        this.status[i].RIGHT_STICK_UP;
+      this.status[i].DOWN =
+        this.status[i].DPAD_DOWN ||
+        this.status[i].LEFT_STICK_DOWN ||
+        this.status[i].RIGHT_STICK_DOWN;
+      this.status[i].LEFT =
+        this.status[i].DPAD_LEFT ||
+        this.status[i].LEFT_STICK_LEFT ||
+        this.status[i].RIGHT_STICK_LEFT;
+      this.status[i].RIGHT =
+        this.status[i].DPAD_RIGHT ||
+        this.status[i].LEFT_STICK_RIGHT ||
+        this.status[i].RIGHT_STICK_RIGHT;
       if (this.status[i].UP) {
         this.status.UP = 1;
       }
@@ -4973,7 +5827,7 @@ this.Gamepad = (function() {
     }
   };
 
-  Gamepad.prototype.updateChanges = function(current, previous) {
+  Gamepad.prototype.updateChanges = function (current, previous) {
     var key;
     for (key in current.press) {
       current.press[key] = 0;
@@ -5006,35 +5860,34 @@ this.Gamepad = (function() {
   };
 
   return Gamepad;
-
 })();
 
-this.Sprite = (function() {
+this.Sprite = (function () {
   function Sprite(width, height1, properties) {
     var img;
     this.width = width;
     this.height = height1;
     this.name = "";
     this.frames = [];
-    if ((this.width != null) && typeof this.width === "string") {
+    if (this.width != null && typeof this.width === "string") {
       this.ready = false;
-      img = new Image;
+      img = new Image();
       if (location.protocol !== "file:") {
         img.crossOrigin = "Anonymous";
       }
       img.src = this.width;
       this.width = 0;
       this.height = 0;
-      img.onload = (function(_this) {
-        return function() {
+      img.onload = (function (_this) {
+        return function () {
           _this.ready = true;
           _this.load(img, properties);
           return _this.loaded();
         };
       })(this);
-      img.onerror = (function(_this) {
-        return function() {
-          return _this.ready = true;
+      img.onerror = (function (_this) {
+        return function () {
+          return (_this.ready = true);
         };
       })(this);
     } else {
@@ -5046,30 +5899,38 @@ this.Sprite = (function() {
     this.fps = properties ? properties.fps || 5 : 5;
   }
 
-  Sprite.prototype.setFrame = function(f) {
-    return this.animation_start = Date.now() - 1000 / this.fps * f;
+  Sprite.prototype.setFrame = function (f) {
+    return (this.animation_start = Date.now() - (1000 / this.fps) * f);
   };
 
-  Sprite.prototype.cutFrames = function(num) {
+  Sprite.prototype.cutFrames = function (num) {
     var frame, height, i, j, ref;
     height = Math.round(this.height / num);
-    for (i = j = 0, ref = num - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (
+      i = j = 0, ref = num - 1;
+      0 <= ref ? j <= ref : j >= ref;
+      i = 0 <= ref ? ++j : --j
+    ) {
       frame = new Sprite(this.width, height);
       frame.getContext().drawImage(this.getCanvas(), 0, -i * height);
       this.frames[i] = frame;
     }
     this.height = height;
-    return this.canvas = this.frames[0].canvas;
+    return (this.canvas = this.frames[0].canvas);
   };
 
-  Sprite.prototype.saveData = function() {
+  Sprite.prototype.saveData = function () {
     var canvas, context, i, j, ref;
     if (this.frames.length > 1) {
       canvas = document.createElement("canvas");
       canvas.width = this.width;
       canvas.height = this.height * this.frames.length;
       context = canvas.getContext("2d");
-      for (i = j = 0, ref = this.frames.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+      for (
+        i = j = 0, ref = this.frames.length - 1;
+        0 <= ref ? j <= ref : j >= ref;
+        i = 0 <= ref ? ++j : --j
+      ) {
         context.drawImage(this.frames[i].getCanvas(), 0, this.height * i);
       }
       return canvas.toDataURL();
@@ -5078,22 +5939,22 @@ this.Sprite = (function() {
     }
   };
 
-  Sprite.prototype.loaded = function() {};
+  Sprite.prototype.loaded = function () {};
 
-  Sprite.prototype.setCurrentFrame = function(index) {
+  Sprite.prototype.setCurrentFrame = function (index) {
     if (index >= 0 && index < this.frames.length) {
-      return this.current_frame = index;
+      return (this.current_frame = index);
     }
   };
 
-  Sprite.prototype.clone = function() {
+  Sprite.prototype.clone = function () {
     var sprite;
     sprite = new Sprite(this.width, this.height);
     sprite.copyFrom(this);
     return sprite;
   };
 
-  Sprite.prototype.resize = function(width, height1) {
+  Sprite.prototype.resize = function (width, height1) {
     var f, j, len, ref;
     this.width = width;
     this.height = height1;
@@ -5104,26 +5965,30 @@ this.Sprite = (function() {
     }
   };
 
-  Sprite.prototype.load = function(img, properties) {
+  Sprite.prototype.load = function (img, properties) {
     var frame, i, j, numframes, ref;
     if (img.width > 0 && img.height > 0) {
       numframes = 1;
-      if ((properties != null) && (properties.frames != null)) {
+      if (properties != null && properties.frames != null) {
         numframes = properties.frames;
       }
       this.width = img.width;
       this.height = Math.round(img.height / numframes);
       this.frames = [];
-      for (i = j = 0, ref = numframes - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+      for (
+        i = j = 0, ref = numframes - 1;
+        0 <= ref ? j <= ref : j >= ref;
+        i = 0 <= ref ? ++j : --j
+      ) {
         frame = new SpriteFrame(this, this.width, this.height);
         frame.getContext().drawImage(img, 0, -i * this.height);
         this.frames.push(frame);
       }
-      return this.ready = true;
+      return (this.ready = true);
     }
   };
 
-  Sprite.prototype.copyFrom = function(sprite) {
+  Sprite.prototype.copyFrom = function (sprite) {
     var f, j, len, ref;
     this.width = sprite.width;
     this.height = sprite.height;
@@ -5136,7 +6001,7 @@ this.Sprite = (function() {
     this.current_frame = sprite.current_frame;
   };
 
-  Sprite.prototype.clear = function() {
+  Sprite.prototype.clear = function () {
     var f, j, len, ref;
     ref = this.frames;
     for (j = 0, len = ref.length; j < len; j++) {
@@ -5145,15 +6010,14 @@ this.Sprite = (function() {
     }
   };
 
-  Sprite.prototype.addFrame = function() {
+  Sprite.prototype.addFrame = function () {
     return this.frames.push(new SpriteFrame(this, this.width, this.height));
   };
 
   return Sprite;
-
 })();
 
-this.SpriteFrame = (function() {
+this.SpriteFrame = (function () {
   function SpriteFrame(sprite, width, height) {
     this.sprite = sprite;
     this.width = width;
@@ -5164,21 +6028,21 @@ this.SpriteFrame = (function() {
     this.canvas.height = this.height;
   }
 
-  SpriteFrame.prototype.clone = function() {
+  SpriteFrame.prototype.clone = function () {
     var sf;
     sf = new SpriteFrame(this.sprite, this.width, this.height);
     sf.getContext().drawImage(this.canvas, 0, 0);
     return sf;
   };
 
-  SpriteFrame.prototype.getContext = function() {
+  SpriteFrame.prototype.getContext = function () {
     if (this.canvas == null) {
       return null;
     }
-    return this.context = this.getCanvas().getContext("2d");
+    return (this.context = this.getCanvas().getContext("2d"));
   };
 
-  SpriteFrame.prototype.getCanvas = function() {
+  SpriteFrame.prototype.getCanvas = function () {
     var c;
     if (this.canvas == null) {
       return null;
@@ -5193,7 +6057,7 @@ this.SpriteFrame = (function() {
     return this.canvas;
   };
 
-  SpriteFrame.prototype.setPixel = function(x, y, color, alpha) {
+  SpriteFrame.prototype.setPixel = function (x, y, color, alpha) {
     var c;
     if (alpha == null) {
       alpha = 1;
@@ -5202,10 +6066,10 @@ this.SpriteFrame = (function() {
     c.globalAlpha = alpha;
     c.fillStyle = color;
     c.fillRect(x, y, 1, 1);
-    return c.globalAlpha = 1;
+    return (c.globalAlpha = 1);
   };
 
-  SpriteFrame.prototype.erasePixel = function(x, y, alpha) {
+  SpriteFrame.prototype.erasePixel = function (x, y, alpha) {
     var c, data;
     if (alpha == null) {
       alpha = 1;
@@ -5216,7 +6080,7 @@ this.SpriteFrame = (function() {
     return c.putImageData(data, x, y);
   };
 
-  SpriteFrame.prototype.getRGB = function(x, y) {
+  SpriteFrame.prototype.getRGB = function (x, y) {
     var c, data;
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       return [0, 0, 0];
@@ -5226,11 +6090,16 @@ this.SpriteFrame = (function() {
     return data.data;
   };
 
-  SpriteFrame.prototype.clear = function() {
-    return this.getContext().clearRect(0, 0, this.canvas.width, this.canvas.height);
+  SpriteFrame.prototype.clear = function () {
+    return this.getContext().clearRect(
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
   };
 
-  SpriteFrame.prototype.resize = function(w, h) {
+  SpriteFrame.prototype.resize = function (w, h) {
     var c;
     if (w === this.width && h === this.height) {
       return;
@@ -5239,26 +6108,25 @@ this.SpriteFrame = (function() {
     this.canvas = c;
     this.context = null;
     this.width = w;
-    return this.height = h;
+    return (this.height = h);
   };
 
-  SpriteFrame.prototype.load = function(img) {
+  SpriteFrame.prototype.load = function (img) {
     this.resize(img.width, img.height);
     this.clear();
     return this.canvas.getContext("2d").drawImage(img, 0, 0);
   };
 
-  SpriteFrame.prototype.copyFrom = function(frame) {
+  SpriteFrame.prototype.copyFrom = function (frame) {
     this.resize(frame.width, frame.height);
     this.clear();
     return this.getContext().drawImage(frame.canvas, 0, 0);
   };
 
   return SpriteFrame;
-
 })();
 
-this.MicroMap = (function() {
+this.MicroMap = (function () {
   function MicroMap(width, height, block_width, block_height, sprites1) {
     var req;
     this.width = width;
@@ -5267,11 +6135,11 @@ this.MicroMap = (function() {
     this.block_height = block_height;
     this.sprites = sprites1;
     this.map = [];
-    if ((this.width != null) && typeof this.width === "string") {
+    if (this.width != null && typeof this.width === "string") {
       this.ready = false;
       req = new XMLHttpRequest();
-      req.onreadystatechange = (function(_this) {
-        return function(event) {
+      req.onreadystatechange = (function (_this) {
+        return function (event) {
           if (req.readyState === XMLHttpRequest.DONE) {
             _this.ready = true;
             if (req.status === 200) {
@@ -5297,7 +6165,7 @@ this.MicroMap = (function() {
     this.update();
   }
 
-  MicroMap.prototype.clear = function() {
+  MicroMap.prototype.clear = function () {
     var i, j, k, l, ref1, ref2;
     for (j = k = 0, ref1 = this.height - 1; k <= ref1; j = k += 1) {
       for (i = l = 0, ref2 = this.width - 1; l <= ref2; i = l += 1) {
@@ -5306,34 +6174,37 @@ this.MicroMap = (function() {
     }
   };
 
-  MicroMap.prototype.set = function(x, y, ref) {
+  MicroMap.prototype.set = function (x, y, ref) {
     if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
       this.map[x + y * this.width] = ref;
-      return this.needs_update = true;
+      return (this.needs_update = true);
     }
   };
 
-  MicroMap.prototype.get = function(x, y) {
+  MicroMap.prototype.get = function (x, y) {
     if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
       return "";
     }
     return this.map[x + y * this.width] || "";
   };
 
-  MicroMap.prototype.getCanvas = function() {
-    if ((this.canvas == null) || this.needs_update) {
+  MicroMap.prototype.getCanvas = function () {
+    if (this.canvas == null || this.needs_update) {
       this.update();
     }
     return this.canvas;
   };
 
-  MicroMap.prototype.update = function() {
+  MicroMap.prototype.update = function () {
     var c, context, i, index, j, k, l, ref1, ref2, s, sprite, tx, ty, xy;
     this.needs_update = false;
     if (this.canvas == null) {
       this.canvas = document.createElement("canvas");
     }
-    if (this.canvas.width !== this.width * this.block_width || this.canvas.height !== this.height * this.block_height) {
+    if (
+      this.canvas.width !== this.width * this.block_width ||
+      this.canvas.height !== this.height * this.block_height
+    ) {
       this.canvas.width = this.width * this.block_width;
       this.canvas.height = this.height * this.block_height;
     }
@@ -5343,22 +6214,36 @@ this.MicroMap = (function() {
       for (i = l = 0, ref2 = this.width - 1; l <= ref2; i = l += 1) {
         index = i + (this.height - 1 - j) * this.width;
         s = this.map[index];
-        if ((s != null) && s.length > 0) {
+        if (s != null && s.length > 0) {
           s = s.split(":");
           sprite = this.sprites[s[0]];
-          if ((sprite != null) && (sprite.frames[0] != null)) {
+          if (sprite != null && sprite.frames[0] != null) {
             if (s[1] != null) {
               xy = s[1].split(",");
               tx = xy[0] * this.block_width;
               ty = xy[1] * this.block_height;
               c = sprite.frames[0].canvas;
-              if ((c != null) && c.width > 0 && c.height > 0) {
-                context.drawImage(c, tx, ty, this.block_width, this.block_height, this.block_width * i, this.block_height * j, this.block_width, this.block_height);
+              if (c != null && c.width > 0 && c.height > 0) {
+                context.drawImage(
+                  c,
+                  tx,
+                  ty,
+                  this.block_width,
+                  this.block_height,
+                  this.block_width * i,
+                  this.block_height * j,
+                  this.block_width,
+                  this.block_height
+                );
               }
             } else {
               c = sprite.frames[0].canvas;
-              if ((c != null) && c.width > 0 && c.height > 0) {
-                context.drawImage(c, this.block_width * i, this.block_height * j);
+              if (c != null && c.width > 0 && c.height > 0) {
+                context.drawImage(
+                  c,
+                  this.block_width * i,
+                  this.block_height * j
+                );
               }
             }
           }
@@ -5367,7 +6252,7 @@ this.MicroMap = (function() {
     }
   };
 
-  MicroMap.prototype.resize = function(w, h, block_width, block_height) {
+  MicroMap.prototype.resize = function (w, h, block_width, block_height) {
     var i, j, k, l, map, ref1, ref2;
     this.block_width = block_width != null ? block_width : this.block_width;
     this.block_height = block_height != null ? block_height : this.block_height;
@@ -5383,18 +6268,33 @@ this.MicroMap = (function() {
     }
     this.map = map;
     this.width = w;
-    return this.height = h;
+    return (this.height = h);
   };
 
-  MicroMap.prototype.save = function() {
-    var data, i, index, j, k, l, list, m, map, n, ref1, ref2, ref3, ref4, s, table;
+  MicroMap.prototype.save = function () {
+    var data,
+      i,
+      index,
+      j,
+      k,
+      l,
+      list,
+      m,
+      map,
+      n,
+      ref1,
+      ref2,
+      ref3,
+      ref4,
+      s,
+      table;
     index = 1;
     list = [0];
     table = {};
     for (j = k = 0, ref1 = this.height - 1; k <= ref1; j = k += 1) {
       for (i = l = 0, ref2 = this.width - 1; l <= ref2; i = l += 1) {
         s = this.map[i + j * this.width];
-        if ((s != null) && s.length > 0 && (table[s] == null)) {
+        if (s != null && s.length > 0 && table[s] == null) {
           list.push(s);
           table[s] = index++;
         }
@@ -5404,7 +6304,7 @@ this.MicroMap = (function() {
     for (j = m = 0, ref3 = this.height - 1; m <= ref3; j = m += 1) {
       for (i = n = 0, ref4 = this.width - 1; n <= ref4; i = n += 1) {
         s = this.map[i + j * this.width];
-        map[i + j * this.width] = (s != null) && s.length > 0 ? table[s] : 0;
+        map[i + j * this.width] = s != null && s.length > 0 ? table[s] : 0;
       }
     }
     data = {
@@ -5418,11 +6318,11 @@ this.MicroMap = (function() {
     return JSON.stringify(data);
   };
 
-  MicroMap.prototype.loadFile = function(url) {
+  MicroMap.prototype.loadFile = function (url) {
     var req;
     req = new XMLHttpRequest();
-    req.onreadystatechange = (function(_this) {
-      return function(event) {
+    req.onreadystatechange = (function (_this) {
+      return function (event) {
         if (req.readyState === XMLHttpRequest.DONE) {
           if (req.status === 200) {
             _this.load(req.responseText, _this.sprites);
@@ -5435,7 +6335,7 @@ this.MicroMap = (function() {
     return req.send();
   };
 
-  MicroMap.prototype.load = function(data, sprites) {
+  MicroMap.prototype.load = function (data, sprites) {
     var i, j, k, l, ref1, ref2, s;
     data = JSON.parse(data);
     this.width = data.width;
@@ -5454,10 +6354,16 @@ this.MicroMap = (function() {
     }
   };
 
-  MicroMap.loadMap = function(data, sprites) {
+  MicroMap.loadMap = function (data, sprites) {
     var i, j, k, l, map, ref1, ref2, s;
     data = JSON.parse(data);
-    map = new MicroMap(data.width, data.height, data.block_width, data.block_height, sprites);
+    map = new MicroMap(
+      data.width,
+      data.height,
+      data.block_width,
+      data.block_height,
+      sprites
+    );
     for (j = k = 0, ref1 = data.height - 1; k <= ref1; j = k += 1) {
       for (i = l = 0, ref2 = data.width - 1; l <= ref2; i = l += 1) {
         s = data.data[i + j * data.width];
@@ -5469,9 +6375,15 @@ this.MicroMap = (function() {
     return map;
   };
 
-  MicroMap.prototype.clone = function() {
+  MicroMap.prototype.clone = function () {
     var i, j, k, l, map, ref1, ref2;
-    map = new MicroMap(this.width, this.height, this.block_width, this.block_height, this.sprites);
+    map = new MicroMap(
+      this.width,
+      this.height,
+      this.block_width,
+      this.block_height,
+      this.sprites
+    );
     for (j = k = 0, ref1 = this.height - 1; k <= ref1; j = k += 1) {
       for (i = l = 0, ref2 = this.width - 1; l <= ref2; i = l += 1) {
         map.map[i + j * this.width] = this.map[i + j * this.width];
@@ -5481,7 +6393,7 @@ this.MicroMap = (function() {
     return map;
   };
 
-  MicroMap.prototype.copyFrom = function(map) {
+  MicroMap.prototype.copyFrom = function (map) {
     var i, j, k, l, ref1, ref2;
     this.width = map.width;
     this.height = map.height;
@@ -5497,10 +6409,9 @@ this.MicroMap = (function() {
   };
 
   return MicroMap;
-
 })();
 
-this.AudioCore = (function() {
+this.AudioCore = (function () {
   function AudioCore(runtime) {
     this.runtime = runtime;
     this.buffer = [];
@@ -5509,34 +6420,34 @@ this.AudioCore = (function() {
     this.wakeup_list = [];
   }
 
-  AudioCore.prototype.isStarted = function() {
+  AudioCore.prototype.isStarted = function () {
     return this.context.state === "running";
   };
 
-  AudioCore.prototype.addToWakeUpList = function(item) {
+  AudioCore.prototype.addToWakeUpList = function (item) {
     return this.wakeup_list.push(item);
   };
 
-  AudioCore.prototype.getInterface = function() {
+  AudioCore.prototype.getInterface = function () {
     var audio;
     audio = this;
-    return this["interface"] = {
-      beep: function(sequence) {
+    return (this["interface"] = {
+      beep: function (sequence) {
         return audio.beep(sequence);
       },
-      cancelBeeps: function() {
+      cancelBeeps: function () {
         return audio.cancelBeeps();
       },
-      playSound: function(sound, volume, pitch, pan, loopit) {
+      playSound: function (sound, volume, pitch, pan, loopit) {
         return audio.playSound(sound, volume, pitch, pan, loopit);
       },
-      playMusic: function(music, volume, loopit) {
+      playMusic: function (music, volume, loopit) {
         return audio.playMusic(music, volume, loopit);
       }
-    };
+    });
   };
 
-  AudioCore.prototype.playSound = function(sound, volume, pitch, pan, loopit) {
+  AudioCore.prototype.playSound = function (sound, volume, pitch, pan, loopit) {
     var s;
     if (volume == null) {
       volume = 1;
@@ -5559,7 +6470,7 @@ this.AudioCore = (function() {
     return 0;
   };
 
-  AudioCore.prototype.playMusic = function(music, volume, loopit) {
+  AudioCore.prototype.playMusic = function (music, volume, loopit) {
     var m;
     if (volume == null) {
       volume = 1;
@@ -5576,37 +6487,45 @@ this.AudioCore = (function() {
     return 0;
   };
 
-  AudioCore.prototype.start = function() {
+  AudioCore.prototype.start = function () {
     var blob, src;
     if (false) {
       blob = new Blob([AudioCore.processor], {
         type: "text/javascript"
       });
-      return this.context.audioWorklet.addModule(window.URL.createObjectURL(blob)).then((function(_this) {
-        return function() {
-          _this.node = new AudioWorkletNode(_this.context, "my-worklet-processor");
-          _this.node.connect(_this.context.destination);
-          return _this.flushBuffer();
-        };
-      })(this));
+      return this.context.audioWorklet
+        .addModule(window.URL.createObjectURL(blob))
+        .then(
+          (function (_this) {
+            return function () {
+              _this.node = new AudioWorkletNode(
+                _this.context,
+                "my-worklet-processor"
+              );
+              _this.node.connect(_this.context.destination);
+              return _this.flushBuffer();
+            };
+          })(this)
+        );
     } else {
       this.script_processor = this.context.createScriptProcessor(4096, 2, 2);
-      this.processor_funk = (function(_this) {
-        return function(event) {
+      this.processor_funk = (function (_this) {
+        return function (event) {
           return _this.onAudioProcess(event);
         };
       })(this);
       this.script_processor.onaudioprocess = this.processor_funk;
       this.script_processor.connect(this.context.destination);
-      src = "class AudioWorkletProcessor {\n  constructor() {\n    this.port = {} ;\n\n    var _this = this ;\n\n    this.port.postMessage = function(data) {\n      var event = { data: data } ;\n      _this.port.onmessage(event) ;\n    }\n  }\n\n} ;\nregisterProcessor = function(a,b) {\n  return new MyWorkletProcessor()\n} ;\n";
+      src =
+        "class AudioWorkletProcessor {\n  constructor() {\n    this.port = {} ;\n\n    var _this = this ;\n\n    this.port.postMessage = function(data) {\n      var event = { data: data } ;\n      _this.port.onmessage(event) ;\n    }\n  }\n\n} ;\nregisterProcessor = function(a,b) {\n  return new MyWorkletProcessor()\n} ;\n";
       src += AudioCore.processor;
       this.node = eval(src);
       this.flushBuffer();
-      return this.bufferizer = new AudioBufferizer(this.node);
+      return (this.bufferizer = new AudioBufferizer(this.node));
     }
   };
 
-  AudioCore.prototype.flushBuffer = function() {
+  AudioCore.prototype.flushBuffer = function () {
     var results;
     results = [];
     while (this.buffer.length > 0) {
@@ -5615,7 +6534,7 @@ this.AudioCore = (function() {
     return results;
   };
 
-  AudioCore.prototype.onAudioProcess = function(event) {
+  AudioCore.prototype.onAudioProcess = function (event) {
     var left, outputs, right;
     left = event.outputBuffer.getChannelData(0);
     right = event.outputBuffer.getChannelData(1);
@@ -5623,13 +6542,13 @@ this.AudioCore = (function() {
     this.bufferizer.flush(outputs);
   };
 
-  AudioCore.prototype.getContext = function() {
+  AudioCore.prototype.getContext = function () {
     var activate;
     if (this.context == null) {
-      this.context = new (window.AudioContext || window.webkitAudioContext);
+      this.context = new (window.AudioContext || window.webkitAudioContext)();
       if (this.context.state !== "running") {
-        activate = (function(_this) {
-          return function() {
+        activate = (function (_this) {
+          return function () {
             var item, j, len, ref;
             console.info("resuming context");
             _this.context.resume();
@@ -5654,7 +6573,7 @@ this.AudioCore = (function() {
     return this.context;
   };
 
-  AudioCore.prototype.getBeeper = function() {
+  AudioCore.prototype.getBeeper = function () {
     if (this.beeper == null) {
       this.beeper = new Beeper(this);
       if (this.context.state === "running") {
@@ -5664,11 +6583,11 @@ this.AudioCore = (function() {
     return this.beeper;
   };
 
-  AudioCore.prototype.beep = function(sequence) {
+  AudioCore.prototype.beep = function (sequence) {
     return this.getBeeper().beep(sequence);
   };
 
-  AudioCore.prototype.addBeeps = function(beeps) {
+  AudioCore.prototype.addBeeps = function (beeps) {
     var b, j, len;
     for (j = 0, len = beeps.length; j < len; j++) {
       b = beeps[j];
@@ -5676,36 +6595,44 @@ this.AudioCore = (function() {
       b.increment = b.frequency / this.context.sampleRate;
     }
     if (this.node != null) {
-      return this.node.port.postMessage(JSON.stringify({
-        name: "beep",
-        sequence: beeps
-      }));
+      return this.node.port.postMessage(
+        JSON.stringify({
+          name: "beep",
+          sequence: beeps
+        })
+      );
     } else {
-      return this.buffer.push(JSON.stringify({
-        name: "beep",
-        sequence: beeps
-      }));
+      return this.buffer.push(
+        JSON.stringify({
+          name: "beep",
+          sequence: beeps
+        })
+      );
     }
   };
 
-  AudioCore.prototype.cancelBeeps = function() {
+  AudioCore.prototype.cancelBeeps = function () {
     if (this.node != null) {
-      this.node.port.postMessage(JSON.stringify({
-        name: "cancel_beeps"
-      }));
+      this.node.port.postMessage(
+        JSON.stringify({
+          name: "cancel_beeps"
+        })
+      );
     } else {
-      this.buffer.push(JSON.stringify({
-        name: "cancel_beeps"
-      }));
+      this.buffer.push(
+        JSON.stringify({
+          name: "cancel_beeps"
+        })
+      );
     }
     return this.stopAll();
   };
 
-  AudioCore.prototype.addPlaying = function(item) {
+  AudioCore.prototype.addPlaying = function (item) {
     return this.playing.push(item);
   };
 
-  AudioCore.prototype.removePlaying = function(item) {
+  AudioCore.prototype.removePlaying = function (item) {
     var index;
     index = this.playing.indexOf(item);
     if (index >= 0) {
@@ -5713,7 +6640,7 @@ this.AudioCore = (function() {
     }
   };
 
-  AudioCore.prototype.stopAll = function() {
+  AudioCore.prototype.stopAll = function () {
     var err, j, len, p, ref;
     ref = this.playing;
     for (j = 0, len = ref.length; j < len; j++) {
@@ -5725,16 +6652,16 @@ this.AudioCore = (function() {
         console.error(err);
       }
     }
-    return this.playing = [];
+    return (this.playing = []);
   };
 
-  AudioCore.processor = "class MyWorkletProcessor extends AudioWorkletProcessor {\n  constructor() {\n    super();\n    this.beeps = [] ;\n    this.last = 0 ;\n    this.port.onmessage = (event) => {\n      let data = JSON.parse(event.data) ;\n      if (data.name == \"cancel_beeps\")\n      {\n        this.beeps = [] ;\n      }\n      else if (data.name == \"beep\")\n      {\n        let seq = data.sequence ;\n        for (let i=0;i<seq.length;i++)\n        {\n          let note = seq[i] ;\n          if (i>0)\n          {\n            seq[i-1].next = note ;\n          }\n\n          if (note.loopto != null)\n          {\n            note.loopto = seq[note.loopto] ;\n          }\n\n          note.phase = 0 ;\n          note.time = 0 ;\n        }\n\n        this.beeps.push(seq[0]) ;\n      }\n    } ;\n  }\n\n  process(inputs, outputs, parameters) {\n    var output = outputs[0] ;\n    var phase ;\n    for (var i=0;i<output.length;i++)\n    {\n      var channel = output[i] ;\n      if (i>0)\n      {\n        for (var j=0;j<channel.length;j++)\n        {\n          channel[j] = output[0][j]\n        }\n      }\n      else\n      {\n        for (var j=0;j<channel.length;j++)\n        {\n          let sig = 0 ;\n          for (var k=this.beeps.length-1;k>=0;k--)\n          {\n            let b = this.beeps[k];\n            let volume = b.volume ;\n            if (b.time/b.duration>b.span)\n              {\n                volume = 0 ;\n              }\n            if (b.waveform == \"square\")\n            {\n              sig += b.phase>.5? volume : -volume ;\n            }\n            else if (b.waveform == \"saw\")\n            {\n              sig += (b.phase*2-1)*volume ;\n            }\n            else if (b.waveform == \"noise\")\n            {\n              sig += (Math.random()*2-1)*volume ;\n            }\n            else\n            {\n              sig += Math.sin(b.phase*Math.PI*2)*volume ;\n            }\n\n            b.phase = (b.phase+b.increment)%1 ;\n            b.time += 1 ;\n            if (b.time>=b.duration)\n            {\n              b.time = 0 ;\n              if (b.loopto != null)\n              {\n                if (b.repeats != null && b.repeats>0)\n                {\n                  if (b.loopcount == null)\n                  {\n                    b.loopcount = 0 ;\n                  }\n                  b.loopcount++ ;\n                  if (b.loopcount>=b.repeats)\n                  {\n                    b.loopcount = 0 ;\n                    if (b.next != null)\n                    {\n                      b.next.phase = b.phase ;\n                      b = b.next ;\n                      this.beeps[k] = b ;\n                    }\n                    else\n                    {\n                      this.beeps.splice(k,1) ;\n                    }\n                  }\n                  else\n                  {\n                    b.loopto.phase = b.phase ;\n                    b = b.loopto ;\n                    this.beeps[k] = b ;\n                  }\n                }\n                else\n                {\n                  b.loopto.phase = b.phase ;\n                  b = b.loopto ;\n                  this.beeps[k] = b ;\n                }\n              }\n              else if (b.next != null)\n              {\n                b.next.phase = b.phase ;\n                b = b.next ;\n                this.beeps[k] = b ;\n              }\n              else\n              {\n                this.beeps.splice(k,1) ;\n              }\n            }\n          }\n          this.last = this.last*.9+sig*.1 ;\n          channel[j] = this.last ;\n        }\n      }\n    }\n    return true ;\n  }\n}\n\nregisterProcessor('my-worklet-processor', MyWorkletProcessor);";
+  AudioCore.processor =
+    'class MyWorkletProcessor extends AudioWorkletProcessor {\n  constructor() {\n    super();\n    this.beeps = [] ;\n    this.last = 0 ;\n    this.port.onmessage = (event) => {\n      let data = JSON.parse(event.data) ;\n      if (data.name == "cancel_beeps")\n      {\n        this.beeps = [] ;\n      }\n      else if (data.name == "beep")\n      {\n        let seq = data.sequence ;\n        for (let i=0;i<seq.length;i++)\n        {\n          let note = seq[i] ;\n          if (i>0)\n          {\n            seq[i-1].next = note ;\n          }\n\n          if (note.loopto != null)\n          {\n            note.loopto = seq[note.loopto] ;\n          }\n\n          note.phase = 0 ;\n          note.time = 0 ;\n        }\n\n        this.beeps.push(seq[0]) ;\n      }\n    } ;\n  }\n\n  process(inputs, outputs, parameters) {\n    var output = outputs[0] ;\n    var phase ;\n    for (var i=0;i<output.length;i++)\n    {\n      var channel = output[i] ;\n      if (i>0)\n      {\n        for (var j=0;j<channel.length;j++)\n        {\n          channel[j] = output[0][j]\n        }\n      }\n      else\n      {\n        for (var j=0;j<channel.length;j++)\n        {\n          let sig = 0 ;\n          for (var k=this.beeps.length-1;k>=0;k--)\n          {\n            let b = this.beeps[k];\n            let volume = b.volume ;\n            if (b.time/b.duration>b.span)\n              {\n                volume = 0 ;\n              }\n            if (b.waveform == "square")\n            {\n              sig += b.phase>.5? volume : -volume ;\n            }\n            else if (b.waveform == "saw")\n            {\n              sig += (b.phase*2-1)*volume ;\n            }\n            else if (b.waveform == "noise")\n            {\n              sig += (Math.random()*2-1)*volume ;\n            }\n            else\n            {\n              sig += Math.sin(b.phase*Math.PI*2)*volume ;\n            }\n\n            b.phase = (b.phase+b.increment)%1 ;\n            b.time += 1 ;\n            if (b.time>=b.duration)\n            {\n              b.time = 0 ;\n              if (b.loopto != null)\n              {\n                if (b.repeats != null && b.repeats>0)\n                {\n                  if (b.loopcount == null)\n                  {\n                    b.loopcount = 0 ;\n                  }\n                  b.loopcount++ ;\n                  if (b.loopcount>=b.repeats)\n                  {\n                    b.loopcount = 0 ;\n                    if (b.next != null)\n                    {\n                      b.next.phase = b.phase ;\n                      b = b.next ;\n                      this.beeps[k] = b ;\n                    }\n                    else\n                    {\n                      this.beeps.splice(k,1) ;\n                    }\n                  }\n                  else\n                  {\n                    b.loopto.phase = b.phase ;\n                    b = b.loopto ;\n                    this.beeps[k] = b ;\n                  }\n                }\n                else\n                {\n                  b.loopto.phase = b.phase ;\n                  b = b.loopto ;\n                  this.beeps[k] = b ;\n                }\n              }\n              else if (b.next != null)\n              {\n                b.next.phase = b.phase ;\n                b = b.next ;\n                this.beeps[k] = b ;\n              }\n              else\n              {\n                this.beeps.splice(k,1) ;\n              }\n            }\n          }\n          this.last = this.last*.9+sig*.1 ;\n          channel[j] = this.last ;\n        }\n      }\n    }\n    return true ;\n  }\n}\n\nregisterProcessor(\'my-worklet-processor\', MyWorkletProcessor);';
 
   return AudioCore;
-
 })();
 
-this.AudioBufferizer = (function() {
+this.AudioBufferizer = (function () {
   function AudioBufferizer(node) {
     var i, j, k, left, ref, right;
     this.node = node;
@@ -5743,33 +6670,44 @@ this.AudioBufferizer = (function() {
     this.chunks = [];
     this.nb_chunks = this.buffer_size / this.chunk_size;
     for (i = j = 0, ref = this.nb_chunks - 1; j <= ref; i = j += 1) {
-      left = (function() {
+      left = function () {
         var n, ref1, results;
         results = [];
-        for (k = n = 0, ref1 = this.chunk_size - 1; 0 <= ref1 ? n <= ref1 : n >= ref1; k = 0 <= ref1 ? ++n : --n) {
+        for (
+          k = n = 0, ref1 = this.chunk_size - 1;
+          0 <= ref1 ? n <= ref1 : n >= ref1;
+          k = 0 <= ref1 ? ++n : --n
+        ) {
           results.push(0);
         }
         return results;
-      }).call(this);
-      right = (function() {
+      }.call(this);
+      right = function () {
         var n, ref1, results;
         results = [];
-        for (k = n = 0, ref1 = this.chunk_size - 1; 0 <= ref1 ? n <= ref1 : n >= ref1; k = 0 <= ref1 ? ++n : --n) {
+        for (
+          k = n = 0, ref1 = this.chunk_size - 1;
+          0 <= ref1 ? n <= ref1 : n >= ref1;
+          k = 0 <= ref1 ? ++n : --n
+        ) {
           results.push(0);
         }
         return results;
-      }).call(this);
+      }.call(this);
       this.chunks[i] = [[left, right]];
     }
     this.current = 0;
-    setInterval(((function(_this) {
-      return function() {
-        return _this.step();
-      };
-    })(this)), this.chunk_size / 44100 * 1000);
+    setInterval(
+      (function (_this) {
+        return function () {
+          return _this.step();
+        };
+      })(this),
+      (this.chunk_size / 44100) * 1000
+    );
   }
 
-  AudioBufferizer.prototype.step = function() {
+  AudioBufferizer.prototype.step = function () {
     if (this.current >= this.chunks.length) {
       return;
     }
@@ -5777,7 +6715,7 @@ this.AudioBufferizer = (function() {
     this.current++;
   };
 
-  AudioBufferizer.prototype.flush = function(outputs) {
+  AudioBufferizer.prototype.flush = function (outputs) {
     var chunk, i, index, j, k, l, left, n, r, ref, ref1, right;
     while (this.current < this.chunks.length) {
       this.step();
@@ -5787,11 +6725,19 @@ this.AudioBufferizer = (function() {
     right = outputs[0][1];
     index = 0;
     chunk = 0;
-    for (i = j = 0, ref = this.chunks.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (
+      i = j = 0, ref = this.chunks.length - 1;
+      0 <= ref ? j <= ref : j >= ref;
+      i = 0 <= ref ? ++j : --j
+    ) {
       chunk = this.chunks[i];
       l = chunk[0][0];
       r = chunk[0][1];
-      for (k = n = 0, ref1 = l.length - 1; 0 <= ref1 ? n <= ref1 : n >= ref1; k = 0 <= ref1 ? ++n : --n) {
+      for (
+        k = n = 0, ref1 = l.length - 1;
+        0 <= ref1 ? n <= ref1 : n >= ref1;
+        k = 0 <= ref1 ? ++n : --n
+      ) {
         left[index] = l[k];
         right[index] = r[k];
         index += 1;
@@ -5800,16 +6746,28 @@ this.AudioBufferizer = (function() {
   };
 
   return AudioBufferizer;
-
 })();
 
-this.Beeper = (function() {
+this.Beeper = (function () {
   function Beeper(audio) {
     var i, j, k, l, len, len1, n, oct, ref, ref1, text;
     this.audio = audio;
     this.notes = {};
     this.plain_notes = {};
-    text = [["C", "DO"], ["C#", "DO#", "Db", "REb"], ["D", "RE"], ["D#", "RE#", "Eb", "MIb"], ["E", "MI"], ["F", "FA"], ["F#", "FA#", "Gb", "SOLb"], ["G", "SOL"], ["G#", "SOL#", "Ab", "LAb"], ["A", "LA"], ["A#", "LA#", "Bb", "SIb"], ["B", "SI"]];
+    text = [
+      ["C", "DO"],
+      ["C#", "DO#", "Db", "REb"],
+      ["D", "RE"],
+      ["D#", "RE#", "Eb", "MIb"],
+      ["E", "MI"],
+      ["F", "FA"],
+      ["F#", "FA#", "Gb", "SOLb"],
+      ["G", "SOL"],
+      ["G#", "SOL#", "Ab", "LAb"],
+      ["A", "LA"],
+      ["A#", "LA#", "Bb", "SIb"],
+      ["B", "SI"]
+    ];
     for (i = j = 0; j <= 127; i = j += 1) {
       this.notes[i] = i;
       oct = Math.floor(i / 12) - 1;
@@ -5827,15 +6785,30 @@ this.Beeper = (function() {
       }
     }
     this.current_octave = 5;
-    this.current_duration = .5;
-    this.current_volume = .5;
+    this.current_duration = 0.5;
+    this.current_volume = 0.5;
     this.current_span = 1;
     this.current_waveform = "square";
   }
 
-  Beeper.prototype.beep = function(input) {
-    var i, j, k, len, loops, lop, n, note, parsed, ref, ref1, sequence, status, t, test;
-    test = "loop 0 square tempo 120 duration 500 volume 50 span 50 DO2 DO - FA SOL SOL FA -";
+  Beeper.prototype.beep = function (input) {
+    var i,
+      j,
+      k,
+      len,
+      loops,
+      lop,
+      n,
+      note,
+      parsed,
+      ref,
+      ref1,
+      sequence,
+      status,
+      t,
+      test;
+    test =
+      "loop 0 square tempo 120 duration 500 volume 50 span 50 DO2 DO - FA SOL SOL FA -";
     status = "normal";
     sequence = [];
     loops = [];
@@ -5866,9 +6839,21 @@ this.Beeper = (function() {
               duration: this.current_duration,
               waveform: this.current_waveform
             });
-          } else if (t === "square" || t === "sine" || t === "saw" || t === "noise") {
+          } else if (
+            t === "square" ||
+            t === "sine" ||
+            t === "saw" ||
+            t === "noise"
+          ) {
             this.current_waveform = t;
-          } else if (t === "tempo" || t === "duration" || t === "volume" || t === "span" || t === "loop" || t === "to") {
+          } else if (
+            t === "tempo" ||
+            t === "duration" ||
+            t === "volume" ||
+            t === "span" ||
+            t === "loop" ||
+            t === "to"
+          ) {
             status = t;
           } else if (t === "-") {
             sequence.push({
@@ -5940,8 +6925,12 @@ this.Beeper = (function() {
             } else if (this.plain_notes[t] != null) {
               n = this.plain_notes[t] + this.current_octave * 12;
             }
-            if ((n != null) && n !== note) {
-              for (i = k = ref = note, ref1 = n; ref <= ref1 ? k <= ref1 : k >= ref1; i = ref <= ref1 ? ++k : --k) {
+            if (n != null && n !== note) {
+              for (
+                i = k = ref = note, ref1 = n;
+                ref <= ref1 ? k <= ref1 : k >= ref1;
+                i = ref <= ref1 ? ++k : --k
+              ) {
                 if (i !== note) {
                   sequence.push({
                     frequency: 440 * Math.pow(Math.pow(2, 1 / 12), i - 69),
@@ -5973,29 +6962,37 @@ this.Beeper = (function() {
   };
 
   return Beeper;
-
 })();
 
-this.Sound = (function() {
+this.Sound = (function () {
   function Sound(audio, url) {
     this.audio = audio;
     this.url = url;
-    fetch(this.url).then((function(_this) {
-      return function(result) {
-        return result.arrayBuffer();
-      };
-    })(this)).then((function(_this) {
-      return function(buffer) {
-        return _this.audio.context.decodeAudioData(buffer);
-      };
-    })(this)).then((function(_this) {
-      return function(buffer1) {
-        _this.buffer = buffer1;
-      };
-    })(this));
+    fetch(this.url)
+      .then(
+        (function (_this) {
+          return function (result) {
+            return result.arrayBuffer();
+          };
+        })(this)
+      )
+      .then(
+        (function (_this) {
+          return function (buffer) {
+            return _this.audio.context.decodeAudioData(buffer);
+          };
+        })(this)
+      )
+      .then(
+        (function (_this) {
+          return function (buffer1) {
+            _this.buffer = buffer1;
+          };
+        })(this)
+      );
   }
 
-  Sound.prototype.play = function(volume, pitch, pan, loopit) {
+  Sound.prototype.play = function (volume, pitch, pan, loopit) {
     var gain, panner, playing, source;
     if (volume == null) {
       volume = 1;
@@ -6020,15 +7017,15 @@ this.Sound = (function() {
     }
     gain = this.audio.context.createGain();
     gain.gain.value = volume;
-    if (false && (this.audio.context.createStereoPanner != null)) {
+    if (false && this.audio.context.createStereoPanner != null) {
       panner = this.audio.context.createStereoPanner();
-      panner.setPan = function(pan) {
-        return panner.pan.value = pan;
+      panner.setPan = function (pan) {
+        return (panner.pan.value = pan);
       };
     } else {
       panner = this.audio.context.createPanner();
       panner.panningModel = "equalpower";
-      panner.setPan = function(pan) {
+      panner.setPan = function (pan) {
         return panner.setPosition(pan, 0, 1 - Math.abs(pan));
       };
     }
@@ -6040,8 +7037,8 @@ this.Sound = (function() {
     playing = null;
     if (loopit) {
       playing = {
-        stop: (function(_this) {
-          return function() {
+        stop: (function (_this) {
+          return function () {
             return source.stop();
           };
         })(this)
@@ -6049,29 +7046,31 @@ this.Sound = (function() {
       this.audio.addPlaying(playing);
     }
     return {
-      stop: function() {
+      stop: function () {
         source.stop();
         if (playing) {
           return this.audio.removePlaying(playing);
         }
       },
-      setVolume: function(volume) {
-        return gain.gain.value = Math.max(0, Math.min(1, volume));
+      setVolume: function (volume) {
+        return (gain.gain.value = Math.max(0, Math.min(1, volume)));
       },
-      setPitch: function(pitch) {
-        return source.playbackRate.value = Math.max(.001, Math.min(1000, pitch));
+      setPitch: function (pitch) {
+        return (source.playbackRate.value = Math.max(
+          0.001,
+          Math.min(1000, pitch)
+        ));
       },
-      setPan: function(pan) {
+      setPan: function (pan) {
         return panner.setPan(Math.max(-1, Math.min(1, pan)));
       }
     };
   };
 
   return Sound;
-
 })();
 
-this.Music = (function() {
+this.Music = (function () {
   function Music(audio, url) {
     this.audio = audio;
     this.url = url;
@@ -6079,7 +7078,7 @@ this.Music = (function() {
     this.playing = false;
   }
 
-  Music.prototype.play = function(volume, loopit) {
+  Music.prototype.play = function (volume, loopit) {
     if (volume == null) {
       volume = 1;
     }
@@ -6095,52 +7094,51 @@ this.Music = (function() {
     }
     this.audio.addPlaying(this);
     return {
-      play: (function(_this) {
-        return function() {
+      play: (function (_this) {
+        return function () {
           return _this.tag.play();
         };
       })(this),
-      stop: (function(_this) {
-        return function() {
+      stop: (function (_this) {
+        return function () {
           _this.playing = false;
           _this.tag.pause();
           return _this.audio.removePlaying(_this);
         };
       })(this),
-      setVolume: (function(_this) {
-        return function(volume) {
-          return _this.tag.volume = Math.max(0, Math.min(1, volume));
+      setVolume: (function (_this) {
+        return function (volume) {
+          return (_this.tag.volume = Math.max(0, Math.min(1, volume)));
         };
       })(this),
-      getPosition: (function(_this) {
-        return function() {
+      getPosition: (function (_this) {
+        return function () {
           return _this.tag.currentTime;
         };
       })(this),
-      getDuration: (function(_this) {
-        return function() {
+      getDuration: (function (_this) {
+        return function () {
           return _this.tag.duration;
         };
       })(this)
     };
   };
 
-  Music.prototype.wakeUp = function() {
+  Music.prototype.wakeUp = function () {
     if (this.playing) {
       return this.tag.play();
     }
   };
 
-  Music.prototype.stop = function() {
+  Music.prototype.stop = function () {
     this.playing = false;
     return this.tag.pause();
   };
 
   return Music;
-
 })();
 
-this.Player = (function() {
+this.Player = (function () {
   function Player() {
     var i, len, ref, source;
     this.source_count = 0;
@@ -6158,67 +7156,90 @@ this.Player = (function() {
     }
   }
 
-  Player.prototype.loadSource = function(source) {
+  Player.prototype.loadSource = function (source) {
     var req;
     req = new XMLHttpRequest();
-    req.onreadystatechange = (function(_this) {
-      return function(event) {
+    req.onreadystatechange = (function (_this) {
+      return function (event) {
         var name;
         if (req.readyState === XMLHttpRequest.DONE) {
           if (req.status === 200) {
             name = source.file.split(".")[0];
             _this.sources[name] = req.responseText;
             _this.source_count++;
-            if (_this.source_count >= resources.sources.length && (_this.runtime == null)) {
+            if (
+              _this.source_count >= resources.sources.length &&
+              _this.runtime == null
+            ) {
               return _this.start();
             }
           }
         }
       };
     })(this);
-    req.open("GET", location.href + ("ms/" + source.file + "?v=" + source.version));
+    req.open(
+      "GET",
+      location.href + ("ms/" + source.file + "?v=" + source.version)
+    );
     return req.send();
   };
 
-  Player.prototype.start = function() {
+  Player.prototype.start = function () {
     var touchListener, touchStartListener, wrapper;
-    this.runtime = new Runtime((window.exported_project ? "" : location.href), this.sources, resources, this);
+    this.runtime = new Runtime(
+      window.exported_project ? "" : location.href,
+      this.sources,
+      resources,
+      this
+    );
     this.client = new PlayerClient(this);
     wrapper = document.getElementById("canvaswrapper");
     wrapper.appendChild(this.runtime.screen.canvas);
-    window.addEventListener("resize", (function(_this) {
-      return function() {
-        return _this.resize();
-      };
-    })(this));
+    window.addEventListener(
+      "resize",
+      (function (_this) {
+        return function () {
+          return _this.resize();
+        };
+      })(this)
+    );
     this.resize();
-    touchStartListener = (function(_this) {
-      return function(event) {
+    touchStartListener = (function (_this) {
+      return function (event) {
         event.preventDefault();
-        _this.runtime.screen.canvas.removeEventListener("touchstart", touchStartListener);
+        _this.runtime.screen.canvas.removeEventListener(
+          "touchstart",
+          touchStartListener
+        );
         return true;
       };
     })(this);
-    touchListener = (function(_this) {
-      return function(event) {
+    touchListener = (function (_this) {
+      return function (event) {
         _this.setFullScreen();
         return true;
       };
     })(this);
-    this.runtime.screen.canvas.addEventListener("touchstart", touchStartListener);
+    this.runtime.screen.canvas.addEventListener(
+      "touchstart",
+      touchStartListener
+    );
     this.runtime.screen.canvas.addEventListener("touchend", touchListener);
     this.runtime.start();
-    window.addEventListener("message", (function(_this) {
-      return function(msg) {
-        return _this.messageReceived(msg);
-      };
-    })(this));
+    window.addEventListener(
+      "message",
+      (function (_this) {
+        return function (msg) {
+          return _this.messageReceived(msg);
+        };
+      })(this)
+    );
     return this.postMessage({
       name: "focus"
     });
   };
 
-  Player.prototype.resize = function() {
+  Player.prototype.resize = function () {
     var file, ref, results, src;
     this.runtime.screen.resize();
     if (this.runtime.vm != null) {
@@ -6235,35 +7256,50 @@ this.Player = (function() {
     }
   };
 
-  Player.prototype.setFullScreen = function() {
+  Player.prototype.setFullScreen = function () {
     var ref;
-    if ((document.documentElement.webkitRequestFullScreen != null) && !document.webkitIsFullScreen) {
+    if (
+      document.documentElement.webkitRequestFullScreen != null &&
+      !document.webkitIsFullScreen
+    ) {
       document.documentElement.webkitRequestFullScreen();
-    } else if ((document.documentElement.requestFullScreen != null) && !document.fullScreen) {
+    } else if (
+      document.documentElement.requestFullScreen != null &&
+      !document.fullScreen
+    ) {
       document.documentElement.requestFullScreen();
-    } else if ((document.documentElement.mozRequestFullScreen != null) && !document.mozFullScreen) {
+    } else if (
+      document.documentElement.mozRequestFullScreen != null &&
+      !document.mozFullScreen
+    ) {
       document.documentElement.mozRequestFullScreen();
     }
-    if ((window.screen != null) && (window.screen.orientation != null) && ((ref = window.orientation) === "portrait" || ref === "landscape")) {
-      return window.screen.orientation.lock(window.orientation).then(null, function(error) {});
+    if (
+      window.screen != null &&
+      window.screen.orientation != null &&
+      ((ref = window.orientation) === "portrait" || ref === "landscape")
+    ) {
+      return window.screen.orientation
+        .lock(window.orientation)
+        .then(null, function (error) {});
     }
   };
 
-  Player.prototype.reportError = function(err) {
+  Player.prototype.reportError = function (err) {
     return this.postMessage({
       name: "error",
       data: err
     });
   };
 
-  Player.prototype.log = function(text) {
+  Player.prototype.log = function (text) {
     return this.postMessage({
       name: "log",
       data: text
     });
   };
 
-  Player.prototype.messageReceived = function(msg) {
+  Player.prototype.messageReceived = function (msg) {
     var code, data, err, file, res;
     data = msg.data;
     try {
@@ -6303,17 +7339,27 @@ this.Player = (function() {
     }
   };
 
-  Player.prototype.postMessage = function(data) {
+  Player.prototype.postMessage = function (data) {
     if (window !== window.parent) {
       return window.parent.postMessage(JSON.stringify(data), "*");
+    } else {
+      switch (data.name) {
+        case "log":
+          console.info(data.data);
+          break;
+        case "error":
+          console.error(data.data);
+          break;
+        default:
+          console.debug(data);
+      }
     }
   };
 
   return Player;
-
 })();
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   window.player = new Player();
   return document.body.focus();
 });
@@ -6329,7 +7375,7 @@ window.addEventListener("load", function() {
 //   });
 // }
 
-this.PlayerClient = (function() {
+this.PlayerClient = (function () {
   function PlayerClient(player) {
     var err;
     this.player = player;
@@ -6343,24 +7389,27 @@ this.PlayerClient = (function() {
       err = error;
       console.error(err);
     }
-    setInterval(((function(_this) {
-      return function() {
-        if (_this.socket != null) {
-          return _this.sendRequest({
-            name: "ping"
-          });
-        }
-      };
-    })(this)), 30000);
+    setInterval(
+      (function (_this) {
+        return function () {
+          if (_this.socket != null) {
+            return _this.sendRequest({
+              name: "ping"
+            });
+          }
+        };
+      })(this),
+      30000
+    );
   }
 
-  PlayerClient.prototype.connect = function() {
+  PlayerClient.prototype.connect = function () {
     if (typeof eio === "undefined" || eio === null) {
       return;
     }
     this.socket = new WebSocket(window.location.origin.replace("http", "ws"));
-    this.socket.onmessage = (function(_this) {
-      return function(msg) {
+    this.socket.onmessage = (function (_this) {
+      return function (msg) {
         var err;
         console.info("received: " + msg.data);
         try {
@@ -6372,7 +7421,13 @@ this.PlayerClient = (function() {
             }
           }
           if (msg.name === "project_file_updated") {
-            _this.player.runtime.projectFileUpdated(msg.type, msg.file, msg.version, msg.data, msg.properties);
+            _this.player.runtime.projectFileUpdated(
+              msg.type,
+              msg.file,
+              msg.version,
+              msg.data,
+              msg.properties
+            );
           }
           if (msg.name === "project_file_deleted") {
             _this.player.runtime.projectFileDeleted(msg.type, msg.file);
@@ -6386,9 +7441,23 @@ this.PlayerClient = (function() {
         }
       };
     })(this);
-    this.socket.onopen = (function(_this) {
-      return function() {
-        var i, j, k, len, len1, len2, maps, project, ref, ref1, ref2, s, sources, sprites, user;
+    this.socket.onopen = (function (_this) {
+      return function () {
+        var i,
+          j,
+          k,
+          len,
+          len1,
+          len2,
+          maps,
+          project,
+          ref,
+          ref1,
+          ref2,
+          s,
+          sources,
+          sprites,
+          user;
         _this.reconnect_delay = 1000;
         user = location.pathname.split("/")[1];
         project = location.pathname.split("/")[2];
@@ -6417,65 +7486,86 @@ this.PlayerClient = (function() {
             s = ref2[k];
             sources[s.file.split(".")[0]] = s.version;
           }
-          return _this.sendRequest({
-            name: "get_file_versions",
-            user: user,
-            project: project
-          }, function(msg) {
-            var info, name, ref3, ref4, ref5, results, v;
-            ref3 = msg.data.sources;
-            for (name in ref3) {
-              info = ref3[name];
-              v = sources[name];
-              if ((v == null) || v !== info.version) {
-                _this.player.runtime.projectFileUpdated("ms", name, info.version, null, info.properties);
+          return _this.sendRequest(
+            {
+              name: "get_file_versions",
+              user: user,
+              project: project
+            },
+            function (msg) {
+              var info, name, ref3, ref4, ref5, results, v;
+              ref3 = msg.data.sources;
+              for (name in ref3) {
+                info = ref3[name];
+                v = sources[name];
+                if (v == null || v !== info.version) {
+                  _this.player.runtime.projectFileUpdated(
+                    "ms",
+                    name,
+                    info.version,
+                    null,
+                    info.properties
+                  );
+                }
               }
-            }
-            ref4 = msg.data.sprites;
-            for (name in ref4) {
-              info = ref4[name];
-              v = sprites[name];
-              if ((v == null) || v !== info.version) {
-                _this.player.runtime.projectFileUpdated("sprites", name, info.version, null, info.properties);
+              ref4 = msg.data.sprites;
+              for (name in ref4) {
+                info = ref4[name];
+                v = sprites[name];
+                if (v == null || v !== info.version) {
+                  _this.player.runtime.projectFileUpdated(
+                    "sprites",
+                    name,
+                    info.version,
+                    null,
+                    info.properties
+                  );
+                }
               }
-            }
-            ref5 = msg.data.maps;
-            results = [];
-            for (name in ref5) {
-              info = ref5[name];
-              v = maps[name];
-              if ((v == null) || v !== info.version) {
-                results.push(_this.player.runtime.projectFileUpdated("maps", name, info.version, null, info.properties));
-              } else {
-                results.push(void 0);
+              ref5 = msg.data.maps;
+              results = [];
+              for (name in ref5) {
+                info = ref5[name];
+                v = maps[name];
+                if (v == null || v !== info.version) {
+                  results.push(
+                    _this.player.runtime.projectFileUpdated(
+                      "maps",
+                      name,
+                      info.version,
+                      null,
+                      info.properties
+                    )
+                  );
+                } else {
+                  results.push(void 0);
+                }
               }
+              return results;
             }
-            return results;
-          });
+          );
         }
       };
     })(this);
-    return this.socket.onclose = (function(_this) {
-      return function() {
-        setTimeout((function() {
+    return (this.socket.onclose = (function (_this) {
+      return function () {
+        setTimeout(function () {
           return _this.connect();
-        }), _this.reconnect_delay);
-        return _this.reconnect_delay += 1000;
+        }, _this.reconnect_delay);
+        return (_this.reconnect_delay += 1000);
       };
-    })(this);
+    })(this));
   };
 
-  PlayerClient.prototype.send = function(data) {
+  PlayerClient.prototype.send = function (data) {
     return this.socket.send(JSON.stringify(data));
   };
 
-  PlayerClient.prototype.sendRequest = function(msg, callback) {
+  PlayerClient.prototype.sendRequest = function (msg, callback) {
     msg.request_id = this.request_id++;
     this.pending_requests[msg.request_id] = callback;
     return this.send(msg);
   };
 
   return PlayerClient;
-
 })();
-
