@@ -44,4 +44,5 @@ io.on("connection", (socket) => {
 const port = process.env.PORT || 3000;
 http.listen(port, () => {
   console.log(`listening on *:${port}`);
+  console.log(`Open <code-server>.herokuapp.com/proxy/${port} to see game!`);
 });
