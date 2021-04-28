@@ -7187,7 +7187,7 @@ this.Player = (function () {
   Player.prototype.start = function () {
     var touchListener, touchStartListener, wrapper;
     this.runtime = new Runtime(
-      window.exported_project ? "" : location.href,
+      `${location.href}/`,
       this.sources,
       resources,
       this
